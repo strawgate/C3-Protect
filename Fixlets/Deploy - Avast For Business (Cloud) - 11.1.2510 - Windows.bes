@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Deploy - Avast For Business (Cloud) - 11.1.2510 - Windows</Title>
+		<Description><![CDATA[<P>This task will install the Avast for Business&nbsp;agent on a Windows machine. <STRONG>This fixlet is a template that should be copied and the prefetch should be modified as noted below.</STRONG></P>
+<P><STRONG><FONT color=#ff0000>NOTE:</FONT></STRONG> The Avast for Business EXE Installation package will have to be placed in the Root Server's Uploads folder (..\BES Server\wwwrootbes\Uploads or /var/opt/BESServer/wwwrootbes/Uploads), and the prefetch of this Fixlet will have to be modified.&nbsp; You should obtain the Avast for Business EXE Installation package via <A href="https://business.avast.com/#dashboard/overview">Avast for Business Web Console </A>under Network &gt; Devices &gt;&nbsp;Add Devices (at the top right). When obtaining the installer you <STRONG>MUST</STRONG> select "Download the Silent Installer"</P>]]></Description>
+		<Relevance>windows of operating system</Relevance>
+		<Relevance>not pending restart</Relevance>
+		<Relevance>(not exists (keys of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registry) whose (value "DisplayName" of it as string starts with "Avast Business Security"))</Relevance>
+		<Category></Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-04-15</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Sat, 16 Apr 2016 18:19:19 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+
+  //Replace with name, hash, size, etc of your Avast for Business Antivirus Installer
+prefetch avast_business_antivirus_setup.exe sha1:6C04F8A4D0FA072DB45C7F94976117D7FB3F3A6D size:211427424 http://ManualUploadRequired/antivirussetup.exe sha256:7D98266A5B2B1836F4A71657E88AF68CD2FECE369988D1977946CA5C5D29570C
+
+waithidden __Download\avast_business_antivirus_setup.exe /silent</ActionScript>
+		</DefaultAction>
+	</Fixlet>
+</BES>
+

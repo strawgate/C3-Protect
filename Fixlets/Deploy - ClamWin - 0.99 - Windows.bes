@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Deploy - ClamWin - 0.99 - Windows</Title>
+		<Description><![CDATA[&lt;enter a description of the problem and the corrective action here&gt; ]]></Description>
+		<Relevance><![CDATA[windows of operating system and version of operating system > "5.1"]]></Relevance>
+		<Relevance>(not exists (keys of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registry) whose (name of it as string starts with "ClamWin Free Antivirus_is1")) | false</Relevance>
+		<Category></Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-04-15</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Fri, 15 Apr 2016 22:23:34 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch clamwin-0.99-setup.exe sha1:42C149519EE4093829C41B229F8FA035EDE5B697 size:117387067 http://tenet.dl.sourceforge.net/project/clamwin/clamwin/0.99/clamwin-0.99-setup.exe sha256:E584C1578FF6FE0EEAF907A80AD0E65F4A4AC13D60B18D9A48BA4D774A837866
+
+wait __Download\clamwin-0.99-setup.exe /sp- /silent /norestart </ActionScript>
+		</DefaultAction>
+	</Fixlet>
+</BES>
+

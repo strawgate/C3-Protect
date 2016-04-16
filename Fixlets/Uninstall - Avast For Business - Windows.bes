@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Uninstall - Avast For Business - Windows</Title>
+		<Description><![CDATA[<P>Removing the Avast for Business client can currently be done in two ways:</P>
+<OL>
+<LI>Visit the Avast for Business Web Console, select the devices you wish to remove the client from, and press Remove 
+<LI>Log-in locally to the machine and uninstall Avast for Business via the Control Panel</LI></OL>]]></Description>
+		<Relevance>windows of operating system</Relevance>
+		<Relevance>(exists (keys of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registry) whose (value "DisplayName" of it as string starts with "Avast Business Security"))</Relevance>
+		<Category></Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-04-15</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Sat, 16 Apr 2016 18:10:06 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<Action ID="Action1">
+			<Description>
+				<PreLink><![CDATA[You must use&nbsp;]]></PreLink>
+				<Link>Avast for Business Web Console</Link>
+				<PostLink><![CDATA[&nbsp; to remove the Avast for Business client.]]></PostLink>
+			</Description>
+			<ActionScript MIMEType="text/x-uri">https://business.avast.com/#dashboard/overview</ActionScript>
+		</Action>
+		<Action ID="Action2">
+			<Description>
+				<PreLink><![CDATA[You may also uninstall the Avast for Business client on an individual machine&nbsp;from the&nbsp;control panel.&nbsp;]]></PreLink>
+				<Link></Link>
+				<PostLink></PostLink>
+			</Description>
+			<ActionScript MIMEType="text/x-uri">control panel</ActionScript>
+		</Action>
+	</Fixlet>
+</BES>
+
