@@ -30,7 +30,10 @@
   //Replace with name, hash, size, etc of your Avast for Business Antivirus Installer
 prefetch avast_business_antivirus_setup.exe sha1:6C04F8A4D0FA072DB45C7F94976117D7FB3F3A6D size:211427424 http://ManualUploadRequired/antivirussetup.exe sha256:7D98266A5B2B1836F4A71657E88AF68CD2FECE369988D1977946CA5C5D29570C
 
-waithidden __Download\avast_business_antivirus_setup.exe /silent</ActionScript>
+waithidden __Download\avast_business_antivirus_setup.exe /silent
+
+
+delete "{value of variable "PUBLIC" of environment}\Desktop\Avast Business Security.lnk"</ActionScript>
 		</DefaultAction>
 	</Fixlet>
 </BES>
