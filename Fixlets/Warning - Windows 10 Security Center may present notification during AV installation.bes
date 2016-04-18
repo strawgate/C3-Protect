@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Warning - Windows 10 Security Center may present notification during AV installation</Title>
+		<Description><![CDATA[<P>The Windows Security Center is enabled.</P>
+<P>On initial&nbsp;installation of an Anti-virus product the security center may prompt the user indicating a lack of up-to-date definitions.</P>]]></Description>
+		<Relevance><![CDATA[windows of operating system and version of operating system > "10.0.0" and name of operating system does not contain "Win2"]]></Relevance>
+		<Category></Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-04-16</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Mon, 18 Apr 2016 02:40:27 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here</ActionScript>
+		</DefaultAction>
+	</Fixlet>
+</BES>
+
