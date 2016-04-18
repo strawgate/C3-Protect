@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Deploy - Avast for Business (Cloud) - 11.1.2510 - Mac</Title>
+		<Description><![CDATA[<P>This task will install the Avast for Business&nbsp;agent on a Mac OS device. <STRONG>This fixlet is a template that should be copied and the prefetch should be modified as noted below.</STRONG></P>
+<P><STRONG><FONT color=#ff0000>NOTE:</FONT></STRONG> The Avast for Business DMG Installation package will have to be placed in the Root Server's Uploads folder (..\BES Server\wwwrootbes\Uploads or /var/opt/BESServer/wwwrootbes/Uploads), and the prefetch of this Fixlet will have to be modified.&nbsp; You should obtain the Avast for Business DMG Installation package via <A href="https://business.avast.com/#dashboard/overview">Avast for Business Web Console </A>under Network &gt; Devices &gt;&nbsp;Add Devices (at the top right). When obtaining the installer you <STRONG>MUST</STRONG> select "Download the Silent Installer"</P>]]></Description>
+		<Relevance>mac of operating system</Relevance>
+		<Relevance>not exists regapp "Avast.app"</Relevance>
+		<Category></Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-04-17</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Sun, 17 Apr 2016 16:37:11 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+prefetch avast_business_security.dmg sha1:EAAF6E54BBF558B2DC0148FF580B5A292894FAFB size:80947964 http://manualcache:52311/Uploads/eaaf6e54bbf558b2dc0148ff580b5a292894fafb/avast_business_security sha256:300DCC02643F3A218D489D4DA20DCA6D1A59EEECD2B078590DE7BF748158CD31
+
+// move the DMG file to a temp directory
+move "{posix path of file "avast_business_security.dmg" of folder "__Download" of client folder of current site}" "/private/tmp/avast_business_security.dmg"
+
+// mount the disk image
+wait hdiutil attach -quiet -nobrowse -private -mountpoint "/Volumes/avastbusinesssecurity" "/private/tmp/avast_business_security.dmg"
+
+// delete the disk image file
+wait /bin/sh -c "rm '/private/tmp/avast_business_security.dmg'"
+
+// copy the installer
+wait cp -r "/Volumes/avastbusinesssecurity/Avast Business Security.pkg" "/private/tmp/"
+
+// copy the configuration
+wait cp -r "/Volumes/avastbusinesssecurity/config.tar" "/private/tmp/"
+
+// unmount the volume
+wait hdiutil detach -force "/Volumes/avastbusinesssecurity"
+
+// run the installer
+wait installer -pkg "/private/tmp/Avast Business Security.pkg" -target /
+
+// remove the installer
+wait /bin/sh -c "rm -r '/private/tmp/Avast Business Security.pkg'"
+
+// remove the configuration
+wait /bin/sh -c "rm -r '/private/tmp/config.tar'"
+
+// setup machine for reboot
+action requires restart
+</ActionScript>
+		</DefaultAction>
+	</Fixlet>
+</BES>
+

@@ -2,10 +2,14 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
 	<Fixlet>
 		<Title>Uninstall - Avast For Business - Windows</Title>
-		<Description><![CDATA[<P>Removing the Avast for Business client can currently be done in two ways:</P>
+		<Description><![CDATA[<P>Removing the Avast for Business client can currently be done in three ways:</P>
 <OL>
 <LI>Visit the Avast for Business Web Console, select the devices you wish to remove the client from, and press Remove 
-<LI>Log-in locally to the machine and uninstall Avast for Business via the Control Panel</LI></OL>]]></Description>
+<LI>Log-in locally to the machine and uninstall Avast for Business via the Control Panel 
+<LI>Contact Avast Support for the AvastClear MSI. They will not provide this without an explanation as to why you require it.</LI></OL>
+<P>Action <STRONG>#3&nbsp;</STRONG>of this&nbsp;fixlet provides<STRONG> a template that should be copied and the prefetch should be modified as noted below.</STRONG></P>
+<P><STRONG><FONT color=#ff0000>NOTE:</FONT></STRONG> The Avast for Business AvastClear.msi removal package will have to be placed in the Root Server's Uploads folder (..\BES Server\wwwrootbes\Uploads or /var/opt/BESServer/wwwrootbes/Uploads), and the prefetch of this Fixlet will have to be modified.&nbsp; You should obtain the Avast for Business AvastClear MSI package from Avast for Business support.</P>
+<P><FONT color=#ff0000><STRONG>Action #3 NOTE: </STRONG><FONT color=#000000>Users will still receive a tamper dialog if the uninstall is run during an active user session. It doesn't matter what the user presses (yes or no) the uninstall will still complete. The dialog will go away after 60 seconds. Because of this it is recommended to ONLY use this action if there are no logged on users.</FONT></FONT></P>]]></Description>
 		<Relevance>windows of operating system</Relevance>
 		<Relevance>(exists (keys of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registry) whose (value "DisplayName" of it as string starts with "Avast Business Security"))</Relevance>
 		<Category></Category>
@@ -17,7 +21,7 @@
 		<SANSID></SANSID>
 		<MIMEField>
 			<Name>x-fixlet-modification-time</Name>
-			<Value>Sat, 16 Apr 2016 18:10:06 +0000</Value>
+			<Value>Mon, 18 Apr 2016 17:42:34 +0000</Value>
 		</MIMEField>
 		<Domain>BESC</Domain>
 		<Action ID="Action1">
@@ -35,6 +39,19 @@
 				<PostLink></PostLink>
 			</Description>
 			<ActionScript MIMEType="text/x-uri">control panel</ActionScript>
+		</Action>
+		<Action ID="Action3">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to uninstall the Avast for Business client using the AvastClear MSI provided by support.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+
+//Replace with name, hash, size, etc of your AvastClear.msi
+prefetch avastclear.msi sha1:858814DA9117F2C8DF9CA401E8C0CA653709A687 size:7685632 http://manualcache/avastclear sha256:180C0CA31C8F80ECBD542166774B4EFAF1F0A08E21D2ED737D4B420636849B62
+
+wait msiexec /i "__Download\avastclear.msi" /qn</ActionScript>
 		</Action>
 	</Fixlet>
 </BES>
