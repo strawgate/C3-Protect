@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Analysis>
+		<Title>Firewall - Configuration - Windows</Title>
+		<Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+		<Relevance>true</Relevance>
+		<Source>Internal</Source>
+		<SourceReleaseDate>2016-04-18</SourceReleaseDate>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Mon, 18 Apr 2016 20:32:50 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<Property Name="Firewall - State - Windows" ID="1">(type of it, firewall enabled of it) of profiles of local policy of firewall</Property>
+		<Property Name="Firewall - Current Profiles - Windows" ID="2">profile types of firewall</Property>
+		<Property Name="Firewall - Inbound ICMP Echo - Windows" ID="3">allow inbound echo request of icmp settings of current profile of local policy of firewall </Property>
+		<Property Name="Firewall - Local Modification Allowed - Windows" ID="4">local policy modify state of firewall = ok firewall local policy modify state</Property>
+		<Property Name="Firewall - Group Policy Overrides Local Policy - Windows" ID="5">local policy modify state of firewall = gp override firewall local policy modify state</Property>
+		<Property Name="Firewall - All Unsolicited Inbound Traffic Blocked - Windows" ID="6">local policy modify state of firewall = inbound blocked firewall local policy modify state</Property>
+		<Property Name="Firewall - Authorized Applications - Windows" ID="7">(name of it, remote addresses of it, ip version of it, process image file name of it) of authorized applications whose (enabled of it = true) of current profile of local policy of firewall</Property>
+		<Property Name="Firewall - Active Inbound Rules - Windows" ID="8">(name of it, application name of it, local addresses string of it, local ports string of it, remote addresses string of it, remote ports string of it) of rules whose (currently active of it and inbound of it) of firewall</Property>
+		<Property Name="Firewall - Active Outbound Rules - Windows" ID="9">(name of it, application name of it, local addresses string of it, local ports string of it, remote addresses string of it, remote ports string of it) of rules whose (currently active of it and outbound of it) of firewall</Property>
+		<Property Name="Firewall - Globally Open Ports - Windows" ID="10">(name of it, port of it, remote addresses of it) of globally open ports whose (enabled of it) of current profile of local policy of firewall</Property>
+	</Analysis>
+</BES>
+

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Analysis>
+		<Title>Firewall - Configuration - Mac</Title>
+		<Description><![CDATA[<P>Provides information regarding the configuration of the Application Firewall in Mac OS X.</P>
+<P>This majority of this&nbsp;analysis is sourced from rustymyers here: <A href="https://bigfix.me/analysis/details/2994738">https://bigfix.me/analysis/details/2994738</A></P>]]></Description>
+		<Relevance><![CDATA[mac of operating system and version of it >= "10.6"]]></Relevance>
+		<Relevance>exists file "/Library/Preferences/com.apple.alf.plist"</Relevance>
+		<Source>Internal</Source>
+		<SourceReleaseDate>2014-12-16</SourceReleaseDate>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Mon, 18 Apr 2016 15:36:06 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<Property Name="Firewall - State - Mac" ID="1">if (integer "globalstate" of dictionary of file "/Library/Preferences/com.apple.alf.plist" = 1) then "Enabled" else "Disabled"  /* From https://bigfix.me/analysis/details/2994738 */</Property>
+		<Property Name="Firewall - Signed Apps Exception - Mac" ID="2">if (integer "allowsignedenabled" of dictionary of file "/Library/Preferences/com.apple.alf.plist" = 1) then "Enabled" else "Disabled"  /* From https://bigfix.me/analysis/details/2994738 */</Property>
+		<Property Name="Firewall - Stealth Mode - Mac" ID="3">if (integer "stealthenabled" of dictionary of file "/Library/Preferences/com.apple.alf.plist" = 1) then "Enabled" else "Disabled"  /* From https://bigfix.me/analysis/details/2994738 */</Property>
+		<Property Name="Firewall - Process Exception - Mac" ID="4"><![CDATA[(strings "proc" of it, "State: " & integer "state" of it as string) of dictionaries of values of entries of dictionary "firewall" of dictionary of file "/Library/Preferences/com.apple.alf.plist"  /* From https://bigfix.me/analysis/details/2994738 */]]></Property>
+		<Property Name="Firewall - Trusted Apps - Mac" ID="5"><![CDATA[if (number of strings "bundleid" of dictionaries of values of array "applications" of dictionaries of file "/Library/Preferences/com.apple.alf.plist" > 0) then concatenation "; " of strings "bundleid" of dictionaries of values of array "applications" of dictionaries of file "/Library/Preferences/com.apple.alf.plist" else "none" /* From https://bigfix.me/analysis/details/2994738 */]]></Property>
+	</Analysis>
+</BES>
+
