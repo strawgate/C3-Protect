@@ -2,13 +2,14 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
 	<Analysis>
 		<Title>Firewall - Configuration - Windows</Title>
-		<Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
-		<Relevance>true</Relevance>
+		<Description>Provides information on the current configuration of the Windows Firewall. </Description>
+		<Relevance><![CDATA[windows of operating system and version of operating system >= "5.1"]]></Relevance>
+		<Relevance>not in proxy agent context</Relevance>
 		<Source>Internal</Source>
 		<SourceReleaseDate>2016-04-18</SourceReleaseDate>
 		<MIMEField>
 			<Name>x-fixlet-modification-time</Name>
-			<Value>Mon, 18 Apr 2016 20:32:50 +0000</Value>
+			<Value>Mon, 18 Apr 2016 22:38:09 +0000</Value>
 		</MIMEField>
 		<Domain>BESC</Domain>
 		<Property Name="Firewall - State - Windows" ID="1">(type of it, firewall enabled of it) of profiles of local policy of firewall</Property>
@@ -23,4 +24,3 @@
 		<Property Name="Firewall - Globally Open Ports - Windows" ID="10">(name of it, port of it, remote addresses of it) of globally open ports whose (enabled of it) of current profile of local policy of firewall</Property>
 	</Analysis>
 </BES>
-
