@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
 	<Fixlet>
-		<Title>Uninstall - Avast For Business - Windows</Title>
+		<Title>Uninstall - Avast for Business - Windows</Title>
 		<Description><![CDATA[<P>Removing the Avast for Business client can currently be done in three ways:</P>
 <OL>
 <LI>Visit the Avast for Business Web Console, select the devices you wish to remove the client from, and press Remove 
@@ -21,7 +21,7 @@
 		<SANSID></SANSID>
 		<MIMEField>
 			<Name>x-fixlet-modification-time</Name>
-			<Value>Mon, 18 Apr 2016 17:42:34 +0000</Value>
+			<Value>Mon, 18 Apr 2016 20:40:37 +0000</Value>
 		</MIMEField>
 		<Domain>BESC</Domain>
 		<Action ID="Action1">

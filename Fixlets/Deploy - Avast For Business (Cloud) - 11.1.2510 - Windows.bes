@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
 	<Fixlet>
-		<Title>Deploy - Avast For Business (Cloud) - 11.1.2510 - Windows</Title>
+		<Title>Deploy - Avast for Business (Cloud) - 11.1.2510 - Windows</Title>
 		<Description><![CDATA[<P>This task will install the Avast for Business&nbsp;agent on a Windows machine. <STRONG>This fixlet is a template that should be copied and the prefetch should be modified as noted below.</STRONG></P>
 <P><STRONG><FONT color=#ff0000>NOTE:</FONT></STRONG> The Avast for Business EXE Installation package will have to be placed in the Root Server's Uploads folder (..\BES Server\wwwrootbes\Uploads or /var/opt/BESServer/wwwrootbes/Uploads), and the prefetch of this Fixlet will have to be modified.&nbsp; You should obtain the Avast for Business EXE Installation package via <A href="https://business.avast.com/#dashboard/overview">Avast for Business Web Console </A>under Network &gt; Devices &gt;&nbsp;Add Devices (at the top right). When obtaining the installer you <STRONG>MUST</STRONG> select "Download the Silent Installer"</P>
 <P><STRONG><FONT color=#ff0000>NOTE:</FONT></STRONG> The Avast for Business Installation will fail if the Avast for Business client has been uninstalled without rebooting. You must reboot between uninstalling and installing the Avast for Business Client.</P>]]></Description>
@@ -16,7 +16,7 @@
 		<SANSID></SANSID>
 		<MIMEField>
 			<Name>x-fixlet-modification-time</Name>
-			<Value>Mon, 18 Apr 2016 17:42:12 +0000</Value>
+			<Value>Mon, 18 Apr 2016 20:40:24 +0000</Value>
 		</MIMEField>
 		<Domain>BESC</Domain>
 		<DefaultAction ID="Action1">
