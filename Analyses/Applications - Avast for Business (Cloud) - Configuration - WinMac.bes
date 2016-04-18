@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Analysis>
+		<Title>Applications - Avast for Business (Cloud) - Configuration - Win\Mac</Title>
+		<Description><![CDATA[<P>Provides information on how the Avast for Business (Cloud) client is configured on the device.</P>
+<P>These settings cannot be changed on the client but instead must be changed through the Avast for Business (Cloud) web interface.</P>
+<P><FONT color=#ff0000><STRONG>NOTE:</STRONG></FONT> Debug Logging and Policy Name are only available on the Windows Platform.</P>]]></Description>
+		<Relevance><![CDATA[windows of operating system and version of operating system >= "5.1" /* Supports >WinXP */ or mac of operating system and version of operating system >= "10.6" /* Supports > Snow Leopard */]]></Relevance>
+		<Relevance>not in proxy agent context</Relevance>
+		<Relevance>if (mac of operating system) then (exists "/Applications/Avast.app" and exists folder "/Library/Application Support/Avast/config/bcc") else (exists (keys of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registry) whose (value "DisplayName" of it as string starts with "Avast Business Security")) /* Is Avast Installed? */</Relevance>
+		<Source>Internal</Source>
+		<SourceReleaseDate>2016-04-18</SourceReleaseDate>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Mon, 18 Apr 2016 20:27:45 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<Property Name="Avast for Business (Cloud) - Definitions Update Method - Win\Mac" ID="1">if (windows of operating system) then (key "VPSUpdate" of section "Common" of file "avast5.ini" of folder (value "DataFolder" of key "HKEY_LOCAL_MACHINE\Software\AVAST Software\Avast" of x32 registry as string)) else (if (((following text of first "= " of line containing "VPS_UPDATE_ENABLED = " of it) of file "com.avast.update.conf" of folder "/Library/Application Support/Avast/config") = "1") then ("Automatic") else ("Manual"))</Property>
+		<Property Name="Avast for Business (Cloud) - Program Update Method - Win\Mac" ID="2">if (windows of operating system) then (key "ProgramUpdate" of section "Common" of file "avast5.ini" of folder (value "DataFolder" of key "HKEY_LOCAL_MACHINE\Software\AVAST Software\Avast" of x32 registry as string)) else (if (((following text of first "= " of line containing "PROGRAM_UPDATE_ENABLED = " of it) of file "com.avast.update.conf" of folder "/Library/Application Support/Avast/config") = "1") then ("Automatic") else ("Manual"))</Property>
+		<Property Name="Avast for Business (Cloud) - Debug Logging - Windows" ID="3">if (exists key "HKEY_LOCAL_MACHINE\Software\AVAST Software\Avast" of x32 registry) then (if((parenthesized part of matches (regex "DebugLogging=([0-9])") of (concatenation "" of substrings separated by "%00" of lines of file "avast5.ini" of folder (value "DataFolder" of key "HKEY_LOCAL_MACHINE\Software\AVAST Software\Avast" of x32 registry as string)) as string) | "0" = "1") then "Enabled" else "Disabled") else "Not Applicable"</Property>
+		<Property Name="Avast for Business (Cloud) - Policy Name - Windows" ID="4">if (exists key "HKEY_LOCAL_MACHINE\Software\AVAST Software\Avast" of x32 registry) then (parenthesized part of matches (regex "ConfigName=([0-9a-z_\-]*)") of (concatenation "" of substrings separated by "%00" of lines of file "avast5.ini" of folder (value "DataFolder" of key "HKEY_LOCAL_MACHINE\Software\AVAST Software\Avast" of x32 registry as string)) as string) else "Not Applicable"</Property>
+	</Analysis>
+</BES>
+
