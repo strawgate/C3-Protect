@@ -6,7 +6,7 @@
 		<Relevance>windows of operating system</Relevance>
 		<Relevance>(product info string of operating system = "Enterprise" or product info string of operating system = "Server")</Relevance>
 		<Relevance>(if (not exists value "MaxSize" of it) then (true) else (value "MaxSize" of it as integer != 20971520)) of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Applocker/EXE and DLL" of native registry</Relevance>
-		<Category></Category>
+		<Category>Application Whitelisting</Category>
 		<Source>Internal</Source>
 		<SourceID></SourceID>
 		<SourceReleaseDate>2016-04-13</SourceReleaseDate>
@@ -31,7 +31,7 @@
 		</MIMEField>
 		<MIMEField>
 			<Name>x-fixlet-modification-time</Name>
-			<Value>Tue, 19 Apr 2016 18:39:02 +0000</Value>
+			<Value>Tue, 19 Apr 2016 19:01:16 +0000</Value>
 		</MIMEField>
 		<Domain>BESC</Domain>
 		<DefaultAction ID="Action1">

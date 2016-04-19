@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
 	<Fixlet>
-		<Title>Warning - Non-enterprise versions of Windows cannot run Applocker</Title>
-		<Description>This fixlet is relevant on Windows computers that cannot run AppLocker because it is not supported by the edition or version of the Operating System.</Description>
+		<Title>Warning - Applocker cannot run on non-enterprise versions of Windows</Title>
+		<Description>This fixlet is relevant on Windows computers that cannot run AppLocker because it is not supported by the edition or version of the Operating System. </Description>
 		<Relevance>windows of operating system</Relevance>
 		<Relevance>(product info string of operating system does not contain "Enterprise" and product info string of operating system does not contain "Server")</Relevance>
 		<Relevance>not in proxy agent context</Relevance>
-		<Category></Category>
+		<Category>Application Whitelisting</Category>
 		<Source>Internal</Source>
 		<SourceID></SourceID>
 		<SourceReleaseDate>2016-04-19</SourceReleaseDate>
@@ -15,7 +15,7 @@
 		<SANSID></SANSID>
 		<MIMEField>
 			<Name>x-fixlet-modification-time</Name>
-			<Value>Tue, 19 Apr 2016 18:44:40 +0000</Value>
+			<Value>Tue, 19 Apr 2016 19:00:51 +0000</Value>
 		</MIMEField>
 		<Domain>BESC</Domain>
 	</Fixlet>

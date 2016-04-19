@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
 	<Fixlet>
-		<Title>Warning - Application Identity service may not be running</Title>
+		<Title>Warning - Applocker Application Identity service may not be running</Title>
 		<Description><![CDATA[<P>This fixlet will be applicable on machines that do not have the application identity service running.</P>
 <P>The Application Identity Service is required for Applocker to work.</P>]]></Description>
 		<Relevance>windows of operating system </Relevance>
@@ -17,7 +17,7 @@
 		<SANSID></SANSID>
 		<MIMEField>
 			<Name>x-fixlet-modification-time</Name>
-			<Value>Tue, 19 Apr 2016 15:34:33 +0000</Value>
+			<Value>Tue, 19 Apr 2016 19:00:26 +0000</Value>
 		</MIMEField>
 		<Domain>BESC</Domain>
 	</Fixlet>

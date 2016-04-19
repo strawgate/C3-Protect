@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Warning - Applocker maximum event log size may be too small</Title>
+		<Description><![CDATA[<P>The Applocker logs on the system are at their default values or set to a value less than 20 Megabytes</P>
+<P>Consider increasing the applocker log sizes to store more log data regarding Applocker</P>]]></Description>
+		<Relevance>windows of operating system</Relevance>
+		<Relevance>(product info string of operating system = "Enterprise" or product info string of operating system = "Server")</Relevance>
+		<Relevance>exists key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2" of native registry</Relevance>
+		<Relevance><![CDATA[((if (not exists value "MaxSize" of it) then (true) else (value "MaxSize" of it as integer < 20971520)) of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Applocker/EXE and DLL" of native registry) or ((if (not exists value "MaxSize" of it) then (true) else (value "MaxSize" of it as integer < 20971520)) of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Applocker/MSI and Script" of native registry) or ((if (not exists value "MaxSize" of it) then (true) else (value "MaxSize" of it as integer < 20971520)) of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Applocker/Packaged app-Deployment" of native registry) or ((if (not exists value "MaxSize" of it) then (true) else (value "MaxSize" of it as integer < 20971520)) of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Applocker/Packaged app-Execution" of native registry)]]></Relevance>
+		<Category>Application Whitelisting</Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-04-19</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Tue, 19 Apr 2016 19:00:58 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+	</Fixlet>
+</BES>
+
