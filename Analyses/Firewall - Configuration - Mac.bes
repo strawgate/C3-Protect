@@ -4,13 +4,13 @@
 		<Title>Firewall - Configuration - Mac</Title>
 		<Description><![CDATA[<P>Provides information regarding the configuration of the Application Firewall in Mac OS X.</P>
 <P>This majority of this&nbsp;analysis is sourced from rustymyers here: <A href="https://bigfix.me/analysis/details/2994738">https://bigfix.me/analysis/details/2994738</A></P>]]></Description>
-		<Relevance><![CDATA[mac of operating system and version of it >= "10.6"]]></Relevance>
+		<Relevance><![CDATA[mac of operating system and version of operating system >= "10.6"]]></Relevance>
 		<Relevance>exists file "/Library/Preferences/com.apple.alf.plist"</Relevance>
 		<Source>Internal</Source>
 		<SourceReleaseDate>2014-12-16</SourceReleaseDate>
 		<MIMEField>
 			<Name>x-fixlet-modification-time</Name>
-			<Value>Mon, 18 Apr 2016 15:36:06 +0000</Value>
+			<Value>Tue, 19 Apr 2016 01:47:06 +0000</Value>
 		</MIMEField>
 		<Domain>BESC</Domain>
 		<Property Name="Firewall - State - Mac" ID="1">if (integer "globalstate" of dictionary of file "/Library/Preferences/com.apple.alf.plist" = 1) then "Enabled" else "Disabled"  /* From https://bigfix.me/analysis/details/2994738 */</Property>
@@ -20,4 +20,3 @@
 		<Property Name="Firewall - Trusted Apps - Mac" ID="5"><![CDATA[if (number of strings "bundleid" of dictionaries of values of array "applications" of dictionaries of file "/Library/Preferences/com.apple.alf.plist" > 0) then concatenation "; " of strings "bundleid" of dictionaries of values of array "applications" of dictionaries of file "/Library/Preferences/com.apple.alf.plist" else "none" /* From https://bigfix.me/analysis/details/2994738 */]]></Property>
 	</Analysis>
 </BES>
-
