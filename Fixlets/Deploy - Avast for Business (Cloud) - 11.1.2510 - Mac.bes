@@ -4,9 +4,9 @@
 		<Title>Deploy - Avast for Business (Cloud) - 11.1.2510 - Mac</Title>
 		<Description><![CDATA[<P>This task will install the Avast for Business&nbsp;agent on a Mac OS device. <STRONG>This fixlet is a template that should be copied and the prefetch should be modified as noted below.</STRONG></P>
 <P><STRONG><FONT color=#ff0000>NOTE:</FONT></STRONG> The Avast for Business DMG Installation package will have to be placed in the Root Server's Uploads folder (..\BES Server\wwwrootbes\Uploads or /var/opt/BESServer/wwwrootbes/Uploads), and the prefetch of this Fixlet will have to be modified.&nbsp; You should obtain the Avast for Business DMG Installation package via <A href="https://business.avast.com/#dashboard/overview">Avast for Business Web Console </A>under Network &gt; Devices &gt;&nbsp;Add Devices (at the top right). When obtaining the installer you <STRONG>MUST</STRONG> select "Download the Silent Installer"</P>]]></Description>
-		<Relevance>mac of operating system</Relevance>
-		<Relevance>not exists regapp "Avast.app"</Relevance>
-		<Category></Category>
+		<Relevance><![CDATA[mac of operating system and version of operating system > "10.6"]]></Relevance>
+		<Relevance>not exists "/Applications/Avast.app" or not exists folder "/Library/Application Support/Avast/config/bcc"</Relevance>
+		<Category>Anti-Virus</Category>
 		<Source>Internal</Source>
 		<SourceID></SourceID>
 		<SourceReleaseDate>2016-04-17</SourceReleaseDate>
@@ -15,7 +15,7 @@
 		<SANSID></SANSID>
 		<MIMEField>
 			<Name>x-fixlet-modification-time</Name>
-			<Value>Sun, 17 Apr 2016 16:37:11 +0000</Value>
+			<Value>Tue, 19 Apr 2016 15:30:32 +0000</Value>
 		</MIMEField>
 		<Domain>BESC</Domain>
 		<DefaultAction ID="Action1">
