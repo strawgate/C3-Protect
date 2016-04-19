@@ -10,12 +10,11 @@
 		<SourceReleaseDate>2016-04-18</SourceReleaseDate>
 		<MIMEField>
 			<Name>x-fixlet-modification-time</Name>
-			<Value>Mon, 18 Apr 2016 20:34:59 +0000</Value>
+			<Value>Tue, 19 Apr 2016 00:53:51 +0000</Value>
 		</MIMEField>
 		<Domain>BESC</Domain>
-		<Property Name="Avast for Business (Cloud) - License - Win\Mac" ID="1"><![CDATA[following text of first " = " of (line containing ("# " & (key "LicenseType" of section "Certificate0" of it)) of (if (windows of operating system) then (file "license.avastlic" of folder (value "DataFolder" of key "HKEY_LOCAL_MACHINE\Software\AVAST Software\Avast" of x32 registry as string)) else (file "license.avastlic" of folder "/Library/Application Support/Avast/Config")))]]></Property>
+		<Property Name="Avast for Business (Cloud) - License - Win\Mac" ID="1"><![CDATA[following text of first " = " of (line containing ("#   " & (key "LicenseType" of section "Certificate0" of it)) of (if (windows of operating system) then (file "license.avastlic" of folder (value "DataFolder" of key "HKEY_LOCAL_MACHINE\Software\AVAST Software\Avast" of x32 registry as string)) else (file "license.avastlic" of folder "/Library/Application Support/Avast/Config")))]]></Property>
 		<Property Name="Avast for Business (Cloud) - Customer Name - Win\Mac" ID="2">(key "CustomerName" of section "Certificates" of (if (windows of operating system) then (file "license.avastlic" of folder (value "DataFolder" of key "HKEY_LOCAL_MACHINE\Software\AVAST Software\Avast" of x32 registry as string)) else (file "license.avastlic" of folder "/Library/Application Support/Avast/Config")))</Property>
 		<Property Name="Avast for Business (Cloud) - Customer Number - Win\Mac" ID="3">(key "CustomerNumber" of section "Certificates" of (if (windows of operating system) then (file "license.avastlic" of folder (value "DataFolder" of key "HKEY_LOCAL_MACHINE\Software\AVAST Software\Avast" of x32 registry as string)) else (file "license.avastlic" of folder "/Library/Application Support/Avast/Config")))</Property>
 	</Analysis>
 </BES>
-
