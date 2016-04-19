@@ -2,7 +2,7 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
 	<Analysis>
 		<Title>Whitelisting - Applocker - Configuration - Windows</Title>
-		<Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+		<Description>Provides the current applocker configuration on the system.</Description>
 		<Relevance>windows of operating system</Relevance>
 		<Relevance>(product info string of operating system = "Enterprise" or product info string of operating system = "Server")</Relevance>
 		<Relevance>exists key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2" of native registry</Relevance>
@@ -10,7 +10,7 @@
 		<SourceReleaseDate>2016-04-19</SourceReleaseDate>
 		<MIMEField>
 			<Name>x-fixlet-modification-time</Name>
-			<Value>Tue, 19 Apr 2016 16:39:23 +0000</Value>
+			<Value>Tue, 19 Apr 2016 20:06:49 +0000</Value>
 		</MIMEField>
 		<Domain>BESC</Domain>
 		<Property Name="Applocker - AppX Enforcement Mode - Windows" ID="1">(if (it = "Disabled") then ("Disabled") else (if (it = "0") then "Audit-only" else "Enforced")) of (value "EnforcementMode" of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Appx" of native registry as string | "Disabled")</Property>
@@ -18,11 +18,17 @@
 		<Property Name="Applocker - EXE Enforcement Mode - Windows" ID="3">(if (it = "Disabled") then ("Disabled") else (if (it = "0") then "Audit-only" else "Enforced")) of (value "EnforcementMode" of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Exe" of native registry as string | "Disabled") </Property>
 		<Property Name="Applocker - MSI Enforcement Mode - Windows" ID="4">(if (it = "Disabled") then ("Disabled") else (if (it = "0") then "Audit-only" else "Enforced")) of (value "EnforcementMode" of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Msi" of native registry as string | "Disabled")</Property>
 		<Property Name="Applocker - Script Enforcement Mode - Windows" ID="5">(if (it = "Disabled") then ("Disabled") else (if (it = "0") then "Audit-only" else "Enforced")) of (value "EnforcementMode" of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Script" of native registry as string | "Disabled")</Property>
-		<Property Name="Applocker - AppX Rules - Windows" ID="6">(values "value" of keys of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Appx" of native registry as string)</Property>
-		<Property Name="Applocker - DLL Rules - Windows" ID="7">(values "value" of keys of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Dll" of native registry as string)</Property>
-		<Property Name="Applocker - Exe Rules - Windows" ID="8">(values "value" of keys of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Exe" of native registry as string)</Property>
-		<Property Name="Applocker - Msi Rules - Windows" ID="9">(values "value" of keys of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Msi" of native registry as string)</Property>
-		<Property Name="Applocker - Script Rules - Windows" ID="10">(values "value" of keys of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Script" of native registry as string)</Property>
+		<Property Name="Applocker - AppX Rules (raw) - Windows" ID="6">(values "value" of keys of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Appx" of native registry as string)</Property>
+		<Property Name="Applocker - DLL Rules (raw) - Windows" ID="7">(values "value" of keys of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Dll" of native registry as string)</Property>
+		<Property Name="Applocker - Exe Rules (raw) - Windows" ID="8">(values "value" of keys of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Exe" of native registry as string)</Property>
+		<Property Name="Applocker - Msi Rules (raw) - Windows" ID="9">(values "value" of keys of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Msi" of native registry as string)</Property>
+		<Property Name="Applocker - Script Rules (raw) - Windows" ID="10">(values "value" of keys of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Script" of native registry as string)</Property>
+		<Property Name="Applocker - AppX Rules (formatted) - Windows" ID="11"><![CDATA[(node value of attribute "Action" of it, node value of attribute "Name" of it, node value of attribute "UserOrGroupSid" of it & " (" & ( account name of sid (node value of attribute "UserOrGroupSid" of it) | "User not found") & ")", concatenations "; " of (node name of it & ": " & node value of it) of attributes of child nodes of xpaths "Conditions" of it) of xpaths "/*" of xml documents of (values "value" of keys of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Msi" of native registry as string)]]></Property>
+		<Property Name="Applocker - DLL Rules (formatted) - Windows" ID="12"><![CDATA[(node value of attribute "Action" of it, node value of attribute "Name" of it, node value of attribute "UserOrGroupSid" of it & " (" & ( account name of sid (node value of attribute "UserOrGroupSid" of it) | "User not found") & ")", concatenations "; " of (node name of it & ": " & node value of it) of attributes of child nodes of xpaths "Conditions" of it) of xpaths "/*" of xml documents of (values "value" of keys of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Dll" of native registry as string)]]></Property>
+		<Property Name="Applocker - Exe Rules (formatted) - Windows" ID="13"><![CDATA[(node value of attribute "Action" of it, node value of attribute "Name" of it, node value of attribute "UserOrGroupSid" of it & " (" & ( account name of sid (node value of attribute "UserOrGroupSid" of it) | "User not found") & ")", concatenations "; " of (node name of it & ": " & node value of it) of attributes of child nodes of xpaths "Conditions" of it) of xpaths "/*" of xml documents of (values "value" of keys of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Exe" of native registry as string)]]></Property>
+		<Property Name="Applocker - Msi Rules (formatted) - Windows" ID="14"><![CDATA[(node value of attribute "Action" of it, node value of attribute "Name" of it, node value of attribute "UserOrGroupSid" of it & " (" & ( account name of sid (node value of attribute "UserOrGroupSid" of it) | "User not found") & ")", concatenations "; " of (node name of it & ": " & node value of it) of attributes of child nodes of xpaths "Conditions" of it) of xpaths "/*" of xml documents of (values "value" of keys of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Msi" of native registry as string)]]></Property>
+		<Property Name="Applocker - Script Rules (formatted) - Windows" ID="15"><![CDATA[(node value of attribute "Action" of it, node value of attribute "Name" of it, node value of attribute "UserOrGroupSid" of it & " (" & ( account name of sid (node value of attribute "UserOrGroupSid" of it) | "User not found") & ")", concatenations "; " of (node name of it & ": " & node value of it) of attributes of child nodes of xpaths "Conditions" of it) of xpaths "/*" of xml documents of (values "value" of keys of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Script" of native registry as string)]]></Property>
+		<Property Name="Applocker - AppX Rules (formatted) - Windows" ID="16"><![CDATA[(node value of attribute "Action" of it, node value of attribute "Name" of it, node value of attribute "UserOrGroupSid" of it & " (" & ( account name of sid (node value of attribute "UserOrGroupSid" of it) | "User not found") & ")", concatenations "; " of (node name of it & ": " & node value of it) of attributes of child nodes of xpaths "Conditions" of it) of xpaths "/*" of xml documents of (values "value" of keys of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Appx" of native registry as string)]]></Property>
 	</Analysis>
 </BES>
 
