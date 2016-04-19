@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Config - Applocker Log - MSI/Script Max Size - 20mb - Windows</Title>
+		<Description>Sets the maximum log size for the applocker MSI and Script log to 20mb </Description>
+		<Relevance>windows of operating system</Relevance>
+		<Relevance>(product info string of operating system = "Enterprise" or product info string of operating system = "Server")</Relevance>
+		<Relevance>(if (not exists value "MaxSize" of it) then (true) else (value "MaxSize" of it as integer != 20971520)) of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Applocker/MSI and Script" of native registry</Relevance>
+		<Category></Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-04-13</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>bigfixme-added-time</Name>
+			<Value>Wed, 13 Apr 2016 22:26:41 GMT</Value>
+		</MIMEField>
+		<MIMEField>
+			<Name>bigfixme-modification-time</Name>
+			<Value>Thu, 14 Apr 2016 09:51:05 GMT</Value>
+		</MIMEField>
+		<MIMEField>
+			<Name>bigfixme-keywords</Name>
+			<Value>Poor Man's Inventory</Value>
+		</MIMEField>
+		<MIMEField>
+			<Name>bigfixme-ID</Name>
+			<Value>11953</Value>
+		</MIMEField>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Tue, 19 Apr 2016 18:40:43 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+
+wait wevtutil.exe sl "Microsoft-Windows-AppLocker/MSI and Script" /ms:20971520</ActionScript>
+		</DefaultAction>
+	</Fixlet>
+</BES>
+

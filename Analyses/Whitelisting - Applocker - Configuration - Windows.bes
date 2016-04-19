@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Analysis>
+		<Title>Whitelisting - Applocker - Configuration - Windows</Title>
+		<Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+		<Relevance>windows of operating system</Relevance>
+		<Relevance>(product info string of operating system = "Enterprise" or product info string of operating system = "Server")</Relevance>
+		<Relevance>exists key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2" of native registry</Relevance>
+		<Source>Internal</Source>
+		<SourceReleaseDate>2016-04-19</SourceReleaseDate>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Tue, 19 Apr 2016 16:39:23 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<Property Name="Applocker - AppX Enforcement Mode - Windows" ID="1">(if (it = "Disabled") then ("Disabled") else (if (it = "0") then "Audit-only" else "Enforced")) of (value "EnforcementMode" of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Appx" of native registry as string | "Disabled")</Property>
+		<Property Name="Applocker - DLL Enforcement Mode - Windows" ID="2">(if (it = "Disabled") then ("Disabled") else (if (it = "0") then "Audit-only" else "Enforced")) of (value "EnforcementMode" of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Dll" of native registry as string | "Disabled")</Property>
+		<Property Name="Applocker - EXE Enforcement Mode - Windows" ID="3">(if (it = "Disabled") then ("Disabled") else (if (it = "0") then "Audit-only" else "Enforced")) of (value "EnforcementMode" of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Exe" of native registry as string | "Disabled") </Property>
+		<Property Name="Applocker - MSI Enforcement Mode - Windows" ID="4">(if (it = "Disabled") then ("Disabled") else (if (it = "0") then "Audit-only" else "Enforced")) of (value "EnforcementMode" of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Msi" of native registry as string | "Disabled")</Property>
+		<Property Name="Applocker - Script Enforcement Mode - Windows" ID="5">(if (it = "Disabled") then ("Disabled") else (if (it = "0") then "Audit-only" else "Enforced")) of (value "EnforcementMode" of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Script" of native registry as string | "Disabled")</Property>
+		<Property Name="Applocker - AppX Rules - Windows" ID="6">(values "value" of keys of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Appx" of native registry as string)</Property>
+		<Property Name="Applocker - DLL Rules - Windows" ID="7">(values "value" of keys of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Dll" of native registry as string)</Property>
+		<Property Name="Applocker - Exe Rules - Windows" ID="8">(values "value" of keys of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Exe" of native registry as string)</Property>
+		<Property Name="Applocker - Msi Rules - Windows" ID="9">(values "value" of keys of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Msi" of native registry as string)</Property>
+		<Property Name="Applocker - Script Rules - Windows" ID="10">(values "value" of keys of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Script" of native registry as string)</Property>
+	</Analysis>
+</BES>
+

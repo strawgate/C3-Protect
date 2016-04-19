@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Analysis>
+		<Title>Whitelisting - Applocker - Windows</Title>
+		<Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+		<Relevance><![CDATA[windows of operating system and version of operating system >= "6.1"]]></Relevance>
+		<Relevance>(product info string of operating system = "Enterprise" or product info string of operating system = "Server")</Relevance>
+		<Source>Internal</Source>
+		<SourceReleaseDate>2016-04-19</SourceReleaseDate>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Tue, 19 Apr 2016 16:41:49 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<Property Name="Applocker - Enabled - Windows" ID="1">exists key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2" of native registry</Property>
+	</Analysis>
+</BES>
+
