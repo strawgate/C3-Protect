@@ -4,7 +4,7 @@
 		<Title>Uninstall - Avast for Business - Mac</Title>
 		<Description><![CDATA[&lt;enter a description of the problem and the corrective action here&gt; ]]></Description>
 		<Relevance>exists regapp "Avast.app"</Relevance>
-		<Category></Category>
+		<Category>Anti-Virus</Category>
 		<Source>Internal</Source>
 		<SourceID></SourceID>
 		<SourceReleaseDate>2016-04-17</SourceReleaseDate>
@@ -13,7 +13,7 @@
 		<SANSID></SANSID>
 		<MIMEField>
 			<Name>x-fixlet-modification-time</Name>
-			<Value>Sun, 17 Apr 2016 16:08:37 +0000</Value>
+			<Value>Tue, 19 Apr 2016 15:30:51 +0000</Value>
 		</MIMEField>
 		<Domain>BESC</Domain>
 		<DefaultAction ID="Action1">

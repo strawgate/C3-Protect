@@ -7,7 +7,7 @@
 <P><STRONG><FONT color=#ff0000>NOTE:</FONT></STRONG> The Avast for Business Installation will fail if the Avast for Business client has been uninstalled without rebooting. You must reboot between uninstalling and installing the Avast for Business Client.</P>]]></Description>
 		<Relevance>windows of operating system</Relevance>
 		<Relevance>(not exists (keys of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registry) whose (value "DisplayName" of it as string starts with "Avast Business Security"))</Relevance>
-		<Category></Category>
+		<Category>Anti-Virus</Category>
 		<Source>Internal</Source>
 		<SourceID></SourceID>
 		<SourceReleaseDate>2016-04-15</SourceReleaseDate>
@@ -16,7 +16,7 @@
 		<SANSID></SANSID>
 		<MIMEField>
 			<Name>x-fixlet-modification-time</Name>
-			<Value>Mon, 18 Apr 2016 20:40:24 +0000</Value>
+			<Value>Tue, 19 Apr 2016 15:30:26 +0000</Value>
 		</MIMEField>
 		<Domain>BESC</Domain>
 		<DefaultAction ID="Action1">

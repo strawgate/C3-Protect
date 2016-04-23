@@ -12,7 +12,7 @@
 <P><FONT color=#ff0000><STRONG>Action #3 NOTE: </STRONG><FONT color=#000000>Users will still receive a tamper dialog if the uninstall is run during an active user session. It doesn't matter what the user presses (yes or no) the uninstall will still complete. The dialog will go away after 60 seconds. Because of this it is recommended to ONLY use this action if there are no logged on users.</FONT></FONT></P>]]></Description>
 		<Relevance>windows of operating system</Relevance>
 		<Relevance>(exists (keys of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registry) whose (value "DisplayName" of it as string starts with "Avast Business Security"))</Relevance>
-		<Category></Category>
+		<Category>Anti-Virus</Category>
 		<Source>Internal</Source>
 		<SourceID></SourceID>
 		<SourceReleaseDate>2016-04-15</SourceReleaseDate>
@@ -21,7 +21,7 @@
 		<SANSID></SANSID>
 		<MIMEField>
 			<Name>x-fixlet-modification-time</Name>
-			<Value>Mon, 18 Apr 2016 20:40:37 +0000</Value>
+			<Value>Tue, 19 Apr 2016 15:30:58 +0000</Value>
 		</MIMEField>
 		<Domain>BESC</Domain>
 		<Action ID="Action1">
