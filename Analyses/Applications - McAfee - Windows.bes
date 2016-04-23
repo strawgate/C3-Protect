@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Analysis>
+		<Title>Applications - McAfee - Windows</Title>
+		<Description><![CDATA[<P>Provides information on what suite of McAfee Antivirus is installed.</P>
+<P>Currently detects:</P>
+<UL>
+<LI>McAfee VirusScan Enterprise</LI>
+<LI>McAfee Endpoint Security</LI></UL>]]></Description>
+		<Relevance>windows of operating system</Relevance>
+		<Relevance>not in proxy agent context</Relevance>
+		<Source>Internal</Source>
+		<SourceReleaseDate>2016-04-18</SourceReleaseDate>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Mon, 18 Apr 2016 20:10:31 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<Property Name="McAfee - Suite Name - Windows" ID="1"><![CDATA[if (exists folder (pathname of program files folder & "\McAfee\Endpoint Security")) then ("Endpoint Security") else (if (exists folder (pathname of program files folder & "\McAfee\VirusScan Enterprise")) then ("VirusScan Enterprise") else "None")]]></Property>
+		<Property Name="McAfee Endpoint Security - Installed - Windows" ID="2"><![CDATA[exists folder (pathname of program files folder & "\McAfee\Endpoint Security")]]></Property>
+		<Property Name="McAfee VirusScan Enterprise - Installed - Windows" ID="3"><![CDATA[exists folder (pathname of program files folder & "\McAfee\VirusScan Enterprise")]]></Property>
+	</Analysis>
+</BES>
+

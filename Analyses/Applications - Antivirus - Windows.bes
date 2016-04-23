@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Analysis>
+		<Title>Applications - Antivirus - Windows</Title>
+		<Description><![CDATA[<P>Provides information on what Anti-virus programs are registered with the Windows Security Center.</P>
+<P>Kudos, compliments, and credit to Jgstew for the&nbsp;relevance: <A href="https://bigfix.me/analysis/details/2996950">https://bigfix.me/analysis/details/2996950</A></P>]]></Description>
+		<Relevance>true</Relevance>
+		<Source>Internal</Source>
+		<SourceReleaseDate>2016-04-20</SourceReleaseDate>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Wed, 20 Apr 2016 06:25:39 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<Property Name="Antivirus - Installed - Windows" ID="1">unique values of string values of selects "displayname from AntiVirusProduct" of (if exists (wmis "root\SecurityCenter2") then (wmis "root\SecurityCenter2") else (wmis "root\SecurityCenter"))</Property>
+		<Property Name="Antivirus - Status - Windows" ID="2"><![CDATA[(item 0 of it, "Active: " & bit 13 of item 1 of it as string, "Out of date: " & bit 3 of item 1 of it as string, "Antivirus: " & bit 18 of item 1 of it as string, "Antispyware: " & bit 19 of item 1 of it as string, "Firewall: " & bit 16 of item 1 of it as string) of (string value of property "displayName" of it, string value of property "productState" of it as integer as bit set ) of select objects "displayName,productState from AntiVirusProduct" of wmis "root\SecurityCenter2"]]></Property>
+		<Property Name="Antivirus - Status - Bitset" ID="3">(item 0 of it, item 1 of it, item 1 of it as integer as hexadecimal, item 1 of it as integer as bit set) of (string value of property "displayName" of it, string value of property "productState" of it) of select objects "displayName,productState from AntiVirusProduct" of wmis "root\SecurityCenter2"</Property>
+	</Analysis>
+</BES>
+
