@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
 	<Analysis>
 		<Title>Whitelisting - Applocker - Windows</Title>
@@ -7,12 +8,7 @@
 		<Relevance>(product info string of operating system = "Enterprise" or product info string of operating system = "Server")</Relevance>
 		<Source>Internal</Source>
 		<SourceReleaseDate>2016-04-19</SourceReleaseDate>
-		<MIMEField>
-			<Name>x-fixlet-modification-time</Name>
-			<Value>Tue, 19 Apr 2016 19:19:14 +0000</Value>
-		</MIMEField>
 		<Domain>BESC</Domain>
 		<Property Name="Applocker - Enabled - Windows" ID="1">exists key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2" of native registry</Property>
 	</Analysis>
 </BES>
-

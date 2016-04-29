@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
 	<Fixlet>
 		<Title>Warning - Applocker Application Identity service may not be running</Title>
@@ -15,11 +16,6 @@
 		<SourceSeverity></SourceSeverity>
 		<CVENames></CVENames>
 		<SANSID></SANSID>
-		<MIMEField>
-			<Name>x-fixlet-modification-time</Name>
-			<Value>Tue, 19 Apr 2016 19:00:26 +0000</Value>
-		</MIMEField>
 		<Domain>BESC</Domain>
 	</Fixlet>
 </BES>
-

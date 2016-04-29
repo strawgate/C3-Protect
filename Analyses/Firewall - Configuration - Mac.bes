@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
 	<Analysis>
 		<Title>Firewall - Configuration - Mac</Title>
@@ -8,10 +9,6 @@
 		<Relevance>exists file "/Library/Preferences/com.apple.alf.plist"</Relevance>
 		<Source>Internal</Source>
 		<SourceReleaseDate>2014-12-16</SourceReleaseDate>
-		<MIMEField>
-			<Name>x-fixlet-modification-time</Name>
-			<Value>Tue, 19 Apr 2016 01:47:06 +0000</Value>
-		</MIMEField>
 		<Domain>BESC</Domain>
 		<Property Name="Firewall - State - Mac" ID="1">if (integer "globalstate" of dictionary of file "/Library/Preferences/com.apple.alf.plist" = 1) then "Enabled" else "Disabled"  /* From https://bigfix.me/analysis/details/2994738 */</Property>
 		<Property Name="Firewall - Signed Apps Exception - Mac" ID="2">if (integer "allowsignedenabled" of dictionary of file "/Library/Preferences/com.apple.alf.plist" = 1) then "Enabled" else "Disabled"  /* From https://bigfix.me/analysis/details/2994738 */</Property>

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
 	<Analysis>
 		<Title>Firewall - Configuration - Windows</Title>
@@ -7,10 +8,6 @@
 		<Relevance>not in proxy agent context</Relevance>
 		<Source>Internal</Source>
 		<SourceReleaseDate>2016-04-18</SourceReleaseDate>
-		<MIMEField>
-			<Name>x-fixlet-modification-time</Name>
-			<Value>Sat, 23 Apr 2016 23:52:43 +0000</Value>
-		</MIMEField>
 		<Domain>BESC</Domain>
 		<Property Name="Firewall - State - Windows" ID="1">("Domain", firewall enabled of domain profile of local policy of firewall and not exists (value "EnableFirewall" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\DomainProfile" of native registry as string | "-1") whose (it = "0"));("Public", firewall enabled of public profile of local policy of firewall and not exists (value "EnableFirewall" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\StandardProfile" of native registry as string | "-1") whose (it = "0"));("Private", firewall enabled of private profile of local policy of firewall and not exists (value "EnableFirewall" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\StandardProfile" of native registry as string | "-1") whose (it = "0"))</Property>
 		<Property Name="Firewall - Current Profiles - Windows" ID="2">profile types of firewall</Property>
@@ -24,4 +21,3 @@
 		<Property Name="Firewall - Globally Open Ports - Windows" ID="10">(name of it, port of it, remote addresses of it) of globally open ports whose (enabled of it) of current profile of local policy of firewall</Property>
 	</Analysis>
 </BES>
-

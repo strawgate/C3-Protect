@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
 	<Analysis>
 		<Title>Applications - Antivirus - Windows</Title>
@@ -8,10 +9,6 @@
 		<Relevance>not in proxy agent context</Relevance>
 		<Source>Internal</Source>
 		<SourceReleaseDate>2016-04-20</SourceReleaseDate>
-		<MIMEField>
-			<Name>x-fixlet-modification-time</Name>
-			<Value>Sat, 23 Apr 2016 16:15:59 +0000</Value>
-		</MIMEField>
 		<Domain>BESC</Domain>
 		<Property Name="Antivirus - Installed - Windows" ID="1">unique values of string values of selects "displayname from AntiVirusProduct" of (if exists (wmis "root\SecurityCenter2") then (wmis "root\SecurityCenter2") else (wmis "root\SecurityCenter"))</Property>
 		<Property Name="Antivirus - Status - Windows" ID="2"><![CDATA[(item 0 of it, "Out of date: " & bit 3 of item 1 of it as string, "Auto-Update: " & bit 17 of item 1 of it as string, "Is Antivirus: " & bit 18 of item 1 of it as string, "Is Antispyware: " & bit 19 of item 1 of it as string, "Is Firewall: " & bit 16 of item 1 of it as string, "On Access Scanning: " & bit 12 of item 1 of it as string) of (string value of property "displayName" of it, string value of property "productState" of it as integer as bit set ) of select objects "displayName,productState from AntiVirusProduct" of wmis "root\SecurityCenter2" ]]></Property>
@@ -23,4 +20,3 @@
 		<Property Name="Antivirus - Anti-Spyware Providers - Windows" ID="8">(string value of property "displayName" of it) of (select objects "displayName,productState from AntiVirusProduct" of wmis "root\SecurityCenter2") whose (bit 19 of (string value of property "productState" of it as integer as bit set))</Property>
 	</Analysis>
 </BES>
-

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
 	<Analysis>
 		<Title>Applications - Avast for Business (Cloud) - Engine - Win\Mac</Title>
@@ -8,13 +9,8 @@
 		<Relevance>if (mac of operating system) then (exists "/Applications/Avast.app" and exists folder "/Library/Application Support/Avast/config/bcc") else ((exists (keys of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registry) whose (value "DisplayName" of it as string starts with "Avast Business Security"))) /* Is Avast Installed */</Relevance>
 		<Source>Internal</Source>
 		<SourceReleaseDate>2016-04-18</SourceReleaseDate>
-		<MIMEField>
-			<Name>x-fixlet-modification-time</Name>
-			<Value>Tue, 19 Apr 2016 01:39:00 +0000</Value>
-		</MIMEField>
 		<Domain>BESC</Domain>
 		<Property Name="Avast for Business (Cloud) - Definitions Version - Win\Mac" ID="1">key "Latest" of section "Definitions" of file "aswdefs.ini" of (if (windows of operating system) then (folder "defs" of folder "Avast" of folder "Avast Software" of (if (x64 of operating system) then (program files x64 folder) else (program files folder))) else (folder "/Library/Application Support/Avast/vps9/defs"))</Property>
 		<Property Name="Avast for Business (Cloud) - Program Version - Win\Mac" ID="3">(if (windows of operating system) then (version of file "avastui.exe" of folder (value "ProgramFolder" of key "HKEY_LOCAL_MACHINE\Software\AVAST Software\Avast" of x32 registry as string) as string) else (line 1 of file "version.tag" of folder "/Library/Application Support/Avast"))</Property>
 	</Analysis>
 </BES>
-

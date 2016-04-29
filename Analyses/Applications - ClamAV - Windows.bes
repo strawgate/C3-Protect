@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
 	<Analysis>
 		<Title>Applications - ClamAV - Windows</Title>
@@ -7,10 +8,6 @@
 		<Relevance>(exists (keys of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall" of native registry) whose (value "DisplayName" of it as string starts with "ClamAV")) | false</Relevance>
 		<Source>Internal</Source>
 		<SourceReleaseDate>2016-04-14</SourceReleaseDate>
-		<MIMEField>
-			<Name>x-fixlet-modification-time</Name>
-			<Value>Mon, 18 Apr 2016 20:10:57 +0000</Value>
-		</MIMEField>
 		<Domain>BESC</Domain>
 		<Property Name="ClamAV - Version - Windows" ID="1">(value "DisplayVersion" of it as string | "none") of (keys of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall" of native registry) whose (value "DisplayName" of it as string starts with "ClamAV")</Property>
 		<Property Name="ClamAV - Installed - Windows" ID="2">(exists (keys of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall" of native registry) whose (value "DisplayName" of it as string starts with "ClamAV")) | false</Property>
@@ -21,4 +18,3 @@
 		<Property Name="ClamAV - Quarantine # - Windows" ID="7"><![CDATA[(if (exists (folder ((pathname of parent folder of client folder of current site | pathname of data folder of client) & "\__Global\Quarantine")) | false) then (number of files of (folder ((pathname of parent folder of client folder of current site | pathname of data folder of client) & "\__Global\Quarantine"))) else (0))]]></Property>
 	</Analysis>
 </BES>
-

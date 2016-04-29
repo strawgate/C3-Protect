@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
 	<Fixlet>
 		<Title>Config - Applocker Log - AppX Deployment Max Size - 20mb - Windows</Title>
@@ -13,26 +14,6 @@
 		<SourceSeverity></SourceSeverity>
 		<CVENames></CVENames>
 		<SANSID></SANSID>
-		<MIMEField>
-			<Name>bigfixme-added-time</Name>
-			<Value>Wed, 13 Apr 2016 22:26:41 GMT</Value>
-		</MIMEField>
-		<MIMEField>
-			<Name>bigfixme-modification-time</Name>
-			<Value>Thu, 14 Apr 2016 09:51:05 GMT</Value>
-		</MIMEField>
-		<MIMEField>
-			<Name>bigfixme-keywords</Name>
-			<Value>Poor Man's Inventory</Value>
-		</MIMEField>
-		<MIMEField>
-			<Name>bigfixme-ID</Name>
-			<Value>11953</Value>
-		</MIMEField>
-		<MIMEField>
-			<Name>x-fixlet-modification-time</Name>
-			<Value>Tue, 19 Apr 2016 19:01:12 +0000</Value>
-		</MIMEField>
 		<Domain>BESC</Domain>
 		<DefaultAction ID="Action1">
 			<Description>
@@ -46,4 +27,3 @@ wait wevtutil.exe sl "Microsoft-Windows-AppLocker/Packaged app-Deployment" /ms:2
 		</DefaultAction>
 	</Fixlet>
 </BES>
-

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
 	<Analysis>
 		<Title>Applications - McAfee Endpoint Security - Configuration - Windows</Title>
@@ -6,10 +7,6 @@
 		<Relevance>windows of operating system</Relevance>
 		<Relevance>NOT in proxy agent context</Relevance>
 		<Relevance><![CDATA[exists folder (pathname of program files folder & "\McAfee\Endpoint Security")]]></Relevance>
-		<MIMEField>
-			<Name>x-fixlet-modification-time</Name>
-			<Value>Thu, 28 Apr 2016 13:42:54 +0000</Value>
-		</MIMEField>
 		<Domain>BESC</Domain>
 		<Property Name="McAfee Endpoint Security - Client Status - Windows" ID="1">if ((not exists running application "vshwin32.exe") AND (not exists running application "mcshield.exe")) then "Not Running" else "Running"</Property>
 		<Property Name="McAfee Endpoint Security - Firewall State - Windows" ID="2">if ((value "LastComplianceStatus" of key "HKLM\Software\McAfee\Endpoint\Firewall" of native registry as integer | 0) = 1) then "Enabled" else "Disabled"</Property>
@@ -21,4 +18,3 @@
 		<Property Name="McAfee Endpoint Security - Definitions - Windows" ID="8">value "szRepDATVer" of key "HKLM\SOFTWARE\McAfee\AVSolution\DatReputation" of native registry as string | "None"</Property>
 	</Analysis>
 </BES>
-
