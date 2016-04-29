@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Invoke - TDSS Killer - Scan and Quarantine - Windows</Title>
+		<Description><![CDATA[&lt;enter a description of the problem and the corrective action here&gt; ]]></Description>
+		<Relevance>windows of operating system</Relevance>
+		<Category></Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-04-15</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Fri, 15 Apr 2016 22:43:36 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch TDSSKiller.exe sha1:60EE6E405F5A88FB9B9C8256B350964625C55242 size:4727984 http://media.kaspersky.com/utilities/VirusUtilities/EN/tdsskiller.exe?_ga=1.45268644.1039781032.1460697955 sha256:71FAB17A59B474E6FF3A8C5FB9B46CADFC6226C6A100C84944CBC7CCDA151075
+
+folder create "{parent folder of client folder of current site | data folder of client}\__Global\AVLogs"
+folder create "{parent folder of client folder of current site | data folder of client}\__Global\Quarantine"
+
+wait __Download\TDSSKiller.exe -accepteula -qpath "{parent folder of client folder of current site | data folder of client}\__Global\Quarantine" -dcexact -silent  -l "{parent folder of client folder of current site | data folder of client}/__Global/AVLogs/TDSSKiller.log"</ActionScript>
+		</DefaultAction>
+	</Fixlet>
+</BES>
+

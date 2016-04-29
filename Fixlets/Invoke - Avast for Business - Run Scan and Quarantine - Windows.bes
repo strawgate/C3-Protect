@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Invoke - Avast for Business - Run Scan and Quarantine - Windows</Title>
+		<Description><![CDATA[<P>This fixlet invokes an Avast AV scan on the endpoint using the installed Avast Anti-virus client.</P>
+<P>The scan is invoked using ashCmd.exe, the Avast command line virus scanner.</P>]]></Description>
+		<Relevance>windows of operating system</Relevance>
+		<Relevance>not in proxy agent context</Relevance>
+		<Relevance>(exists (keys of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registry) whose (value "DisplayName" of it as string starts with "Avast Business Security"))</Relevance>
+		<Category>Anti-Virus</Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-04-15</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Tue, 19 Apr 2016 15:30:38 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+run "{pathname of file "AshCMD.exe" of folder (value "ProgramFolder" of key "HKEY_LOCAL_MACHINE\Software\AVAST Software\Avast" of x32 registry as string)}" "{parameter "Location" of action}"</ActionScript>
+			<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+		</DefaultAction>
+		<Action ID="Action2">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+wait "{pathname of file "AshCMD.exe" of folder (value "ProgramFolder" of key "HKEY_LOCAL_MACHINE\Software\AVAST Software\Avast" of x32 registry as string)}" /@="{parameter "ScanName" of action}"</ActionScript>
+		</Action>
+	</Fixlet>
+</BES>
+
