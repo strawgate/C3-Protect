@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Invoke - Provision Trusted Platform Module - Windows</Title>
+		<Description><![CDATA[&lt;enter a description of the problem and the corrective action here&gt; ]]></Description>
+		<Relevance>windows of operating system</Relevance>
+		<Relevance>exists selects "* from Win32_Tpm" of wmis "root\CIMv2\Security\MicrosoftTpm"</Relevance>
+		<Relevance>(not boolean value of selects "IsActivated_InitialValue from Win32_Tpm" of wmis "root\CIMv2\Security\MicrosoftTpm") or (not boolean value of selects "IsEnabled_InitialValue from Win32_Tpm" of wmis "root\CIMv2\Security\MicrosoftTpm") or (not boolean value of selects "IsOwned_InitialValue from Win32_Tpm" of wmis "root\CIMv2\Security\MicrosoftTpm")</Relevance>
+		<Category></Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-04-29</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+
+createfile until _end_
+
+import-module Bitlocker
+
+Enable-TpmAutoProvisioning
+
+_end_
+
+move __createfile powershell.ps1
+
+waithidden { pathname of file ((it as string) of value "Path" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell" of native registry) } -ExecutionPolicy Bypass -File powershell.ps1
+
+action requires restart</ActionScript>
+		</DefaultAction>
+	</Fixlet>
+</BES>

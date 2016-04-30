@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Invoke - Bitlocker Encrypt System Drive - Windows</Title>
+		<Description>This fixlet will encrypt the system drive of a device. </Description>
+		<Relevance>windows of operating system</Relevance>
+		<Relevance>selects "* from Win32_Tpm" of wmis "root\CIMv2\Security\MicrosoftTpm"</Relevance>
+		<Relevance><![CDATA[if(exists WMI "root\CIMv2\Security\MicrosoftVolumeEncryption") then (number of select objects ("* from win32_EncryptableVolume")of WMI "root\CIMv2\Security\MicrosoftVolumeEncryption" >= 1) else (false)]]></Relevance>
+		<Relevance><![CDATA[not boolean value of selects ("IsVolumeInitializedForProtection from win32_EncryptableVolume where DriveLetter='" & name of drive of system folder & "'")of WMI "root\CIMv2\Security\MicrosoftVolumeEncryption"]]></Relevance>
+		<Category></Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-04-29</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+
+createfile until _end_
+
+import-module Bitlocker
+
+enable-bitlocker {name of drive of system folder} -TpmProtector
+
+_end_
+
+move __createfile powershell.ps1
+
+waithidden { pathname of file ((it as string) of value "Path" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell" of native registry) } -ExecutionPolicy Bypass -File powershell.ps1</ActionScript>
+		</DefaultAction>
+	</Fixlet>
+</BES>

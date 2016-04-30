@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Config - Dell Command | Configure Trusted Platform Module - Activate</Title>
+		<Description><![CDATA[&lt;enter a description of the problem and the corrective action here&gt; ]]></Description>
+		<Relevance>windows of operating system</Relevance>
+		<Relevance>(exists ((keys of keys "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall" of ( x32 registry; (if exists x64 registry then x64 registry else nothing) )) whose (value "DisplayName" of it as string contains "Dell Command | Configure")))</Relevance>
+		<Relevance>not exists selects "* from Win32_Tpm" of wmis "root\CIMv2\Security\MicrosoftTpm"</Relevance>
+		<Category></Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-04-29</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+
+delete __createfile
+
+createfile until _end_
+
+cd "{pathname of folder (if (x64 of operating system) then ("X86_64") else ("X86")) of folder (value "Path" of key "HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure" of x32 registry as string)}"
+
+cctk.exe --setuppwd=BIOSPWD
+cctk.exe --tpm=on --valsetuppwd=BIOSPWD
+cctk.exe --tpmactivation=activate --valsetuppwd=BIOSPWD
+cctk.exe --setuppwd= --valsetuppwd=BIOSPWD
+
+_end_
+
+move __createfile run.bat
+
+wait run.bat
+
+action requires restart</ActionScript>
+			<SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+		</DefaultAction>
+	</Fixlet>
+</BES>
