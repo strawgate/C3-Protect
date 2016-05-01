@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Analysis>
+		<Title>FileVault 2 - Audit - Mac</Title>
+		<Description>Provides audit information about FileVault on the system. </Description>
+		<Relevance>mac of operating system</Relevance>
+		<Relevance>exists folder "FileVault" of folder "__Global" of data folder of client</Relevance>
+		<Source>Internal</Source>
+		<SourceReleaseDate>2016-04-30</SourceReleaseDate>
+		<Domain>BESC</Domain>
+		<Property Name="FileVault 2 - Personal Recovery Key - Mac" ID="3">(following text of first ": " of it as boolean) of (lines containing "Personal Key Exists:" of it) of file "RecoverySettings.txt" of folder "FileVault" of folder "__Global" of data folder of client</Property>
+		<Property Name="FileVault 2 - Institutional Recovery Key - Mac" ID="4">(following text of first ": " of it as boolean) of (lines containing "Institutional Key Exists:" of it) of file "RecoverySettings.txt" of folder "FileVault" of folder "__Global" of data folder of client</Property>
+		<Property Name="FileVault 2 - Status - Mac" ID="5">line 1 of file "Status.txt" of folder "FileVault" of folder "__Global" of data folder of client</Property>
+		<Property Name="FileVault 2 - Encryption Progress - Mac" ID="6">(if (exists lines containing "Progress" of it) then (lines containing "Progress" of it) else nothing) of (file "Status.txt" of folder "FileVault" of folder "__Global" of data folder of client)</Property>
+		<Property Name="FileVault 2 - Enabled Users - Mac" ID="7">lines of file "Users.txt" of folder "FileVault" of folder "__Global" of data folder of client</Property>
+		<Property Name="FileVault 2 - Deferred Users - Mac" ID="8">(if (exists lines containing "Deferred enablement" of it) then (lines containing "Deferred enablement" of it) else nothing) of (file "Status.txt" of folder "FileVault" of folder "__Global" of data folder of client)</Property>
+	</Analysis>
+</BES>

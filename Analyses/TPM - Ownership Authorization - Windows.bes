@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Analysis>
+		<Title>TPM - Ownership Authorization - Windows</Title>
+		<Description>Grabs the ownership authorization password set when provisioning the TPM on the device.</Description>
+		<Relevance>windows of operating system</Relevance>
+		<Relevance>exists (file whose (name of it contains "TPMOwnerAuthorization") of folder "BitLocker" of folder "__Global" of data folder of client)</Relevance>
+		<Source>Internal</Source>
+		<SourceReleaseDate>2016-04-30</SourceReleaseDate>
+		<Domain>BESC</Domain>
+		<Property Name="TPM - Ownership Password - Windows" ID="1"><![CDATA[(preceding text of first "-" of name of it & ":", following text of first "%ff%fe" of concatenations "" of substrings separated by "%00" of lines of it) of files whose (Name of it contains "TPMOwnerAuthorization.txt") of folder "BitLocker" of folder "__Global" of data folder of client]]></Property>
+	</Analysis>
+</BES>

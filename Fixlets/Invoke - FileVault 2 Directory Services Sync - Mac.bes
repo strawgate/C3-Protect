@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Invoke - FileVault 2 Directory Services Sync - Mac</Title>
+		<Description>This fixlet causes the Mac to sync accounts with directory services. </Description>
+		<Relevance><![CDATA[mac of operating system and version of operating system >= "10.7"]]></Relevance>
+		<Relevance>booleans of values of entries whose("CoreStorage Encrypted" = key of it) of dictionaries whose( exists entries whose("BSD Name" = key of it AND "disk1" = string of value of it) of it ) of nodes of nodes of nodes "CoreStoragePhysical" of nodes of nodes "IOGUIDPartitionScheme" of nodes of nodes "IOBlockStorageDriver" of nodes "IOAHCIBlockStorageDevice" of nodes "AppleAHCIDiskDriver" of nodes "IOAHCIDevice" of (it; nodes of nodes "AppleAHCI" of it) of nodes of nodes of nodes of nodes "AppleACPIPCI" of nodes whose(name of it starts with "PCI") of nodes "AppleACPIPlatformExpert" of service plane of iokit registry</Relevance>
+		<Category>Disk Encryption</Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-04-30</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+
+delete __createfile
+delete run.sh
+
+createfile until _end_
+#!/bin/bash
+
+fdesetup sync
+
+_end_
+
+move __createfile run.sh
+
+wait bash run.sh</ActionScript>
+		</DefaultAction>
+	</Fixlet>
+</BES>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Invoke - FileVault 2 Configuration Probe - Mac</Title>
+		<Description><![CDATA[<P>This fixlet probes the current FileVault 2 Configuration to allow an analysis to report on FileVault status.</P>
+<P>This fixlet is always applicable on a Mac computer. Recommended usage is to have it apply at whatever frequency you would like FireVault information updated -- preferably waiting at least a couple of hours between applications.</P>
+<P>It might make sense to have two actions for this fixlet -- one that applies infrequently on all computers and one that applies frequently on computers that are less than a couple of days old.</P>]]></Description>
+		<Relevance><![CDATA[Mac of Operating System and version of operating system >= "10.7" as version]]></Relevance>
+		<Relevance><![CDATA[true /*There isn't an existing configuration file  (not exists (files whose (Name of it contains "RecoverySettings") of folder "FileVault" of folder "__Global" of data folder of client)) or The configuration file hasn't been updated since last reboot (exists (files whose (Name of it contains "RecoverySettings" and (now - modification time of it ) > uptime of operating system) of folder "FileVault" of folder "__Global" of data folder of client))*/]]></Relevance>
+		<Category>Disk Encryption</Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-04-30</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Enter your action script here
+
+parameter "storage"="{folder "FileVault" of folder "__Global" of data folder of client}"
+
+delete __createfile
+delete run.sh
+
+createfile until _end_
+#!/bin/bash
+
+fdesetup status > "{parameter "storage"}/Status.txt"
+fdesetup list > "{parameter "storage"}/Users.txt"
+echo "Personal Key Exists: $(fdesetup haspersonalrecoverykey)" > "{parameter "storage"}/RecoverySettings.txt"
+echo "Institutional Key Exists: $(fdesetup hasinstitutionalrecoverykey)" >> "{parameter "storage"}/RecoverySettings.txt"
+
+_end_
+
+move __createfile run.sh
+
+wait bash run.sh 2>&1 "{folder "FileVault" of folder "__Global" of data folder of client}/ConfigurationProbe.txt"]]></ActionScript>
+			<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+		</DefaultAction>
+	</Fixlet>
+</BES>

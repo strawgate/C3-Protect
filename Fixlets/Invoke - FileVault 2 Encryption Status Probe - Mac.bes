@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Invoke - FileVault 2 Encryption Status Probe - Mac</Title>
+		<Description><![CDATA[<P>This fixlet probes the FileVault provider for the current status of FileVault encryption on the system </P>
+<P>This fixlet is always applicable on a Mac computer. Recommended usage is to have it apply at whatever frequency you would like FireVault information updated -- preferably waiting at least a couple of hours between applications.</P>
+<P>It might make sense to have two actions for this fixlet -- one that applies infrequently on all computers and one that applies frequently on computers that are less than a couple of days old.</P>]]></Description>
+		<Relevance><![CDATA[mac of operating system and version of operating system >= "10.7" as version]]></Relevance>
+		<Relevance><![CDATA[true /*There isn't an existing configuration file  (not exists (files whose (Name of it contains "corestorage") of folder "FileVault" of folder "__Global" of data folder of client)) or The configuration file hasn't been updated since last reboot  (exists (files whose (Name of it contains "corestorage" and (now - modification time of it ) > uptime of operating system) of folder "FileVault" of folder "__Global" of data folder of client)) */]]></Relevance>
+		<Category>Disk Encryption</Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-04-30</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Enter your action script here
+
+delete __createfile
+delete run.sh
+
+createfile until _end_
+
+#!/bin/bash
+
+mkdir "/Library/Application Support/Bigfix/BES Agent/__BESData/__Global/FileVault"
+
+CORESTORAGESTATUS="/Library/Application Support/Bigfix/BES Agent/__BESData/__Global/FileVault/corestorage.txt"
+ENCRYPTSTATUS="/Library/Application Support/Bigfix/BES Agent/__BESData/__Global/FileVault/encrypt_status.txt"
+ENCRYPTDIRECTION="/Library/Application Support/Bigfix/BES Agent/__BESData/__Global/FileVault/encrypt_direction.txt"
+
+osvers_major=$(sw_vers -productVersion | awk -F. '{{print $1}')
+osvers_minor=$(sw_vers -productVersion | awk -F. '{{print $2}')
+
+# Checks to see if the OS on the Mac is 10.x.x. If it is not, the 
+# following message is displayed without quotes:
+#
+# "Unknown Version Of Mac OS X"
+
+if [[ ${{osvers_major} -ne 10 ]]; then
+  echo "Unknown Version Of Mac OS X"
+fi
+
+# Checks to see if the OS on the Mac is 10.7 or higher.
+# If it is not, the following message is displayed without quotes:
+#
+# "FileVault 2 Encryption Not Available For This Version Of Mac OS X"
+
+if [[ ${{osvers_major} -eq 10 ]] && [[ ${{osvers_minor} -lt 7 ]]; then
+  echo "FileVault 2 Encryption Not Available For This Version Of Mac OS X"
+fi
+
+if [[ ${{osvers_major} -eq 10 ]] && [[ ${{osvers_minor} -ge 7 ]]; then
+  diskutil cs info / > "$CORESTORAGESTATUS" 2>&1
+  
+    # If the Mac is running 10.7 or higher, but the boot volume
+    # is not a CoreStorage volume, the following message is 
+    # displayed without quotes:
+    #
+    # "FileVault 2 Encryption Not Enabled"
+    
+    if grep -iE '/ is not a CoreStorage disk' "$CORESTORAGESTATUS" 1>/dev/null; then
+       echo "FileVault 2 Encryption Not Enabled"
+       rm -f "$CORESTORAGESTATUS"
+       exit 0
+    fi
+    
+    # If the Mac is running 10.7 or higher and the boot volume
+    # is a CoreStorage volume, the script then checks to see if 
+    # the machine is encrypted, encrypting, or decrypting.
+    # 
+    # If encrypted, the following message is 
+    # displayed without quotes:
+    # "FileVault 2 Encryption Complete"
+    #
+    # If encrypting, the following message is 
+    # displayed without quotes:
+    # "FileVault 2 Encryption Proceeding."
+    # How much has been encrypted of of the total
+    # amount of space is also displayed. If the
+    # amount of encryption is for some reason not
+    # known, the following message is 
+    # displayed without quotes:
+    # "FileVault 2 Encryption Status Unknown. Please check."
+    #
+    # If decrypting, the following message is 
+    # displayed without quotes:
+    # "FileVault 2 Decryption Proceeding"
+    # How much has been decrypted of of the total
+    # amount of space is also displayed
+    #
+    # If fully decrypted, the following message is 
+    # displayed without quotes:
+    # "FileVault 2 Decryption Complete"
+    #
+
+    # Get the Logical Volume UUID (aka "UUID" in diskutil cs info)
+    # for the boot drive's CoreStorage volume.
+    
+    LV_UUID=`diskutil cs info / | awk '/UUID/ {{print $2;exit}'`
+    
+    # Get the Logical Volume Family UUID (aka "Parent LVF UUID" in diskutil cs info)
+    # for the boot drive's CoreStorage volume.
+    
+    LV_FAMILY_UUID=`diskutil cs info / | awk '/Parent LVF UUID/ {{print $4;exit}'`
+    
+    CONTEXT=`diskutil cs list $LV_FAMILY_UUID | awk '/Encryption Context/ {{print $3;exit}'`
+    
+    if [[ ${{osvers_major} -eq 10 ]] && [[ ${{osvers_minor} -eq 7 || ${{osvers_minor} -eq 8 ]]; then
+        CONVERTED=`diskutil cs list $LV_UUID | awk '/Size \(Converted\)/ {{print $5,$6;exit}'`
+    fi
+    
+    if [[ ${{osvers_major} -eq 10 ]] && [[ ${{osvers_minor} -ge 9 ]]; then
+        CONVERTED=`diskutil cs list $LV_UUID | awk '/Conversion Progress/ {{print $3;exit}'`    
+    fi
+    
+    ENCRYPTIONEXTENTS=`diskutil cs list $LV_FAMILY_UUID | awk '/Has Encrypted Extents/ {{print $4;exit}'`
+    ENCRYPTION=`diskutil cs list $LV_FAMILY_UUID | awk '/Encryption Type/ {{print $3;exit}'`
+    SIZE=`diskutil cs list $LV_UUID | awk '/Size \(Total\)/ {{print $5,$6;exit}'`
+
+    # This section does 10.7-specific checking of the Mac's
+    # FileVault 2 status
+
+   if [[ ${{osvers_major} -eq 10 ]] && [[ ${{osvers_minor} -eq 7 ]]; then
+      if [ "$CONTEXT" = "Present" ]; then
+        if [ "$ENCRYPTION" = "AES-XTS" ]; then
+          diskutil cs list $LV_FAMILY_UUID | awk '/Conversion Status/ {{print $3;exit}' > "$ENCRYPTSTATUS"
+		    if grep -iE 'Complete' "$ENCRYPTSTATUS" 1>/dev/null; then 
+		      echo "FileVault 2 Encryption Complete"
+            else
+		      if  grep -iE 'Converting' "$ENCRYPTSTATUS" 1>/dev/null; then
+		        diskutil cs list $LV_FAMILY_UUID | awk '/Conversion Direction/ {{print $3;exit}' > "$ENCRYPTDIRECTION"
+		          if grep -iE 'Forward' "$ENCRYPTDIRECTION" 1>/dev/null; then
+		            echo "FileVault 2 Encryption Proceeding. $CONVERTED of $SIZE Encrypted"
+                  else
+		            echo "FileVault 2 Encryption Status Unknown. Please check."
+	              fi
+               fi
+             fi
+        else
+            if [ "$ENCRYPTION" = "None" ]; then
+              diskutil cs list $LV_FAMILY_UUID | awk '/Conversion Direction/ {{print $3;exit}' > "$ENCRYPTDIRECTION"
+                if grep -iE 'Backward' "$ENCRYPTDIRECTION" 1>/dev/null; then
+                  echo "FileVault 2 Decryption Proceeding. $CONVERTED of $SIZE Decrypted"
+                elif grep -iE '-none-' "$ENCRYPTDIRECTION" 1>/dev/null; then
+                  echo "FileVault 2 Decryption Completed"
+                fi
+            fi 
+        fi
+      fi  
+    fi
+   fi
+
+
+
+    # This section does checking of the Mac's FileVault 2 status
+    # on 10.8.x through 10.10.x
+    
+    if [[ ${{osvers_major} -eq 10 ]] && [[ ${{osvers_minor} -ge 8 ]] && [[ ${{osvers_minor} -lt 11 ]]; then
+      if [[ "$ENCRYPTIONEXTENTS" = "No" ]]; then
+		      echo "FileVault 2 Encryption Not Enabled"
+      elif [[ "$ENCRYPTIONEXTENTS" = "Yes" ]]; then
+	      diskutil cs list $LV_FAMILY_UUID | awk '/Fully Secure/ {{print $3;exit}' > "$ENCRYPTSTATUS"
+		    if grep -iE 'Yes' "$ENCRYPTSTATUS" 1>/dev/null; then 
+		      echo "FileVault 2 Encryption Complete"
+            else
+		      if  grep -iE 'No' "$ENCRYPTSTATUS" 1>/dev/null; then
+		        diskutil cs list $LV_FAMILY_UUID | awk '/Conversion Direction/ {{print $3;exit}' > "$ENCRYPTDIRECTION"
+		          if grep -iE 'forward' "$ENCRYPTDIRECTION" 1>/dev/null; then
+		            echo "FileVault 2 Encryption Proceeding. $CONVERTED of $SIZE Encrypted"
+                  else
+		            if grep -iE 'backward' "$ENCRYPTDIRECTION" 1>/dev/null; then
+                  	    echo "FileVault 2 Decryption Proceeding. $CONVERTED of $SIZE Decrypted"
+		            elif grep -iE 'none' "$ENCRYPTDIRECTION" 1>/dev/null; then
+                  	    echo "FileVault 2 Decryption Completed"
+	                fi
+                  fi
+		      fi
+		    fi  
+      fi
+    fi
+
+    # This section does checking of the Mac's FileVault 2 status
+    # on 10.11.x and higher
+    
+    if [[ ${{osvers_major} -eq 10 ]] && [[ ${{osvers_minor} -ge 11 ]]; then
+      if [[ "$ENCRYPTION" = "None" ]] && [[ $(diskutil cs list "$LV_UUID" | awk '/Conversion Progress/ {{print $3;exit}') == "" ]]; then
+	      echo "FileVault 2 Encryption Not Enabled"
+      elif [[ "$ENCRYPTION" = "None" ]] && [[ $(diskutil cs list "$LV_UUID" | awk '/Conversion Progress/ {{print $3;exit}') == "Complete" ]]; then
+	      echo "FileVault 2 Decryption Completed"
+      elif [[ "$ENCRYPTION" = "AES-XTS" ]]; then
+	      diskutil cs list $LV_FAMILY_UUID | awk '/High Level Queries/ {{print $4,$5;exit}' > "$ENCRYPTSTATUS"
+		    if grep -iE 'Fully Secure' "$ENCRYPTSTATUS" 1>/dev/null; then 
+		      echo "FileVault 2 Encryption Complete"
+            else
+		      if grep -iE 'Not Fully' "$ENCRYPTSTATUS" 1>/dev/null; then
+		        if [[ $(diskutil cs list "$LV_FAMILY_UUID" | awk '/Conversion Status/ {{print $4;exit}') != "" ]]; then 
+		          diskutil cs list $LV_FAMILY_UUID | awk '/Conversion Status/ {{print $4;exit}' > "$ENCRYPTDIRECTION"
+		            if grep -iE 'forward' "$ENCRYPTDIRECTION" 1>/dev/null; then
+		              echo "FileVault 2 Encryption Proceeding. $CONVERTED of $SIZE Encrypted"
+		            elif grep -iE 'backward' "$ENCRYPTDIRECTION" 1>/dev/null; then
+		              echo "FileVault 2 Decryption Proceeding. $CONVERTED of $SIZE Decrypted"
+		            fi
+		        elif [[ $(diskutil cs list "$LV_FAMILY_UUID" | awk '/Conversion Status/ {{print $4;exit}') == "" ]]; then
+		          if [[ $(diskutil cs list "$LV_FAMILY_UUID" | awk '/Conversion Status/ {{print $3;exit}') == "Complete" ]]; then
+		              echo "FileVault 2 Decryption Completed"
+		          fi
+		        fi
+		      fi
+      fi  
+    fi
+fi
+
+# Remove the temp files created during the script
+
+#if [ -f "$CORESTORAGESTATUS" ]; then
+#   rm -f "$CORESTORAGESTATUS"
+#fi
+
+#if [ -f "$ENCRYPTSTATUS" ]; then
+#   rm -f "$ENCRYPTSTATUS"
+#fi
+
+#if [ -f "$ENCRYPTDIRECTION" ]; then
+#   rm -f "$ENCRYPTDIRECTION"
+#fi
+
+exit 0
+
+_end_
+
+move __createfile run.sh
+
+
+
+wait bash run.sh 2>&1 "/Library/Application Support/Bigfix/BES Agent/__BESData/__Global/FileVault/StatusProbe.txt"]]></ActionScript>
+			<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+		</DefaultAction>
+	</Fixlet>
+</BES>

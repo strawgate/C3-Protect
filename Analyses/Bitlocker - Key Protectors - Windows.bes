@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Analysis>
+		<Title>Bitlocker - Key Protectors - Windows</Title>
+		<Description><![CDATA[<P>This analysis provides the key protectors protecting each bitlocker encrypted volume.</P>
+<P>This analysis relies on the information provided by the <STRONG>Fixlet: Invoke - Bitlocker Configuration Probe - Windows</STRONG></P>]]></Description>
+		<Relevance>windows of operating system</Relevance>
+		<Relevance>exists files whose (name of it contains "Status") of folder "Bitlocker" of folder "__Global" of data folder of client</Relevance>
+		<Source>Internal</Source>
+		<SourceReleaseDate>2016-04-30</SourceReleaseDate>
+		<Domain>BESC</Domain>
+		<Property Name="Bitlocker - TPM Protected - Windows" ID="1">(preceding text of first "-" of name of it , concatenation "" of substrings separated by "%00" of (lines of it as string) contains "TPM") of files whose (Name of it contains "Status") of folder "BitLocker" of folder "__Global" of data folder of client</Property>
+		<Property Name="Bitlocker - Recovery Password Enabled - Windows" ID="2">(preceding text of first "-" of name of it , concatenation "" of substrings separated by "%00" of (lines of it as string) contains "Numerical Password") of files whose (Name of it contains "Status") of folder "BitLocker" of folder "__Global" of data folder of client</Property>
+	</Analysis>
+</BES>

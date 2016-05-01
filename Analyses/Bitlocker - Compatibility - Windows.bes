@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Analysis>
+		<Title>Bitlocker - Compatibility - Windows</Title>
+		<Description>Provides information on whether or not the OS is compatible with Bitlocker and whether the WMI node required for Bitlocker exists on the system.</Description>
+		<Relevance>true</Relevance>
+		<Source>Internal</Source>
+		<SourceReleaseDate>2016-04-30</SourceReleaseDate>
+		<Domain>BESC</Domain>
+		<Property Name="Bitlocker - OS Compatible - Windows" ID="1"><![CDATA[(windows of operating system) AND (version of operating system >= "6.0") AND (( exists product info string whose(it ends with "Enterprise" OR it starts with "Enterprise" OR it ends with "Ultimate" OR it ends with "Server Datacenter") of operating system ) OR ( (version of operating system >= "6.2") AND (exists product info string whose(it ends with "Business") of operating system) ))]]></Property>
+		<Property Name="Bitlocker - Available - Windows" ID="2">if (exists WMI "root\CIMv2\Security\MicrosoftVolumeEncryption") then true else false</Property>
+	</Analysis>
+</BES>

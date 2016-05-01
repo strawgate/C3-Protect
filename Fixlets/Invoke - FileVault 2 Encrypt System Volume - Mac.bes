@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Invoke - FileVault 2 Encrypt System Volume - Mac</Title>
+		<Description><![CDATA[<P>This fixlet will enable FileVault on the system volume.</P>
+<P>For machines running Mountain Lion and earlier the prompt to enable FileVault will happen at the next user's logout.</P>
+<P>For machines running Yosemite and newer the prompt to enable FileVault will happen at the next login OR logout.</P>
+<P><STRONG><FONT color=#ff0000>Note:</FONT></STRONG> You cannot encrypt a FileVault drive that is currently decrypting.</P>
+<P>The Disk Encrypted relevance is thanks to JGStew: <A href="https://bigfix.me/relevance/details/3003654">https://bigfix.me/relevance/details/3003654</A></P>]]></Description>
+		<Relevance><![CDATA[mac of operating system and version of operating system >= "10.7" as version]]></Relevance>
+		<Relevance>/* Disk does not appear to be encrypted, thanks JGStew! */ not exists (booleans of values of entries whose("CoreStorage Encrypted" = key of it) of dictionaries whose( exists entries whose("BSD Name" = key of it AND "disk1" = string of value of it) of it ) of nodes of nodes of nodes "CoreStoragePhysical" of nodes of nodes "IOGUIDPartitionScheme" of nodes of nodes "IOBlockStorageDriver" of nodes "IOAHCIBlockStorageDevice" of nodes "AppleAHCIDiskDriver" of nodes "IOAHCIDevice" of (it; nodes of nodes "AppleAHCI" of it) of nodes of nodes of nodes of nodes "AppleACPIPCI" of nodes whose(name of it starts with "PCI") of nodes "AppleACPIPlatformExpert" of service plane of iokit registry)</Relevance>
+		<Category>FileVault</Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-04-30</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to force the next user to enable FileVault 2</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Enter your action script here
+
+delete __createfile
+delete run.sh
+
+createfile until _end_
+
+#!/bin/bash
+
+mv "{pathname of data folder of client}/__Global/Filevault/Recovery.plist" "{pathname of data folder of client}/__Global/Filevault/Recovery-$(date +%F).plist" 2>/dev/null
+
+fdesetup enable -defer "{pathname of data folder of client}/__Global/Filevault/Recovery.plist" {if (version of operating system >= "10.10" as version) then "-forceatlogin 10" else ""}
+
+_end_
+
+move __createfile run.sh
+
+wait bash run.sh]]></ActionScript>
+			<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+		</DefaultAction>
+		<Action ID="Action2">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to specify which user you would like to enable FileVault 2</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Enter your action script here
+action parameter query "User Name" with description "Provide the user you would like to enable FileVault Encryption for"
+
+
+delete __createfile
+delete run.sh
+
+
+createfile until _end_
+
+#!/bin/bash
+
+mv "{pathname of data folder of client}/__Global/Filevault/Recovery.plist" "{pathname of data folder of client}/__Global/Filevault/Recovery-$(date +%F).plist" 2>/dev/null
+
+fdesetup enable -user "{parameter "User Name"}" -defer "/Library/Application Support/Bigfix/BES Agent/__BESData/__Global/FilevaultRecovery.plist" {if (version of operating system >= "10.10" as version) then "-forceatlogin 10" else ""}
+
+_end_
+
+move __createfile run.sh
+
+wait bash run.sh]]></ActionScript>
+		</Action>
+	</Fixlet>
+</BES>
