@@ -4,7 +4,8 @@
 	<Fixlet>
 		<Title>Warning - Bitlocker Recovery Keys stored on Unencrypted Drive - Windows</Title>
 		<Description><![CDATA[<P>This fixlet is relevant on machines where BigFix is storing current or previous BitLocker Recovery keys on an unencrypted drive.</P>
-<P>This occurs can occur if the BigFix Client is stored on a drive other than the system drive but only the system drive is encrypted.</P>]]></Description>
+<P>This occurs can occur if the BigFix Client is stored on a drive other than the system drive but only the system drive is encrypted.</P>
+<P>Information on using this content is available here: <A href="https://github.com/strawgate/C3-Protect/wiki/Bitlocker">https://github.com/strawgate/C3-Protect/wiki/Bitlocker</A></P>]]></Description>
 		<Relevance>windows of operating system</Relevance>
 		<Relevance><![CDATA[/* True if the drive the BES Client is on is NOT encrypted */not (boolean value of selects ("ProtectionStatus from win32_EncryptableVolume where DriveLetter='" & name of drive of data folder of client & "'")of WMI "root\CIMv2\Security\MicrosoftVolumeEncryption")]]></Relevance>
 		<Relevance>exists (files whose (Name of it contains "RecoveryPwd") of folder "BitLocker" of folder "__Global" of data folder of client)</Relevance>

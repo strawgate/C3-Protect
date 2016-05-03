@@ -4,7 +4,8 @@
 	<Analysis>
 		<Title>Bitlocker - Key Protectors - Windows</Title>
 		<Description><![CDATA[<P>This analysis provides the key protectors protecting each bitlocker encrypted volume.</P>
-<P>This analysis relies on the information provided by the <STRONG>Fixlet: Invoke - Bitlocker Configuration Probe - Windows</STRONG></P>]]></Description>
+<P>This analysis relies on the information provided by the <STRONG>Fixlet: Invoke - Bitlocker Configuration Probe - Windows</STRONG></P>
+<P>Information on using this content is available here: <A href="https://github.com/strawgate/C3-Protect/wiki/Bitlocker">https://github.com/strawgate/C3-Protect/wiki/Bitlocker</A></P>]]></Description>
 		<Relevance>windows of operating system</Relevance>
 		<Relevance>exists files whose (name of it contains "Status") of folder "Bitlocker" of folder "__Global" of data folder of client</Relevance>
 		<Source>Internal</Source>

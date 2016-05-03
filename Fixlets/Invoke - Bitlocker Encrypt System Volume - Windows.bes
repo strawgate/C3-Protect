@@ -4,7 +4,8 @@
 	<Fixlet>
 		<Title>Invoke - Bitlocker Encrypt System Volume - Windows</Title>
 		<Description><![CDATA[<P>This fixlet will encrypt the system drive of a device.</P>
-<P>If you choose to encrypt using the TPM and a random recovery password you should enable <STRONG>Analysis: Bitlocker - Recovery Password - Windows</STRONG></P>]]></Description>
+<P>If you choose to encrypt using the TPM and a random recovery password you should enable <STRONG>Analysis: Bitlocker - Recovery Password - Windows</STRONG></P>
+<P>Information on using this content is available here: <A href="https://github.com/strawgate/C3-Protect/wiki/Bitlocker">https://github.com/strawgate/C3-Protect/wiki/Bitlocker</A></P>]]></Description>
 		<Relevance>windows of operating system</Relevance>
 		<Relevance><![CDATA[(windows of operating system) AND (version of operating system >= "6.0") AND (( exists product info string whose(it ends with "Enterprise" OR it starts with "Enterprise" OR it ends with "Ultimate" OR it ends with "Server Datacenter") of operating system ) OR ( (version of operating system >= "6.2") AND (exists product info string whose(it ends with "Business") of operating system) ))]]></Relevance>
 		<Relevance>selects "* from Win32_Tpm" of wmis "root\CIMv2\Security\MicrosoftTpm"</Relevance>

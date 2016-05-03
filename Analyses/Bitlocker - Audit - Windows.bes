@@ -7,7 +7,8 @@
 <P>This analysis does not provide the drive letter alongside each property which means that the first row for each property (where applicable) should correspond to the same volume.</P>
 <P>This analysis is only applicable on computers that are Bitlocker capable.</P>
 <P>Credit, kudos, and compliments to jgstew for providing the basis for this: <A href="https://www.bigfix.me/analysis/details/2994754">https://www.bigfix.me/analysis/details/2994754</A></P>
-<P>Credit, kudos, and compliments to geeksikh for providing the encryption started and finished properties: <A href="https://bigfix.me/analysis/details/96">https://bigfix.me/analysis/details/96</A></P>]]></Description>
+<P>Credit, kudos, and compliments to geeksikh for providing the encryption started and finished properties: <A href="https://bigfix.me/analysis/details/96">https://bigfix.me/analysis/details/96</A></P>
+<P>Information on using this content is available here: <A href="https://github.com/strawgate/C3-Protect/wiki/Bitlocker">https://github.com/strawgate/C3-Protect/wiki/Bitlocker</A></P>]]></Description>
 		<Relevance>windows of operating system</Relevance>
 		<Relevance><![CDATA[(windows of operating system) AND (version of operating system >= "6.0") AND (( exists product info string whose(it ends with "Enterprise" OR it starts with "Enterprise" OR it ends with "Ultimate" OR it ends with "Server Datacenter") of operating system ) OR ( (version of operating system >= "6.2") AND (exists product info string whose(it ends with "Business") of operating system) ))]]></Relevance>
 		<Source>Internal</Source>

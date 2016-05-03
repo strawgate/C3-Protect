@@ -8,7 +8,8 @@
 <P>Example</P>
 <UL>
 <LI>C-Status.txt 
-<LI>D-Status.txt</LI></UL>]]></Description>
+<LI>D-Status.txt</LI></UL>
+<P>Information on using this content is available here: <A href="https://github.com/strawgate/C3-Protect/wiki/Bitlocker">https://github.com/strawgate/C3-Protect/wiki/Bitlocker</A></P>]]></Description>
 		<Relevance>windows of operating system</Relevance>
 		<Relevance><![CDATA[if(exists WMI "root\CIMv2\Security\MicrosoftVolumeEncryption") then (number of select objects ("* from win32_EncryptableVolume")of WMI "root\CIMv2\Security\MicrosoftVolumeEncryption" >= 1) else (false)]]></Relevance>
 		<Relevance><![CDATA[(windows of operating system) AND (version of operating system >= "6.0") AND (( exists product info string whose(it ends with "Enterprise" OR it starts with "Enterprise" OR it ends with "Ultimate" OR it ends with "Server Datacenter") of operating system ) OR ( (version of operating system >= "6.2") AND (exists product info string whose(it ends with "Business") of operating system) ))]]></Relevance>
