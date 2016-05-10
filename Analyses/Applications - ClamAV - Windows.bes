@@ -3,7 +3,8 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
 	<Analysis>
 		<Title>Applications - ClamAV - Windows</Title>
-		<Description>Provides information on the currently installed ClamAV engine.</Description>
+		<Description><![CDATA[Provides information on the currently installed ClamAV engine. 
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
 		<Relevance>windows of operating system</Relevance>
 		<Relevance>(exists (keys of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall" of native registry) whose (value "DisplayName" of it as string starts with "ClamAV")) | false</Relevance>
 		<Source>Internal</Source>

@@ -4,7 +4,8 @@
 	<Fixlet>
 		<Title>Warning - Applocker maximum event log size may be too small</Title>
 		<Description><![CDATA[<P>The Applocker logs on the system are at their default values or set to a value less than 20 Megabytes</P>
-<P>Consider increasing the applocker log sizes to store more log data regarding Applocker</P>]]></Description>
+<P>Consider increasing the applocker log sizes to store more log data regarding Applocker</P>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
 		<Relevance>windows of operating system</Relevance>
 		<Relevance>(product info string of operating system = "Enterprise" or product info string of operating system = "Server")</Relevance>
 		<Relevance>exists key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2" of native registry</Relevance>

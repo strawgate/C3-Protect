@@ -3,7 +3,8 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
 	<Fixlet>
 		<Title>Config - Applocker Log - MSI/Script Max Size - 20mb - Windows</Title>
-		<Description>Sets the maximum log size for the applocker MSI and Script log to 20mb </Description>
+		<Description><![CDATA[Sets the maximum log size for the applocker MSI and Script log to 20mb 
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
 		<Relevance>windows of operating system</Relevance>
 		<Relevance>(product info string of operating system = "Enterprise" or product info string of operating system = "Server")</Relevance>
 		<Relevance>(if (not exists value "MaxSize" of it) then (true) else (value "MaxSize" of it as integer != 20971520)) of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Applocker/MSI and Script" of native registry</Relevance>

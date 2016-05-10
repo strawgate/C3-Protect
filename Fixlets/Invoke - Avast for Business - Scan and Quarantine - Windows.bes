@@ -4,7 +4,8 @@
 	<Fixlet>
 		<Title>Invoke - Avast for Business - Scan and Quarantine - Windows</Title>
 		<Description><![CDATA[<P>This fixlet invokes an Avast AV scan on the endpoint using the installed Avast Anti-virus client.</P>
-<P>The scan is invoked using ashCmd.exe, the Avast command line virus scanner.</P>]]></Description>
+<P>The scan is invoked using ashCmd.exe, the Avast command line virus scanner.</P>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
 		<Relevance>windows of operating system</Relevance>
 		<Relevance>not in proxy agent context</Relevance>
 		<Relevance>(exists (keys of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registry) whose (value "DisplayName" of it as string starts with "Avast Business Security"))</Relevance>

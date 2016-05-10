@@ -6,8 +6,9 @@
 		<Description><![CDATA[<P>Provides information on what suite of McAfee Antivirus is installed.</P>
 <P>Currently detects:</P>
 <UL>
-<LI>McAfee VirusScan Enterprise</LI>
-<LI>McAfee Endpoint Security</LI></UL>]]></Description>
+<LI>McAfee VirusScan Enterprise 
+<LI>McAfee Endpoint Security</LI></UL>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
 		<Relevance>windows of operating system</Relevance>
 		<Relevance>not in proxy agent context</Relevance>
 		<Source>Internal</Source>

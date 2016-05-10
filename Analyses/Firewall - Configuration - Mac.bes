@@ -4,7 +4,8 @@
 	<Analysis>
 		<Title>Firewall - Configuration - Mac</Title>
 		<Description><![CDATA[<P>Provides information regarding the configuration of the Application Firewall in Mac OS X.</P>
-<P>This majority of this&nbsp;analysis is sourced from rustymyers here: <A href="https://bigfix.me/analysis/details/2994738">https://bigfix.me/analysis/details/2994738</A></P>]]></Description>
+<P>This majority of this&nbsp;analysis is sourced from rustymyers here: <A href="https://bigfix.me/analysis/details/2994738">https://bigfix.me/analysis/details/2994738</A></P>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
 		<Relevance><![CDATA[mac of operating system and version of operating system >= "10.6"]]></Relevance>
 		<Relevance>exists file "/Library/Preferences/com.apple.alf.plist"</Relevance>
 		<Source>Internal</Source>

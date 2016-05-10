@@ -3,7 +3,8 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
 	<Analysis>
 		<Title>Applications - Avast for Business (Cloud) - License - Win\Mac</Title>
-		<Description><![CDATA[<P>Provides information on the current licensing state for the Avast for Business (Cloud) client on the device.</P>]]></Description>
+		<Description><![CDATA[<P>Provides information on the current licensing state for the Avast for Business (Cloud) client on the device.</P>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
 		<Relevance><![CDATA[windows of operating system and version of operating system >= "5.1" /* Supports >WinXP */ or mac of operating system and version of operating system >= "10.6" /* Supports > Snow Leopard */]]></Relevance>
 		<Relevance>not in proxy agent context</Relevance>
 		<Relevance>if (mac of operating system) then (exists "/Applications/Avast.app" and exists folder "/Library/Application Support/Avast/config/bcc") else (exists (keys of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registry) whose (value "DisplayName" of it as string starts with "Avast Business Security")) /* Is Avast Installed? */</Relevance>
