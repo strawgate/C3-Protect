@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Config - Applocker Application Identity Service - Automatic Start - Windows</Title>
+		<Description>Sets the Applocker Application Identity Service to automatically start </Description>
+		<Relevance>windows of operating system </Relevance>
+		<Relevance>(product info string of operating system = "Enterprise" or product info string of operating system = "Server")</Relevance>
+		<Relevance>not in proxy agent context</Relevance>
+		<Relevance>state of service "AppIDSvc" != "Running"</Relevance>
+		<Category>Application Whitelisting</Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-05-10</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+
+wait sc config AppIDSvc start=auto
+wait net start AppIDSvc</ActionScript>
+		</DefaultAction>
+	</Fixlet>
+</BES>
