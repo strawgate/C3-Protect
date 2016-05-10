@@ -9,7 +9,7 @@
 		<Relevance>windows of operating system </Relevance>
 		<Relevance>(product info string of operating system = "Enterprise" or product info string of operating system = "Server")</Relevance>
 		<Relevance>not in proxy agent context</Relevance>
-		<Relevance>state of service "Appinfo" != "Running"</Relevance>
+		<Relevance>state of service "AppIDSvc" != "Running"</Relevance>
 		<Category>Application Whitelisting</Category>
 		<Source>Internal</Source>
 		<SourceID></SourceID>
