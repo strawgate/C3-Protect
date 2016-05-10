@@ -37,7 +37,7 @@ continue if {not boolean value of selects ("IsVolumeInitializedForProtection fro
 createfile until _end_
 
 #Should work on all devices
-manage-bde â??on {name of drive of system folder} -recoverypassword
+manage-bde -on {name of drive of system folder} -recoverypassword
 
 # Only works on Windows81 and newer
 # import-module Bitlocker
