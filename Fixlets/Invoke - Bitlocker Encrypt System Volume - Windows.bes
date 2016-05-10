@@ -7,10 +7,10 @@
 <P>If you choose to encrypt using the TPM and a random recovery password you should enable <STRONG>Analysis: Bitlocker - Recovery Password - Windows</STRONG></P>
 <P>Information on using this content is available here: <A href="https://github.com/strawgate/C3-Protect/wiki/Bitlocker">https://github.com/strawgate/C3-Protect/wiki/Bitlocker</A></P>]]></Description>
 		<Relevance>windows of operating system</Relevance>
-		<Relevance><![CDATA[(windows of operating system) AND (version of operating system >= "6.0") AND (( exists product info string whose(it ends with "Enterprise" OR it starts with "Enterprise" OR it ends with "Ultimate" OR it ends with "Server Datacenter") of operating system ) OR ( (version of operating system >= "6.2") AND (exists product info string whose(it ends with "Business") of operating system) ))]]></Relevance>
-		<Relevance>selects "* from Win32_Tpm" of wmis "root\CIMv2\Security\MicrosoftTpm"</Relevance>
-		<Relevance><![CDATA[if(exists WMI "root\CIMv2\Security\MicrosoftVolumeEncryption") then (number of select objects ("* from win32_EncryptableVolume")of WMI "root\CIMv2\Security\MicrosoftVolumeEncryption" >= 1) else (false)]]></Relevance>
-		<Relevance><![CDATA[not boolean value of selects ("IsVolumeInitializedForProtection from win32_EncryptableVolume where DriveLetter='" & name of drive of system folder & "'")of WMI "root\CIMv2\Security\MicrosoftVolumeEncryption"]]></Relevance>
+		<Relevance><![CDATA[(windows of operating system) AND (version of operating system >= "6.0") AND (( exists product info string whose(it ends with "Enterprise" OR it starts with "Enterprise" OR it ends with "Ultimate" OR it ends with "Server Datacenter") of operating system ) OR ( (version of operating system >= "6.2") AND (exists product info string whose(it ends with "Business") of operating system) )) /* Correct version of Windows */]]></Relevance>
+		<Relevance>(boolean value of selects "IsActivated_InitialValue from Win32_Tpm" of wmis "root\CIMv2\Security\MicrosoftTpm") and (boolean value of selects "IsEnabled_InitialValue from Win32_Tpm" of wmis "root\CIMv2\Security\MicrosoftTpm") and (boolean value of selects "IsOwned_InitialValue from Win32_Tpm" of wmis "root\CIMv2\Security\MicrosoftTpm") /* TPM Active, Owned, and Enabled */</Relevance>
+		<Relevance><![CDATA[if(exists WMI "root\CIMv2\Security\MicrosoftVolumeEncryption") then (number of select objects ("* from win32_EncryptableVolume")of WMI "root\CIMv2\Security\MicrosoftVolumeEncryption" >= 1) else (false) /* There is a drive to encrypt... This should probable be made more specific*/]]></Relevance>
+		<Relevance><![CDATA[not boolean value of selects ("IsVolumeInitializedForProtection from win32_EncryptableVolume where DriveLetter='" & name of drive of system folder & "'")of WMI "root\CIMv2\Security\MicrosoftVolumeEncryption" /* The System Drive is not initialized for encryption */]]></Relevance>
 		<Category>Disk Encryption</Category>
 		<Source>Internal</Source>
 		<SourceID></SourceID>
@@ -25,22 +25,51 @@
 				<Link>here</Link>
 				<PostLink> to encrypt the system drive using the TPM and a random recovery password.</PostLink>
 			</Description>
-			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action uses wow64 redirection {not x64 of operating system}
+
+delete __createfile
+delete enable.bat
+delete terminate.bat
+delete addrecoverykey.bat
 
 createfile until _end_
-
-#Should work on all devices
-manage-bde -on {name of drive of system folder} -recoverypassword
-
-# Only works on Windows81 and newer
-# import-module Bitlocker
-# enable-bitlocker {name of drive of system folder} -TpmProtector
-
+manage-bde -on {name of drive of system folder} > "{client folder of current site}\Enable.log"
 _end_
 
-move __createfile powershell.ps1
+move __createfile enable.bat
 
-waithidden { pathname of file ((it as string) of value "Path" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell" of native registry) } -ExecutionPolicy Bypass -File powershell.ps1</ActionScript>
+createfile until _end_
+manage-bde -off {name of drive of system folder} > "{client folder of current site}\Terminate.log
+manage-bde -protectors {name of drive of system folder} -delete -type -recoverypassword >> "{client folder of current site}\Terminate.log
+_end_
+
+move __createfile terminate.bat
+
+createfile until _end_
+manage-bde -protectors -add {name of drive of system folder} -recoverypassword > "{client folder of current site}\AddRecoveryKey.log
+_end_
+
+move __createfile addrecoverykey.bat
+
+wait enable.bat
+
+// If the action dies here there is a bootable CD or DVD in the drive
+if { exists lines containing "ERROR: BitLocker detected a bootable CD or DVD on the computer." of file "Enable.log" of client folder of current site} 
+	// BitLocker is in inconsistent state -- kill encrytpion
+	wait terminate.bat
+	continue if false
+endif
+
+// If the action dies here there was another error
+if { exists lines containing "ERROR" of file "Enable.log"} 
+	// BitLocker is in inconsistent state -- kill encrytpion
+	wait terminate.bat
+	continue if false
+endif
+
+wait addrecoverykey.bat
+
+action requires restart]]></ActionScript>
 		</Action>
 		<Action ID="Action2">
 			<Description>
@@ -48,22 +77,42 @@ waithidden { pathname of file ((it as string) of value "Path" of key "HKEY_LOCAL
 				<Link>here</Link>
 				<PostLink> to encrypt the system drive using just the TPM.</PostLink>
 			</Description>
-			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action uses wow64 redirection {not x64 of operating system}
+
+delete __createfile
+delete enable.bat
+delete terminate.bat
 
 createfile until _end_
-
-#Should work on all devices
-manage-bde â??on {name of drive of system folder}
-
-# Only works on Windows81 and newer
-# import-module Bitlocker
-# enable-bitlocker {name of drive of system folder} -TpmProtector
-
+manage-bde -on {name of drive of system folder} > "{client folder of current site}\Enable.log"
 _end_
 
-move __createfile powershell.ps1
+move __createfile enable.bat
 
-waithidden { pathname of file ((it as string) of value "Path" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell" of native registry) } -ExecutionPolicy Bypass -File powershell.ps1</ActionScript>
+createfile until _end_
+manage-bde -off {name of drive of system folder} > "{client folder of current site}\Terminate.log
+manage-bde -protectors {name of drive of system folder} -delete -type -recoverypassword >> "{client folder of current site}\Terminate.log
+_end_
+
+move __createfile terminate.bat
+
+wait enable.bat
+
+// If the action dies here there is a bootable CD or DVD in the drive
+if { exists lines containing "ERROR: BitLocker detected a bootable CD or DVD on the computer." of file "Enable.log" of client folder of current site} 
+	// BitLocker is in inconsistent state -- kill encrytpion
+	wait terminate.bat
+	continue if false
+endif
+
+// If the action dies here there was another error
+if { exists lines containing "ERROR" of file "Enable.log"} 
+	// BitLocker is in inconsistent state -- kill encrytpion
+	wait terminate.bat
+	continue if false
+endif
+
+action requires restart]]></ActionScript>
 		</Action>
 	</Fixlet>
 </BES>

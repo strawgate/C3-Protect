@@ -33,21 +33,51 @@ continue if {exists selects ("* from win32_EncryptableVolume where DriveLetter='
 
 // If the action fails at this line then the volume is already initialized for protection
 continue if {not boolean value of selects ("IsVolumeInitializedForProtection from win32_EncryptableVolume where DriveLetter='" & parameter "Volume" of action & "'")of WMI "root\CIMv2\Security\MicrosoftVolumeEncryption"}
+action uses wow64 redirection {not x64 of operating system}
+
+delete __createfile
+delete enable.bat
+delete terminate.bat
+delete addrecoverykey.bat
 
 createfile until _end_
-
-#Should work on all devices
-manage-bde -on {name of drive of system folder} -recoverypassword
-
-# Only works on Windows81 and newer
-# import-module Bitlocker
-# enable-bitlocker {name of drive of system folder} -TpmProtector
-
+manage-bde -on {parameter "Volume" of action} > "{client folder of current site}\Enable.log"
 _end_
 
-move __createfile powershell.ps1
+move __createfile enable.bat
 
-waithidden { pathname of file ((it as string) of value "Path" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell" of native registry) } -ExecutionPolicy Bypass -File powershell.ps1]]></ActionScript>
+createfile until _end_
+manage-bde -off {parameter "Volume" of action} > "{client folder of current site}\Terminate.log
+manage-bde -protectors {parameter "Volume" of action} -delete -type -recoverypassword >> "{client folder of current site}\Terminate.log
+_end_
+
+move __createfile terminate.bat
+
+createfile until _end_
+manage-bde -protectors -add {parameter "Volume" of action} -recoverypassword > "{client folder of current site}\AddRecoveryKey.log
+_end_
+
+move __createfile addrecoverykey.bat
+
+wait enable.bat
+
+// If the action dies here there is a bootable CD or DVD in the drive
+if { exists lines containing "ERROR: BitLocker detected a bootable CD or DVD on the computer." of file "Enable.log" of client folder of current site} 
+	// BitLocker is in inconsistent state -- kill encrytpion
+	wait terminate.bat
+	continue if false
+endif
+
+// If the action dies here there was another error
+if { exists lines containing "ERROR" of file "Enable.log"} 
+	// BitLocker is in inconsistent state -- kill encrytpion
+	wait terminate.bat
+	continue if false
+endif
+
+wait addrecoverykey.bat
+
+action requires restart]]></ActionScript>
 		</DefaultAction>
 		<Action ID="Action2">
 			<Description>
@@ -55,22 +85,52 @@ waithidden { pathname of file ((it as string) of value "Path" of key "HKEY_LOCAL
 				<Link>here</Link>
 				<PostLink> to encrypt the specified drive using just the TPM.</PostLink>
 			</Description>
-			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Enter your action script here
+
+action parameter query "Volume" with description "Volume to encrypt. Example C: or D:"
+
+// If the action fails at this line then the volume is not encryptable
+continue if {exists selects ("* from win32_EncryptableVolume where DriveLetter='" & parameter "Volume" of action & "'")of WMI "root\CIMv2\Security\MicrosoftVolumeEncryption"}
+
+// If the action fails at this line then the volume is already initialized for protection
+continue if {not boolean value of selects ("IsVolumeInitializedForProtection from win32_EncryptableVolume where DriveLetter='" & parameter "Volume" of action & "'")of WMI "root\CIMv2\Security\MicrosoftVolumeEncryption"}
+action uses wow64 redirection {not x64 of operating system}
+
+delete __createfile
+delete enable.bat
+delete terminate.bat
+delete addrecoverykey.bat
 
 createfile until _end_
-
-#Should work on all devices
-manage-bde â??on {name of drive of system folder}
-
-# Only works on Windows81 and newer
-# import-module Bitlocker
-# enable-bitlocker {name of drive of system folder} -TpmProtector
-
+manage-bde -on {parameter "Volume" of action} > "{client folder of current site}\Enable.log"
 _end_
 
-move __createfile powershell.ps1
+move __createfile enable.bat
 
-waithidden { pathname of file ((it as string) of value "Path" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell" of native registry) } -ExecutionPolicy Bypass -File powershell.ps1</ActionScript>
+createfile until _end_
+manage-bde -off {parameter "Volume" of action} > "{client folder of current site}\Terminate.log
+manage-bde -protectors {parameter "Volume" of action} -delete -type -recoverypassword >> "{client folder of current site}\Terminate.log
+_end_
+
+move __createfile terminate.bat
+
+wait enable.bat
+
+// If the action dies here there is a bootable CD or DVD in the drive
+if { exists lines containing "ERROR: BitLocker detected a bootable CD or DVD on the computer." of file "Enable.log" of client folder of current site} 
+	// BitLocker is in inconsistent state -- kill encrytpion
+	wait terminate.bat
+	continue if false
+endif
+
+// If the action dies here there was another error
+if { exists lines containing "ERROR" of file "Enable.log"} 
+	// BitLocker is in inconsistent state -- kill encrytpion
+	wait terminate.bat
+	continue if false
+endif
+
+action requires restart]]></ActionScript>
 		</Action>
 	</Fixlet>
 </BES>
