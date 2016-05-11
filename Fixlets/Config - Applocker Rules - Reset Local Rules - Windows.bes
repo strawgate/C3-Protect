@@ -2,9 +2,9 @@
 
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
 	<Fixlet>
-		<Title>Config - Applocker Rules - Reset - Windows</Title>
+		<Title>Config - Applocker Rules - Reset Local Rules - Windows</Title>
 		<Description><![CDATA[<P>This Fixlet resets the local Applocker Policy.</P>
-<P>Because Applocker utilizes the local group policy you will have to invoke a group policy refresh (or wait for one to occur) for the Applocker policies to be removed</P>]]></Description>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
 		<Relevance>windows of operating system</Relevance>
 		<Relevance><![CDATA[number of ((if (exists it) then (it) else none) of (matches (regex "\[[^;]*;[^;]*;[^;]*;([^;];|[^]]){1,2}.") of concatenations "" of substrings separated by "%00" of lines of files "Registry.pol" of folders "GroupPolicy\Machine" of native system folder)) whose (it contains "SrpV2") > 1]]></Relevance>
 		<Category>Application Whitelisting</Category>
@@ -33,6 +33,8 @@ _end_
 move __createfile Applocker.xml
 
 waithidden "{parameter "PowershellExe"}" -ExecutionPolicy Bypass -command "Set-ApplockerPolicy -XMLPolicy ""{pathname of file "Applocker.xml" of client folder of current site}"""
+
+wait gpupdate /target:computer /force
 ]]></ActionScript>
 		</DefaultAction>
 	</Fixlet>
