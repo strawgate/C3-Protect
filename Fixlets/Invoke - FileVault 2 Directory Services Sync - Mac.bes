@@ -4,7 +4,7 @@
 	<Fixlet>
 		<Title>Invoke - FileVault 2 Directory Services Sync - Mac</Title>
 		<Description><![CDATA[<P>This fixlet causes the Mac to sync accounts with directory services. </P>
-<P>Information on using this content is availabe here: <A href="https://github.com/strawgate/C3-Protect/wiki/FileVault-2">https://github.com/strawgate/C3-Protect/wiki/FileVault-2</A></P>]]></Description>
+<P>Information on using this content is available here: <A href="https://github.com/strawgate/C3-Protect/wiki/FileVault-2">https://github.com/strawgate/C3-Protect/wiki/FileVault-2</A></P>]]></Description>
 		<Relevance><![CDATA[mac of operating system and version of operating system >= "10.7"]]></Relevance>
 		<Relevance>booleans of values of entries whose("CoreStorage Encrypted" = key of it) of dictionaries whose( exists entries whose("BSD Name" = key of it AND "disk1" = string of value of it) of it ) of nodes of nodes of nodes "CoreStoragePhysical" of nodes of nodes "IOGUIDPartitionScheme" of nodes of nodes "IOBlockStorageDriver" of nodes "IOAHCIBlockStorageDevice" of nodes "AppleAHCIDiskDriver" of nodes "IOAHCIDevice" of (it; nodes of nodes "AppleAHCI" of it) of nodes of nodes of nodes of nodes "AppleACPIPCI" of nodes whose(name of it starts with "PCI") of nodes "AppleACPIPlatformExpert" of service plane of iokit registry</Relevance>
 		<Category>Disk Encryption</Category>

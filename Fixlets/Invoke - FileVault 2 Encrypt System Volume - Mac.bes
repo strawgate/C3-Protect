@@ -8,7 +8,7 @@
 <P>For machines running Yosemite and newer the prompt to enable FileVault will happen at the next login OR logout.</P>
 <P><STRONG><FONT color=#ff0000>Note:</FONT></STRONG> You cannot encrypt a FileVault drive that is currently decrypting.</P>
 <P>The Disk Encrypted relevance is thanks to JGStew: <A href="https://bigfix.me/relevance/details/3003654">https://bigfix.me/relevance/details/3003654</A></P>
-<P>Information on using this content is availabe here: <A href="https://github.com/strawgate/C3-Protect/wiki/FileVault-2">https://github.com/strawgate/C3-Protect/wiki/FileVault-2</A></P>]]></Description>
+<P>Information on using this content is available here: <A href="https://github.com/strawgate/C3-Protect/wiki/FileVault-2">https://github.com/strawgate/C3-Protect/wiki/FileVault-2</A></P>]]></Description>
 		<Relevance><![CDATA[mac of operating system and version of operating system >= "10.7" as version]]></Relevance>
 		<Relevance>/* Disk does not appear to be encrypted, thanks JGStew! */ not exists (booleans of values of entries whose("CoreStorage Encrypted" = key of it) of dictionaries whose( exists entries whose("BSD Name" = key of it AND "disk1" = string of value of it) of it ) of nodes of nodes of nodes "CoreStoragePhysical" of nodes of nodes "IOGUIDPartitionScheme" of nodes of nodes "IOBlockStorageDriver" of nodes "IOAHCIBlockStorageDevice" of nodes "AppleAHCIDiskDriver" of nodes "IOAHCIDevice" of (it; nodes of nodes "AppleAHCI" of it) of nodes of nodes of nodes of nodes "AppleACPIPCI" of nodes whose(name of it starts with "PCI") of nodes "AppleACPIPlatformExpert" of service plane of iokit registry)</Relevance>
 		<Category>Disk Encryption</Category>

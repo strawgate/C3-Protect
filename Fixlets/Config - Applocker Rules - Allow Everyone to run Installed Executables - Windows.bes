@@ -7,6 +7,7 @@
 <P>Executables</P>
 <UL>
 <LI>Allow all files in C:\Windows, C:\Program Files, C:\Program Files (x86)</LI></UL>
+<P>Information on using this content is available here: <A href="https://github.com/strawgate/C3-Protect/wiki/Applocker">https://github.com/strawgate/C3-Protect/wiki/Applocker</A>&nbsp;</P>
 <P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
 		<Relevance>Windows of Operating System</Relevance>
 		<Relevance>/* If no policies exist we are relevant */

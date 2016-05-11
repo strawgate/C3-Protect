@@ -6,7 +6,7 @@
 		<Description><![CDATA[<P>This fixlet probes the current FileVault 2 Configuration to allow an analysis to report on FileVault status.</P>
 <P>This fixlet is always applicable on a Mac computer. Recommended usage is to have it apply at whatever frequency you would like FireVault information updated -- preferably waiting at least a couple of hours between applications.</P>
 <P>It might make sense to have two actions for this fixlet -- one that applies infrequently on all computers and one that applies frequently on computers that are less than a couple of days old.</P>
-<P>Information on using this content is availabe here: <A href="https://github.com/strawgate/C3-Protect/wiki/FileVault-2">https://github.com/strawgate/C3-Protect/wiki/FileVault-2</A></P>
+<P>Information on using this content is available here: <A href="https://github.com/strawgate/C3-Protect/wiki/FileVault-2">https://github.com/strawgate/C3-Protect/wiki/FileVault-2</A></P>
 <P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
 		<Relevance><![CDATA[Mac of Operating System and version of operating system >= "10.7" as version]]></Relevance>
 		<Relevance><![CDATA[true /*There isn't an existing configuration file  (not exists (files whose (Name of it contains "RecoverySettings") of folder "FileVault" of folder "__Global" of data folder of client)) or The configuration file hasn't been updated since last reboot (exists (files whose (Name of it contains "RecoverySettings" and (now - modification time of it ) > uptime of operating system) of folder "FileVault" of folder "__Global" of data folder of client))*/]]></Relevance>

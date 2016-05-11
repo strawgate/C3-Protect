@@ -8,7 +8,8 @@
 <P>Executables - Audit</P>
 <P>Installers - Audit</P>
 <P>Scripts - Audit</P>
-<P>This will only take effect if the current enforcement mode is undefined. Once an enforcement mode is defined it's not advisable to try to change it without first reseting the Applocker configuration.</P>
+<P>This will only take effect if the current enforcement mode is undefined. Once an enforcement mode is defined it's not advisable to try to change it without first reseting the Applocker configuration.&nbsp;</P>
+<P>Information on using this content is available here: <A href="https://github.com/strawgate/C3-Protect/wiki/Applocker">https://github.com/strawgate/C3-Protect/wiki/Applocker</A>&nbsp;</P>
 <P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
 		<Relevance>Windows of Operating System</Relevance>
 		<Relevance>(not exists (key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2" of native registry))
