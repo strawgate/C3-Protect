@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Analysis>
+		<Title>Whitelisting - Applocker - Logs - Windows</Title>
+		<Description><![CDATA[<P>This analysis provides information on blocked or audited launches </P>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+		<Relevance>windows of operating system</Relevance>
+		<Relevance>not in proxy agent context</Relevance>
+		<Relevance>(product info string of operating system = "Enterprise" or product info string of operating system = "Server")</Relevance>
+		<Relevance>exists key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2" of native registry</Relevance>
+		<Source>Internal</Source>
+		<SourceReleaseDate>2016-05-11</SourceReleaseDate>
+		<Domain>BESC</Domain>
+		<Property Name="Applocker - Warned Executables - Windows" ID="1" EvaluationPeriod="P1D">(time generated of it, preceding text of first " was allowed to run but" of description of it) of records whose (event id of it = 8003) of event log "Microsoft-Windows-AppLocker/EXE and DLL"</Property>
+		<Property Name="Applocker - Blocked Executables - Windows" ID="2" EvaluationPeriod="P1D">(time generated of it, preceding text of first " was prevented from" of description of it) of records whose (event id of it = 8004) of event log "Microsoft-Windows-AppLocker/EXE and DLL"</Property>
+		<Property Name="Applocker - Warned Installers - Windows" ID="3" EvaluationPeriod="P1D">(time generated of it, preceding text of first "was allowed to run but" of description of it) of records whose (event id of it = 8006 and description of it contains ".MSI") of event log "Microsoft-Windows-AppLocker/MSI and Script"</Property>
+		<Property Name="Applocker - Blocked Installers - Windows" ID="4" EvaluationPeriod="P1D">(time generated of it, preceding text of first " was prevented from" of description of it) of records whose (event id of it = 8007 and description of it contains ".MSI") of event log "Microsoft-Windows-AppLocker/MSI and Script"</Property>
+		<Property Name="Applocker - Warned Scripts - Windows" ID="5" EvaluationPeriod="P1D">(time generated of it, preceding text of first "was allowed to run but" of description of it) of records whose (event id of it = 8006 and description of it does not contain ".MSI") of event log "Microsoft-Windows-AppLocker/MSI and Script"</Property>
+		<Property Name="Applocker - Blocked Scripts - Windows" ID="6" EvaluationPeriod="P1D">(time generated of it, preceding text of first " was prevented from" of description of it) of records whose (event id of it = 8007 and description of it does not contain ".MSI") of event log "Microsoft-Windows-AppLocker/MSI and Script"</Property>
+		<Property Name="Applocker - Policy Application - Windows" ID="7" EvaluationPeriod="P1D">(time generated of it, description of it) of records whose (event id of it = 8000 or event id of it = 8001) of event log "Microsoft-Windows-AppLocker/MSI and Script"</Property>
+	</Analysis>
+</BES>
