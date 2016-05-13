@@ -3,7 +3,8 @@
 	<Analysis>
 		<Title>Applications - McAfee ePolicy Orchestrator - Configuration - Windows</Title>
 		<Description><![CDATA[<P>Provides configuration information for McAfee ePO.</P><P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
-		<Relevance>true</Relevance>
+		<Relevance>windows of operating system</Relevance>
+		<Relevance>exists keys whose (value "DisplayName" of it as string is "McAfee Agent") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\" of x32 registry</Relevance>
 		<Source>Internal</Source>
 		<SourceReleaseDate>2016-05-13</SourceReleaseDate>
 		<Domain>BESC</Domain>
