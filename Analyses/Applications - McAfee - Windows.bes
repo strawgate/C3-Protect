@@ -17,5 +17,6 @@
 		<Property Name="McAfee - Suite Name - Windows" ID="1"><![CDATA[if (exists folder (pathname of program files folder & "\McAfee\Endpoint Security")) then ("Endpoint Security") else (if (exists folder (pathname of program files folder & "\McAfee\VirusScan Enterprise")) then ("VirusScan Enterprise") else "None")]]></Property>
 		<Property Name="McAfee Endpoint Security - Installed - Windows" ID="2"><![CDATA[exists folder (pathname of program files folder & "\McAfee\Endpoint Security")]]></Property>
 		<Property Name="McAfee VirusScan Enterprise - Installed - Windows" ID="3"><![CDATA[exists folder (pathname of program files folder & "\McAfee\VirusScan Enterprise")]]></Property>
-		<Property Name="McAfee - ePO Installed - Windows" ID="4"><![CDATA[exists keys whose (value "DisplayName" of it as string is "McAfee Agent") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\" of x32 registry]]></Property>	</Analysis>
+		<Property Name="McAfee - ePO Installed - Windows" ID="4"><![CDATA[exists keys whose (value "DisplayName" of it as string is "McAfee Agent") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\" of x32 registry]]></Property>	
+		</Analysis>
 </BES>
