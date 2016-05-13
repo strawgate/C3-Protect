@@ -2,14 +2,10 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
 	<Analysis>
 		<Title>Applications - McAfee ePolicy Orchestrator - Configuration - Windows</Title>
-		<Description>Provides configuration information for McAfee ePO.</Description>
+		<Description><![CDATA[<P>Provides configuration information for McAfee ePO.</P><P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
 		<Relevance>true</Relevance>
 		<Source>Internal</Source>
 		<SourceReleaseDate>2016-05-13</SourceReleaseDate>
-		<MIMEField>
-			<Name>x-fixlet-modification-time</Name>
-			<Value>Fri, 13 May 2016 16:18:00 +0000</Value>
-		</MIMEField>
 		<Domain>BESC</Domain>
 		<Property Name="McAfee ePO - Version - Windows" ID="1">value "DisplayVersion" of keys whose (value "DisplayName" of it as string is "McAfee Agent") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\" of x32 registry</Property>
 	</Analysis>
