@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Analysis>
+		<Title>Virtualization Based Security - Windows</Title>
+		<Description>This analysis provides details regarding the capabilities of a Windows device with regards to Virtualization Based Security (Device Guard, Credential Guard, etc) </Description>
+		<Relevance>windows of operating system</Relevance>
+		<Relevance>exists wmi "root\Microsoft\Windows\DeviceGuard"</Relevance>
+		<Source>Internal</Source>
+		<SourceReleaseDate>2016-05-12</SourceReleaseDate>
+		<Domain>BESC</Domain>
+		<Property Name="VBS - Hypervisor Support - Windows" ID="1">set of (integer values of property "AvailableSecurityProperties" of select objects "* from Win32_DeviceGuard" of wmi "root\Microsoft\Windows\DeviceGuard") contains 1</Property>
+		<Property Name="VBS - Secure Boot Enabled - Windows" ID="2">set of (integer values of property "AvailableSecurityProperties" of select objects "* from Win32_DeviceGuard" of wmi "root\Microsoft\Windows\DeviceGuard") contains 2</Property>
+		<Property Name="VBS - DMA Protection Available - Windows" ID="3">set of (integer values of property "AvailableSecurityProperties" of select objects "* from Win32_DeviceGuard" of wmi "root\Microsoft\Windows\DeviceGuard") contains 1</Property>
+		<Property Name="VBS - Credential Guard Configured - Windows" ID="4">set of (integer values of property "SecurityServicesConfigured" of select objects "* from Win32_DeviceGuard" of wmi "root\Microsoft\Windows\DeviceGuard") contains 1</Property>
+		<Property Name="VBS - HVCI Configured - Windows" ID="5">set of (integer values of property "SecurityServicesConfigured" of select objects "* from Win32_DeviceGuard" of wmi "root\Microsoft\Windows\DeviceGuard") contains 2</Property>
+		<Property Name="VBS - Credential Guard Running - Windows" ID="6">set of (integer values of property "SecurityServicesRunning" of select objects "* from Win32_DeviceGuard" of wmi "root\Microsoft\Windows\DeviceGuard") contains 1</Property>
+		<Property Name="VBS - HVCI Running - Windows" ID="7">set of (integer values of property "SecurityServicesRunning" of select objects "* from Win32_DeviceGuard" of wmi "root\Microsoft\Windows\DeviceGuard") contains 2</Property>
+		<Property Name="VBS - Configured - Windows" ID="8"> (it contains 1 or it contains 2) of set of (integer values of property "VirtualizationBasedSecurityStatus" of select objects "* from Win32_DeviceGuard" of wmi "root\Microsoft\Windows\DeviceGuard")</Property>
+		<Property Name="VBS - Running - Windows" ID="9">(it contains 2) of set of (integer values of property "VirtualizationBasedSecurityStatus" of select objects "* from Win32_DeviceGuard" of wmi "root\Microsoft\Windows\DeviceGuard")</Property>
+		<Property Name="VBS - Error Logs - Windows" ID="10">descriptions of records whose (source of it = "Microsoft-Windows-Wininit" and (event id of it = 15 or event id of it = 16 or event id of it = 17)) of system event log</Property>
+	</Analysis>
+</BES>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Config - Virtualization Based Security - Using Secure Boot and DMA - Windows</Title>
+		<Description>This Fixlet enables Virtualization Based Security on Windows devices that support it. </Description>
+		<Relevance>Windows of operating system</Relevance>
+		<Relevance>set of (integer values of property "AvailableSecurityProperties" of select objects "* from Win32_DeviceGuard" of wmi "root\Microsoft\Windows\DeviceGuard") contains 2 /* Secure Boot is Available */</Relevance>
+		<Relevance>set of (integer values of property "AvailableSecurityProperties" of select objects "* from Win32_DeviceGuard" of wmi "root\Microsoft\Windows\DeviceGuard") contains 1 /* DMA Protection is Available */</Relevance>
+		<Relevance>set of (integer values of property "AvailableSecurityProperties" of select objects "* from Win32_DeviceGuard" of wmi "root\Microsoft\Windows\DeviceGuard") contains 1 /* Hypervisor Support is Available */</Relevance>
+		<Relevance>(value "EnableVirtualizationBasedSecurity" of key "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\DeviceGuard" of native registry as integer != 1) | true or (value "RequirePlatformSecurityFeatures" of key "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\DeviceGuard" of native registry as integer != 3) | true</Relevance>
+		<Category>Virtualization Based Security</Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-05-12</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">regset "[HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\DeviceGuard]" "EnableVirtualizationBasedSecurity"=dword:00000001
+regset "[HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\DeviceGuard]" "RequirePlatformSecurityFeatures"=dword:00000003</ActionScript>
+		</DefaultAction>
+	</Fixlet>
+</BES>

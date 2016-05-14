@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Config - Hyper-V Platform - Enable - Windows</Title>
+		<Description>This Fixlet enables Hyper-V Platform in Windows to support the deployment of Credential Guard </Description>
+		<Relevance>windows of operating system</Relevance>
+		<Relevance>set of (string values of properties "Caption" of select objects "* from win32_optionalfeature where installstate= 1" of wmi) does not contain "Hyper-V Platform"</Relevance>
+		<Relevance>set of (string values of properties "Caption" of select objects "* from win32_optionalfeature" of wmi) contains "Hyper-V Platform"</Relevance>
+		<Category>Virtualization Based Security</Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-05-13</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">action uses wow64 redirection {not x64 of operating system}
+// Enter your action script here
+
+wait dism.exe /NoRestart /Online /Enable-Feature:Microsoft-Hyper-V-Hypervisor /all</ActionScript>
+		</DefaultAction>
+	</Fixlet>
+</BES>
