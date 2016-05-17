@@ -17,6 +17,7 @@ or
 
 /* MSI Rules */
 (not exists key "5b290184-345a-4453-b184-45305f6d9a54" of it ) of (key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Msi" of native registry)</Relevance>
+		<Relevance>exists value "EnforcementMode" of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Msi" of native registry /* Do not add rules if no enforcement mechanism is defined as this will cause it to be enforced */</Relevance>
 		<Category>Application Whitelisting</Category>
 		<Source>Internal</Source>
 		<SourceID></SourceID>

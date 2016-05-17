@@ -31,13 +31,25 @@ delete applocker.xml
 
 createfile until _end_
 <AppLockerPolicy Version="1">
+	<RuleCollection Type="Appx" EnforcementMode="AuditOnly">
+	</RuleCollection>
+	<RuleCollection Type="Exe" EnforcementMode="AuditOnly">
+	</RuleCollection>
+	<RuleCollection Type="Msi" EnforcementMode="AuditOnly">
+	</RuleCollection>
+	<RuleCollection Type="Script" EnforcementMode="AuditOnly">
+	</RuleCollection>
 </AppLockerPolicy>
 _end_
 move __createfile Applocker.xml
 
+wait sc config AppIDSvc start=auto
+wait net start AppIDSvc
+
 waithidden "{parameter "PowershellExe"}" -ExecutionPolicy Bypass -command "Import-Module AppLocker;Set-ApplockerPolicy -XMLPolicy ""{pathname of file "Applocker.xml" of client folder of current site}"""
 
 wait gpupdate /target:computer /force
+
 ]]></ActionScript>
 		</DefaultAction>
 	</Task>

@@ -18,6 +18,7 @@ or
 
 /* Script Rules */
 (not exists key "06dce67b-934c-454f-a263-2515c8796a5d" of it or not exists key "9428c672-5fc3-47f4-808a-a0011f36dd2c" of it) of (key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Script" of native registry)</Relevance>
+		<Relevance>exists value "EnforcementMode" of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Script" of native registry /* Do not add rules if no enforcement mechanism is defined as this will cause it to be enforced */</Relevance>
 		<Category>Application Whitelisting</Category>
 		<Source>Internal</Source>
 		<SourceID></SourceID>

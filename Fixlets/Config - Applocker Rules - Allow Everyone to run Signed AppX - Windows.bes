@@ -16,6 +16,7 @@ or
 
 /* AppX Rules */
 (not exists key "a9e18c21-ff8f-43cf-b9fc-db40eed693ba" of it) of (key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Appx" of native registry)</Relevance>
+		<Relevance>exists value "EnforcementMode" of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Appx" of native registry /* Do not add rules if no enforcement mechanism is defined as this will cause it to be enforced */</Relevance>
 		<Category>Application Whitelisting</Category>
 		<Source>Internal</Source>
 		<SourceID></SourceID>

@@ -18,6 +18,7 @@ or
 /* EXE Rules */
 (not exists key "4e586c7f-c597-46fc-a4e4-20008f03463d" of it) of (key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Exe" of native registry)
 </Relevance>
+		<Relevance>exists value "EnforcementMode" of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2\Exe" of native registry /* Do not add rules if no enforcement mechanism is defined as this will cause it to be enforced */</Relevance>
 		<Category>Application Whitelisting</Category>
 		<Source>Internal</Source>
 		<SourceID></SourceID>
