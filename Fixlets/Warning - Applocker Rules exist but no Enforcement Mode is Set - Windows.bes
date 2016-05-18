@@ -6,7 +6,7 @@
 		<Description><![CDATA[<P>There are Applocker rules defined but no Enforcement mode is set! This means the rule are <STRONG>ENFORCED</STRONG>.</P>
 <P><A href="https://technet.microsoft.com/en-us/library/dd759115(v=ws.11).aspx">https://technet.microsoft.com/en-us/library/dd759115(v=ws.11).aspx</A></P>
 <P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
-		<Relevance>keys whose (exists keys of it and not exists value "EnforcementMode" of it) of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2" of native registry </Relevance>
+		<Relevance>exists keys whose (exists keys of it and not exists value "EnforcementMode" of it) of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2" of native registry </Relevance>
 		<Category></Category>
 		<Source>Internal</Source>
 		<SourceID></SourceID>
