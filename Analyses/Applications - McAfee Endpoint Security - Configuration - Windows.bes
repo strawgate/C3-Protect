@@ -10,7 +10,7 @@
 		<Relevance><![CDATA[exists folder (pathname of program files folder & "\McAfee\Endpoint Security")]]></Relevance>
 		<Domain>BESC</Domain>
 		<Property Name="McAfee Endpoint Security - Client Status - Windows" ID="1">if ((not exists running application "vshwin32.exe") AND (not exists running application "mcshield.exe")) then "Not Running" else "Running"</Property>
-		<Property Name="McAfee Endpoint Security - Firewall State - Windows" ID="2">if ((value "LastComplianceStatus" of key "HKLM\Software\McAfee\Endpoint\Firewall" of native registry as integer | 0) = 1) then "Enabled" else "Disabled"</Property>
+		<Property Name="McAfee Endpoint Security - Firewall State - Windows" ID="2">if ((value "RequestedSetting" of key "HKLM\Software\McAfee\Endpoint\Firewall" of native registry as integer | 0) = 1) then "Enabled" else "Disabled"</Property>
 		<Property Name="McAfee Endpoint Security - Firewall Policy - Windows" ID="3">value "FireCore_FW_Rules" of key "HKEY_LOCAL_MACHINE\Software\McAfee\Endpoint\Firewall" of native registry</Property>
 		<Property Name="McAfee Endpoint Security - Installed Modules - Windows" ID="4">names of keys of key "HKEY_LOCAL_MACHINE\Software\McAfee\Endpoint\Modules" of native registry</Property>
 		<Property Name="McAfee Endpoint Security - Scheduled Tasks - Windows" ID="5"> values "szTaskName" of keys of key "HKEY_LOCAL_MACHINE\Software\McAfee\Endpoint\tasks" of native registry</Property>
