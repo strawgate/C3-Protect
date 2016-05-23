@@ -2,7 +2,7 @@
 
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
 	<Task>
-		<Title>Config - Applocker Rules - Reset Local Rules - Windows</Title>
+		<Title>Config - Applocker Rules - Reset Local Rules for Enforced Policies - Windows</Title>
 		<Description><![CDATA[<P>This <STRONG>Task</STRONG> resets the local Applocker Policy.&nbsp;</P>
 <P>Information on using this content is available here: <A href="https://github.com/strawgate/C3-Protect/wiki/Applocker">https://github.com/strawgate/C3-Protect/wiki/Applocker</A>&nbsp;</P>
 <P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
@@ -31,25 +31,19 @@ delete applocker.xml
 
 createfile until _end_
 <AppLockerPolicy Version="1">
-	<RuleCollection Type="Appx" EnforcementMode="AuditOnly">
+	<RuleCollection Type="Appx" EnforcementMode="Enabled">
 	</RuleCollection>
-	<RuleCollection Type="Exe" EnforcementMode="AuditOnly">
+	<RuleCollection Type="Exe" EnforcementMode="Enabled">
 	</RuleCollection>
-	<RuleCollection Type="Msi" EnforcementMode="AuditOnly">
+	<RuleCollection Type="Msi" EnforcementMode="Enabled">
 	</RuleCollection>
-	<RuleCollection Type="Script" EnforcementMode="AuditOnly">
+	<RuleCollection Type="Script" EnforcementMode="Enabled">
 	</RuleCollection>
 </AppLockerPolicy>
 _end_
 move __createfile Applocker.xml
 
-wait sc config AppIDSvc start=auto
-wait net start AppIDSvc
-
 waithidden "{parameter "PowershellExe"}" -ExecutionPolicy Bypass -command "Import-Module AppLocker;Set-ApplockerPolicy -XMLPolicy ""{pathname of file "Applocker.xml" of client folder of current site}"""
-
-wait gpupdate /target:computer /force
-
 ]]></ActionScript>
 		</DefaultAction>
 	</Task>

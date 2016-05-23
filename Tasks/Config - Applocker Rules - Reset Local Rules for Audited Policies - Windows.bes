@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Task>
+		<Title>Config - Applocker Rules - Reset Local Rules for Audited Policies - Windows</Title>
+		<Description><![CDATA[<P>This <STRONG>Task</STRONG> resets the local Applocker Policy.&nbsp;</P>
+<P>Information on using this content is available here: <A href="https://github.com/strawgate/C3-Protect/wiki/Applocker">https://github.com/strawgate/C3-Protect/wiki/Applocker</A>&nbsp;</P>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+		<Relevance>windows of operating system</Relevance>
+		<Relevance><![CDATA[number of ((if (exists it) then (it) else none) of (matches (regex "\[[^;]*;[^;]*;[^;]*;([^;];|[^]]){1,2}.") of concatenations "" of substrings separated by "%00" of lines of files "Registry.pol" of folders "GroupPolicy\Machine" of native system folder)) whose (it contains "SrpV2") > 1]]></Relevance>
+		<Category>Application Whitelisting</Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-05-11</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action uses wow64 redirection {not x64 of operating system}
+
+parameter "PowerShellExe"="{ pathname of file ((it as string) of value "Path" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell" of native registry) }"
+
+delete __createfile
+delete applocker.xml
+
+createfile until _end_
+<AppLockerPolicy Version="1">
+	<RuleCollection Type="Appx" EnforcementMode="AuditOnly">
+	</RuleCollection>
+	<RuleCollection Type="Exe" EnforcementMode="AuditOnly">
+	</RuleCollection>
+	<RuleCollection Type="Msi" EnforcementMode="AuditOnly">
+	</RuleCollection>
+	<RuleCollection Type="Script" EnforcementMode="AuditOnly">
+	</RuleCollection>
+</AppLockerPolicy>
+_end_
+move __createfile Applocker.xml
+
+wait sc config AppIDSvc start=auto
+wait net start AppIDSvc
+
+waithidden "{parameter "PowershellExe"}" -ExecutionPolicy Bypass -command "Import-Module AppLocker;Set-ApplockerPolicy -XMLPolicy ""{pathname of file "Applocker.xml" of client folder of current site}"""
+
+wait gpupdate /target:computer /force
+
+]]></ActionScript>
+		</DefaultAction>
+	</Task>
+</BES>
