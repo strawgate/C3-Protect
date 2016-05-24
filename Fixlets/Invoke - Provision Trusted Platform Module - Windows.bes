@@ -39,7 +39,7 @@ import-module Bitlocker
 $guid = [guid]::NewGuid().Guid
 
 # If we are running on a version newer than Windows 7  use the new TPM cmdlets
-if ([Environment]::OSVersion.Version -gt (new-object 'Version' 6,1)) {{
+if ([Environment]::OSVersion.Version -gt (new-object 'Version' 6,2)) {{
 	Enable-TpmAutoProvisioning
 	Set-TpmOwnerAuth -NewOwnerAuthorization "$GUID"
 } else {{ # If we are running on Windows 7 use the old manage-bde method
