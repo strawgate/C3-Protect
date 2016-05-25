@@ -29,6 +29,9 @@ parameter "Storage"="{pathname of folder "__Global" of data folder of client}\Bi
 
 folder create "{parameter "Storage"}"
 
+delete __createfile
+delete powershell.ps1
+
 createfile until _end_
 param (
     $OutFolder = "."
