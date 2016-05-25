@@ -22,6 +22,7 @@
 				<PostLink> to provision the trusted platform module, set a random password on TPM ownership, and backup the password to the _BESData folder.</PostLink>
 			</Description>
 			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Enter your action script here
+action uses wow64 redirection {not x64 of operating system}
 
 parameter "PowerShellExe"="{ pathname of file ((it as string) of value "Path" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell" of native registry) }"
 
