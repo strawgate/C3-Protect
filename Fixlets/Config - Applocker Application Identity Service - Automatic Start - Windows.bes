@@ -26,7 +26,7 @@
 			</Description>
 			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
 
-wait sc config AppIDSvc start=auto
+wait sc config AppIDSvc start= auto
 wait net start AppIDSvc</ActionScript>
 		</DefaultAction>
 	</Fixlet>
