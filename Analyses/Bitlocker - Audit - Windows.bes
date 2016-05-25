@@ -6,6 +6,7 @@
 		<Description><![CDATA[<P>This Analysis provides information on the current Bitlocker status on the system.</P>
 <P>This analysis does not provide the drive letter alongside each property which means that the first row for each property (where applicable) should correspond to the same volume.</P>
 <P>This analysis is only applicable on computers that are Bitlocker capable.</P>
+<P>This analysis uses information provided by the Bitlocker Configuration Probe: <STRONG>Invoke - Bitlocker Configuration Probe - Windows</STRONG></P>
 <P>Credit, kudos, and compliments to jgstew for providing the basis for this: <A href="https://www.bigfix.me/analysis/details/2994754">https://www.bigfix.me/analysis/details/2994754</A></P>
 <P>Credit, kudos, and compliments to geeksikh for providing the encryption started and finished properties: <A href="https://bigfix.me/analysis/details/96">https://bigfix.me/analysis/details/96</A></P>
 <P>Information on using this content is available here: <A href="https://github.com/strawgate/C3-Protect/wiki/Bitlocker">https://github.com/strawgate/C3-Protect/wiki/Bitlocker</A></P>
@@ -15,13 +16,15 @@
 		<Source>Internal</Source>
 		<SourceReleaseDate>2016-04-30</SourceReleaseDate>
 		<Domain>BESC</Domain>
-		<Property Name="Bitlocker - Encryption Started - Windows" ID="1" EvaluationPeriod="P1D">times generated of records whose ((source of it as lowercase = "Microsoft-Windows-BitLocker-Driver" as lowercase AND event id of it = 24579)) of system event log</Property>
-		<Property Name="Bitlocker - Encryption Finished - Windows" ID="2" EvaluationPeriod="P1D">times generated of records whose ((source of it as lowercase = "Microsoft-Windows-BitLocker-Driver" as lowercase AND event id of it = 24577)) of system event log</Property>
+		<Property Name="Bitlocker - Encryption Started Log - Windows" ID="1" EvaluationPeriod="P1D">times generated of records whose ((source of it as lowercase = "Microsoft-Windows-BitLocker-Driver" as lowercase AND event id of it = 24579)) of system event log</Property>
+		<Property Name="Bitlocker - Encryption Finished Log - Windows" ID="2" EvaluationPeriod="P1D">times generated of records whose ((source of it as lowercase = "Microsoft-Windows-BitLocker-Driver" as lowercase AND event id of it = 24577)) of system event log</Property>
 		<Property Name="Bitlocker - Encryptable Volume # - Windows" ID="3" EvaluationPeriod="P1D">number of select objects ("* from win32_EncryptableVolume") of WMIs "root\CIMv2\Security\MicrosoftVolumeEncryption"</Property>
 		<Property Name="Bitlocker - Encryptable Volumes - Windows" ID="4" EvaluationPeriod="P1D">string value of selects ("DriveLetter from win32_EncryptableVolume") of WMIs "root\CIMv2\Security\MicrosoftVolumeEncryption"</Property>
 		<Property Name="Bitlocker - Protection Status - Windows" ID="5" EvaluationPeriod="P1D">tuple string items (integer values of selects ("ProtectionStatus from win32_EncryptableVolume") of WMIs "root\CIMv2\Security\MicrosoftVolumeEncryption") of "Protection Off, Protection On, Protection Unknown"</Property>
 		<Property Name="Bitlocker - Encryption Method - WIndows" ID="6" EvaluationPeriod="P1D">tuple string items (integer values of selects ("* from win32_EncryptableVolume") whose(name of it = "EncryptionMethod") of WMIs "root\CIMv2\Security\MicrosoftVolumeEncryption") of "N/A, AES 128 With Diffuser, AES 256 With Diffuser, AES 128, AES 256"</Property>
 		<Property Name="Bitlocker - Status - Windows" ID="7" EvaluationPeriod="P1D">tuple string items (integer values of selects ("* from win32_EncryptableVolume") whose(name of it = "ConversionStatus") of WMIs "root\CIMv2\Security\MicrosoftVolumeEncryption") of "Fully Decrypted, Fully Encrypted, Encryption In Progress, Decryption In Progress, Encryption Paused, Decryption Paused"</Property>
 		<Property Name="Bitlocker - Volume Type - Windows" ID="8" EvaluationPeriod="P1D">(selects ("* from win32_EncryptableVolume") whose(name of it = "VolumeType") of WMIs "root\CIMv2\Security\MicrosoftVolumeEncryption")</Property>
+		<Property Name="Bitlocker - Encryption Status - Windows" ID="10">(preceding text of first "-" of name of it , following text of first ":" of line containing "Conversion Status" of it as trimmed string) of files whose (Name of it contains "Status") of folder "BitLocker" of folder "__Global" of data folder of client</Property>
+		<Property Name="Bitlocker - Encryption Progress - Windows" ID="11">(preceding text of first "-" of name of it , following text of first ":" of line containing "Percentage Encrypted" of it as trimmed string) of files whose (Name of it contains "Status") of folder "BitLocker" of folder "__Global" of data folder of client</Property>
 	</Analysis>
 </BES>

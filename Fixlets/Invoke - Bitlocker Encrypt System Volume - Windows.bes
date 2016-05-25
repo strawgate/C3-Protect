@@ -12,6 +12,8 @@
 		<Relevance><![CDATA[if(exists WMI "root\CIMv2\Security\MicrosoftVolumeEncryption") then (number of select objects ("* from win32_EncryptableVolume")of WMI "root\CIMv2\Security\MicrosoftVolumeEncryption" >= 1) else (false) /* There is a drive to encrypt... This should probable be made more specific*/]]></Relevance>
 		<Relevance><![CDATA[(not boolean value of selects ("IsVolumeInitializedForProtection from win32_EncryptableVolume where DriveLetter='" & name of drive of system folder & "'")of WMI "root\CIMv2\Security\MicrosoftVolumeEncryption") /* Drive is not initialized for encryption */ | true /* Error reading initialization state -- drive has not been initialized */]]></Relevance>
 		<Relevance><![CDATA[exists selects ("* from win32_EncryptableVolume where DriveLetter='" & name of drive of system folder & "'")of WMI "root\CIMv2\Security\MicrosoftVolumeEncryption" /* The drive is an encryptable volume */ ]]></Relevance>
+		<Relevance><![CDATA[integer value of selects ("ProtectionStatus from win32_EncryptableVolume where DriveLetter='" & name of drive of system folder & "'") of WMI "root\CIMv2\Security\MicrosoftVolumeEncryption" = 0 ]]></Relevance>
+		<Relevance><![CDATA[uptime of operating system > 10*minute /* Bitlocker status doesn't change immediately after first reboot */]]></Relevance>
 		<Category>Disk Encryption</Category>
 		<Source>Internal</Source>
 		<SourceID></SourceID>
@@ -32,6 +34,13 @@ delete __createfile
 delete enable.bat
 delete terminate.bat
 delete addrecoverykey.bat
+delete status.bat
+
+createfile until _end_
+manage-bde -status {name of drive of system folder} > "{client folder of current site}\Status.log"
+_end_
+
+move __createfile status.bat
 
 createfile until _end_
 manage-bde -on {name of drive of system folder} > "{client folder of current site}\Enable.log"
@@ -52,6 +61,12 @@ _end_
 
 move __createfile addrecoverykey.bat
 
+wait status.bat
+
+// If the action dies here 
+
+if {not exists lines containing "Encryption in Progress" of file "Status.log" of client folder of current site }
+
 wait enable.bat
 
 // If the action dies here there is a bootable CD or DVD in the drive
@@ -70,7 +85,13 @@ endif
 
 wait addrecoverykey.bat
 
-action requires restart]]></ActionScript>
+action requires restart
+
+else
+
+action requires restart
+
+endif]]></ActionScript>
 		</Action>
 		<Action ID="Action2">
 			<Description>
