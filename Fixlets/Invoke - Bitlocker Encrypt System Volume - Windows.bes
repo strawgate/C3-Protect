@@ -67,29 +67,33 @@ wait status.bat
 
 if {not exists lines containing "Encryption in Progress" of file "Status.log" of client folder of current site }
 
-wait enable.bat
-
-// If the action dies here there is a bootable CD or DVD in the drive
-if { exists lines containing "ERROR: BitLocker detected a bootable CD or DVD on the computer." of file "Enable.log" of client folder of current site} 
-	// BitLocker is in inconsistent state -- kill encrytpion
-	wait terminate.bat
-	continue if false
-endif
-
-// If the action dies here there was another error
-if { exists lines containing "ERROR" of file "Enable.log"} 
-	// BitLocker is in inconsistent state -- kill encrytpion
-	wait terminate.bat
-	continue if false
-endif
-
-wait addrecoverykey.bat
-
-action requires restart
+	wait enable.bat
+	
+	// If the action dies here there is a bootable CD or DVD in the drive
+	if { exists lines containing "ERROR: BitLocker detected a bootable CD or DVD on the computer." of file "Enable.log" of client folder of current site} 
+		// BitLocker is in inconsistent state -- kill encrytpion
+		wait terminate.bat
+		continue if false
+	endif
+	
+	// If the action dies here there was another error
+	if { exists lines containing "ERROR" of file "Enable.log"} 
+		// BitLocker is in inconsistent state -- kill encrytpion
+		wait terminate.bat
+		continue if false
+	endif
+	
+	if { not exists lines containing "Numerical Password" of file "Status.log"} 
+	
+		wait addrecoverykey.bat
+	
+	endif 
+	
+	action requires restart
 
 else
 
-action requires restart
+	action requires restart
 
 endif]]></ActionScript>
 		</Action>
