@@ -48,7 +48,7 @@ $Fixlet = @"
 <?xml version="1.0" encoding="UTF-8"?>
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
 	<Fixlet>
-		<Title>Config - Cache Applocker Rules - $($Rule.Name) - Windows</Title>
+		<Title>Config - Cache Applocker Rules - $Ruletype, $($Rule.Name) - Windows</Title>
 		<Description><![CDATA[<P>This policy adds a policy to Applocker. Specifically it provides a rule for $($RuleType)</P><br>The rule self describes as: $($Rule.Name)]]></Description>
 		<Relevance>Windows of Operating System</Relevance>
 		<Relevance><![CDATA[(not exists file (pathname of data folder of client & "\__Global\Applocker\$(Remove-InvalidFileNameChars $Rule.Name).xml"))]]></Relevance>
