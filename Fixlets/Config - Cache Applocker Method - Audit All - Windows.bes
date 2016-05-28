@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Config - Cache Applocker Method - Audit All - Windows</Title>
+		<Description><![CDATA[<P>This policy sets the enforcement method for the different Applocker file types. Specifically it configures:</P>
+<P>AppX - Audit</P>
+<P>Executables - Audit</P>
+<P>Installers - Audit</P>
+<P>Scripts - Audit</P>
+<P>This will only take effect if the current enforcement mode is undefined. Once an enforcement mode is defined it's not advisable to try to change it without first reseting the Applocker configuration.&nbsp;</P>
+<P>Information on using this content is available here: <A href="https://github.com/strawgate/C3-Protect/wiki/Applocker">https://github.com/strawgate/C3-Protect/wiki/Applocker</A>&nbsp;</P>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+		<Relevance>Windows of Operating System</Relevance>
+		<Relevance><![CDATA[not exists file (pathname of data folder of client & "\__Global\Applocker\AuditMode.xml")]]></Relevance>
+		<Category>Application Whitelisting</Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-05-10</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action uses wow64 redirection {not x64 of operating system}
+
+parameter "RuleName"="AuditMode"
+parameter "Storage"="{pathname of data folder of client}\__Global\Applocker"
+
+delete __createfile
+
+createfile until _end_
+<AppLockerPolicy Version="1">
+	<RuleCollection Type="Appx" EnforcementMode="AuditOnly">
+	</RuleCollection>
+	<RuleCollection Type="Exe" EnforcementMode="AuditOnly">
+	</RuleCollection>
+	<RuleCollection Type="Msi" EnforcementMode="AuditOnly">
+	</RuleCollection>
+	<RuleCollection Type="Script" EnforcementMode="AuditOnly">
+	</RuleCollection>
+</AppLockerPolicy>
+_end_
+
+folder create "{parameter "Storage"}"
+
+delete "{parameter "Storage"}\{parameter "RuleName"}.xml"
+move __createfile "{parameter "Storage"}\{parameter "RuleName"}.xml"]]></ActionScript>
+			<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+		</DefaultAction>
+	</Fixlet>
+</BES>

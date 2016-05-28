@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Config - Cache Applocker Rules - Allow Everyone to run Signed AppX - Windows</Title>
+		<Description><![CDATA[<P>This policy adds&nbsp;a policy&nbsp;Applocker. Specifically it configures:</P>
+<P>AppX</P>
+<UL>
+<LI>Allow everyone to run signed AppX</LI></UL>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+		<Relevance>Windows of Operating System</Relevance>
+		<Relevance><![CDATA[not exists file (pathname of data folder of client & "\__Global\Applocker\Everyone-AppX-Signed.xml")]]></Relevance>
+		<Category>Application Whitelisting</Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-05-10</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action uses wow64 redirection {not x64 of operating system}
+
+parameter "RuleName"="Everyone-AppX-Signed"
+parameter "Storage"="{pathname of data folder of client}\__Global\Applocker"
+
+delete __createfile
+createfile until _end_
+<AppLockerPolicy Version="1">
+	<RuleCollection Type="Appx">
+		<FilePublisherRule Id="a9e18c21-ff8f-43cf-b9fc-db40eed693ba" Name="(Default Rule) All signed packaged apps" Description="Allows members of the Everyone group to run packaged apps that are signed." UserOrGroupSid="S-1-1-0" Action="Allow">
+			<Conditions>
+				<FilePublisherCondition PublisherName="*" ProductName="*" BinaryName="*">
+					<BinaryVersionRange LowSection="0.0.0.0" HighSection="*" />
+				</FilePublisherCondition>
+			</Conditions>
+		</FilePublisherRule>
+	</RuleCollection>
+</AppLockerPolicy>
+
+
+_end_
+folder create "{parameter "Storage"}"
+
+delete "{parameter "Storage"}\{parameter "RuleName"}.xml"
+move __createfile "{parameter "Storage"}\{parameter "RuleName"}.xml"
+]]></ActionScript>
+		</DefaultAction>
+	</Fixlet>
+</BES>

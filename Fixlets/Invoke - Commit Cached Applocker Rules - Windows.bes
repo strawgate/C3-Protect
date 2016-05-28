@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Invoke - Commit Cached Applocker Rules - Windows</Title>
+		<Description><![CDATA[&lt;enter a description of the problem and the corrective action here&gt; ]]></Description>
+		<Relevance>windows of operating system</Relevance>
+		<Relevance><![CDATA[/* Policies are defined on the client but there are no policies implemented */
+not exists key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2" of native registry and exists files whose (name of it != "Effective.xml") of folder "Applocker" of folder "__Global" of data folder of client
+
+or
+
+/* Policies are defined but no effective policy exists -- common way to request a forced refresh */
+(exists files whose (name of it != "Effective.xml") of folder "Applocker" of folder "__Global" of data folder of client) and (not exists files whose (name of it = "Effective.xml") of folder "Applocker" of folder "__Global" of data folder of client)
+
+or
+
+/* Policy doesn't match implementation for Types Enforced */ /* If a type is in Enforced Mode in the policy -- it should be Enforced, because Enforced takes precedence*/
+(set of names of keys whose (value "EnforcementMode" of it = 1) of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2" of native registry) != (set of node values of attributes "Type" of xpaths "/AppLockerPolicy/RuleCollection" whose (node value of attribute "EnforcementMode" of it = "Enabled") of xml documents of files whose (name of it != "Effective.xml") of folder "Applocker" of folder "__Global" of data folder of client)
+
+or
+
+/* Policy doesn't match implementation for Types Audited */ /* If a type is in Audit Mode in the policy -- it should either be in Audit or Enforced, because Enforced takes precedence*/
+(set of names of keys whose (value "EnforcementMode" of it = 1 or value "EnforcementMode" of it = 0) of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2" of native registry) does not contain (set of node values of attributes "Type" of xpaths "/AppLockerPolicy/RuleCollection" whose (node value of attribute "EnforcementMode" of it = "AuditOnly") of xml documents of files whose (name of it != "Effective.xml") of folder "Applocker" of folder "__Global" of data folder of client)
+
+or 
+
+/* Rules in policy are missing from Implementation*/
+size of ((set of node values of attributes "Id" of child nodes of xpaths "/AppLockerPolicy/RuleCollection" of xml documents of files whose (name of it != "Effective.xml") of folder "Applocker" of folder "__Global" of data folder of client) - (set of names of keys of keys of key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2" of native registry)) > 0]]></Relevance>
+		<Category></Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-05-28</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Enter your action script here
+action uses wow64 redirection {not x64 of operating system}
+
+parameter "PowerShellExe"="{ pathname of file ((it as string) of value "Path" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell" of native registry) }"
+parameter "Storage"="{pathname of data folder of client}\__Global\Applocker"
+
+createfile until _end_
+param (
+    $inDir
+)
+
+$Rules = ""
+
+$ExeMethod = ""
+$MsiMethod = ""
+$ScriptMethod = ""
+$AppxMethod = ""
+
+$ExeRules = ""
+$MsiRules = ""
+$ScriptRules = ""
+$AppXRules = ""
+
+foreach ($Ruleset in get-childitem $InDir) {{
+    if ($Ruleset.Name -eq "Effective.xml") {{ continue;}
+
+    $xml = select-xml -Path $Ruleset.fullname -XPath "/AppLockerPolicy/RuleCollection"
+    
+    foreach ($Collection in $XML) {{
+        
+        if ($Collection.Node.Type -eq "Exe") {{
+            if ($Collection.Node.InnerXml.trim()) {{$ExeRules += $Collection.Node.InnerXml.tostring()}
+            if ($Collection.Node.EnforcementMode -eq "AuditOnly" -and $ExeMethod -ne "Enabled") {{ $ExeMethod = 'EnforcementMode="AuditOnly"' }
+            if ($Collection.Node.EnforcementMode -eq "Enabled") {{ $ExeMethod = 'EnforcementMode="Enabled"' }
+        }
+
+        if ($Collection.Node.Type -eq "Script") {{
+            if ($Collection.Node.InnerXml.trim()) {{$ScriptRules += $Collection.Node.InnerXml.tostring()}
+            if ($Collection.Node.EnforcementMode -eq "AuditOnly" -and $ScriptMethod -ne "Enabled") {{ $ScriptMethod = 'EnforcementMode="AuditOnly"' }
+            if ($Collection.Node.EnforcementMode -eq "Enabled") {{ $ScriptMethod = 'EnforcementMode="Enabled"' }
+        }
+
+        if ($Collection.Node.Type -eq "Msi") {{
+            if ($Collection.Node.InnerXml.trim()) {{$MsiRules += $Collection.Node.InnerXml.tostring()}
+            if ($Collection.Node.EnforcementMode -eq "AuditOnly" -and $MsiMethod -ne "Enabled") {{ $MsiMethod = 'EnforcementMode="AuditOnly"' }
+            if ($Collection.Node.EnforcementMode -eq "Enabled") {{ $MsiMethod = 'EnforcementMode="Enabled"' }
+        }
+
+        if ($Collection.Node.Type -eq "AppX") {{
+            if ($Collection.Node.InnerXml.trim()) {{$AppXRules += $Xml.Node.InnerXml.tostring()}
+            if ($Collection.Node.EnforcementMode -eq "AuditOnly" -and $AppXMethod -ne "Enabled") {{ $AppXMethod = 'EnforcementMode="AuditOnly"' }
+            if ($Collection.Node.EnforcementMode -eq "Enabled") {{ $AppXMethod = 'EnforcementMode="Enabled"' }
+        }
+    }
+}
+
+$Rules = @"
+<AppLockerPolicy Version="1">
+    <RuleCollection Type="Exe" $ExeMethod>
+        $ExeRules
+    </RuleCollection>
+    <RuleCollection Type="Msi" $MsiMethod>
+        $MsiRules
+    </RuleCollection>
+    <RuleCollection Type="Script" $ScriptMethod>
+        $ScriptRules
+    </RuleCollection>
+    <RuleCollection Type="Appx" $AppxMethod>
+        $AppxRules
+    </RuleCollection>
+</AppLockerPolicy>
+"@
+
+$Rules > "$Indir\Effective.xml"
+
+_end_
+
+move __createfile mergerules.ps1
+
+waithidden "{parameter "PowershellExe"}" -ExecutionPolicy Bypass -File mergerules.ps1 -inDir "{parameter "Storage"}"
+
+waithidden "{parameter "PowershellExe"}" -ExecutionPolicy Bypass -command "Import-Module AppLocker;Set-ApplockerPolicy -XMLPolicy ""{parameter "Storage"}\Effective.xml"""]]></ActionScript>
+		</DefaultAction>
+	</Fixlet>
+</BES>
