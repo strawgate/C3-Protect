@@ -30,7 +30,7 @@ delete __createfile
 createfile until _end_
 <AppLockerPolicy Version="1">
 <RuleCollection Type="Script">
-<FilePathRule Id="4687599f-786d-4bae-8e66-2413a02b0a4a" Name="Allow Administrators in to run Scripts in their profiles except for AppData" Description="" UserOrGroupSid="S-1-1-0" Action="Allow"><Conditions><FilePathCondition Path="%OSDRIVE%\users\*" /></Conditions><Exceptions><FilePathCondition Path="%OSDRIVE%\users\*\Appdata" /></Exceptions></FilePathRule>
+<FilePathRule Id="4687599f-786d-4bae-8e66-2413a02b0a4a" Name="Allow Administrators in to run Scripts in their profiles except for AppData" Description="" UserOrGroupSid="S-1-1-0" Action="Allow"><Conditions><FilePathCondition Path="%OSDRIVE%\users\*" /></Conditions><Exceptions><FilePathCondition Path="%OSDRIVE%\users\*\Appdata\*" /></Exceptions></FilePathRule>
 </RuleCollection>
 </AppLockerPolicy>
 _end_
