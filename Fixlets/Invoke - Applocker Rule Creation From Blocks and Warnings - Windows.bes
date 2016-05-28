@@ -2,7 +2,7 @@
 
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
 	<Fixlet>
-		<Title>Invoke - Create Applocker Rules From Blocks and Warnings - Windows</Title>
+		<Title>Invoke - Applocker Rule Creation From Blocks and Warnings - Windows</Title>
 		<Description><![CDATA[&lt;enter a description of the problem and the corrective action here&gt; ]]></Description>
 		<Relevance>windows of operating system</Relevance>
 		<Category></Category>
