@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Invoke - Create Applocker Rules From Blocks and Warnings - Windows</Title>
+		<Description><![CDATA[&lt;enter a description of the problem and the corrective action here&gt; ]]></Description>
+		<Relevance>windows of operating system</Relevance>
+		<Category></Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-05-28</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+action uses wow64 redirection {not x64 of operating system}
+
+parameter "PowerShellExe"="{ pathname of file ((it as string) of value "Path" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell" of native registry) }"
+parameter "Storage"="{pathname of data folder of client}\__Global\ApplockerGeneratedRules"
+
+createfile until __end__
+param (
+    $OutputDir = "Output"
+)
+
+$global:OutDir = $OutputDir
+new-item $global:OutDir -ItemType directory -ErrorAction SilentlyContinue
+
+Function Remove-InvalidFileNameChars {{
+  param(
+    [Parameter(Mandatory=$true,
+      Position=0,
+      ValueFromPipeline=$true,
+      ValueFromPipelineByPropertyName=$true)]
+    [String]$Name
+  )
+
+  $invalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $re = "[{{0}]" -f [RegEx]::Escape($invalidChars)
+  return ($Name -replace $re)
+}
+
+Function Split-Rules {{ 
+    Param (
+        [Microsoft.Security.ApplicationId.PolicyManagement.PolicyModel.PolicyElement] $RuleCollection
+    )
+
+    foreach ($Rule in $RuleCollection) {{
+        $RuleXML = @"
+&lt;AppLockerPolicy Version="1"&gt;
+&lt;RuleCollection Type="$($RuleCollection.RuleCollectionType)"&gt;
+$($Rule.ToXML())
+&lt;/RuleCollection&gt;
+&lt;/AppLockerPolicy&gt;
+"@
+        New-Fixlet -RuleType $RuleCollection.RuleCollectionType -Rule $Rule -RuleXML $RuleXML
+    }
+
+}
+
+Function New-Fixlet {{
+    Param (
+        $RuleType,
+        $Rule,
+        $RuleXML
+    )
+
+$Fixlet = @"
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd"&gt;
+	&lt;Fixlet&gt;
+		&lt;Title&gt;Config - Cache Applocker Rules - $Ruletype, $($Rule.Name) - Windows&lt;/Title&gt;
+		&lt;Description&gt;&lt;![CDATA[&lt;P&gt;This policy adds a policy to Applocker. Specifically it provides a rule for $($RuleType)&lt;/P&gt;&lt;br&gt;The rule self describes as: $($Rule.Name)]]&gt;&lt;/Description&gt;
+		&lt;Relevance&gt;Windows of Operating System&lt;/Relevance&gt;
+		&lt;Relevance&gt;&lt;![CDATA[(not exists file (pathname of data folder of client &amp; "\__Global\Applocker\$(Remove-InvalidFileNameChars $Rule.Name).xml"))]]&gt;&lt;/Relevance&gt;
+		&lt;Category&gt;Application Whitelisting&lt;/Category&gt;
+		&lt;Source&gt;Internal&lt;/Source&gt;
+		&lt;SourceID&gt;&lt;/SourceID&gt;
+		&lt;SourceReleaseDate&gt;2016-05-10&lt;/SourceReleaseDate&gt;
+		&lt;SourceSeverity&gt;&lt;/SourceSeverity&gt;
+		&lt;CVENames&gt;&lt;/CVENames&gt;
+		&lt;SANSID&gt;&lt;/SANSID&gt;
+		&lt;MIMEField&gt;
+			&lt;Name&gt;x-fixlet-modification-time&lt;/Name&gt;
+			&lt;Value&gt;Tue, 17 May 2016 21:39:44 +0000&lt;/Value&gt;
+		&lt;/MIMEField&gt;
+		&lt;Domain&gt;BESC&lt;/Domain&gt;
+		&lt;DefaultAction ID="Action1"&gt;
+			&lt;Description&gt;
+				&lt;PreLink&gt;Click &lt;/PreLink&gt;
+				&lt;Link&gt;here&lt;/Link&gt;
+				&lt;PostLink&gt; to deploy this action.&lt;/PostLink&gt;
+			&lt;/Description&gt;
+			&lt;ActionScript MIMEType="application/x-Fixlet-Windows-Shell"&gt;&lt;![CDATA[action uses wow64 redirection {{not x64 of operating system}
+
+parameter "RuleName"="$(Remove-InvalidFileNameChars $Rule.Name)"
+parameter "Storage"="{{pathname of data folder of client}\__Global\Applocker"
+
+delete __createfile
+
+createfile until _end_
+$($RuleXML)
+_end_
+
+folder create "{{parameter "Storage"}"
+
+delete "{{parameter "Storage"}\{{parameter "RuleName"}.xml"
+move __createfile "{{parameter "Storage"}\{{parameter "RuleName"}.xml"
+
+]]&gt;&lt;/ActionScript&gt;
+		&lt;/DefaultAction&gt;
+	&lt;/Fixlet&gt;
+&lt;/BES&gt;
+"@
+    $Output = Remove-InvalidFileNameChars -Name "$($Rule.Name).bes"
+
+    $Fixlet &gt; "$($global:OutDir)\$Output"
+}
+
+$Policy = Get-AppLockerFileInformation -EventLog -LogPath "Microsoft-Windows-AppLocker/EXE and DLL" -EventType Denied, Audited  | New-AppLockerPolicy -RuleType Publisher, Hash, Path -User Everyone 
+
+Split-Rules -RuleCollection $Policy.GetRuleCollection("Exe")
+Split-Rules -RuleCollection $Policy.GetRuleCollection("Msi")
+Split-Rules -RuleCollection $Policy.GetRuleCollection("Script")
+Split-Rules -RuleCollection $Policy.GetRuleCollection("AppX")
+
+$Policy = Get-AppLockerFileInformation -EventLog -LogPath "Microsoft-Windows-AppLocker/Msi and Script" -EventType Denied, Audited  | New-AppLockerPolicy -RuleType Publisher, Hash, Path -User Everyone 
+
+Split-Rules -RuleCollection $Policy.GetRuleCollection("Exe")
+Split-Rules -RuleCollection $Policy.GetRuleCollection("Msi")
+Split-Rules -RuleCollection $Policy.GetRuleCollection("Script")
+Split-Rules -RuleCollection $Policy.GetRuleCollection("AppX")
+__end__
+
+delete createrules.ps1
+move __createfile createrules.ps1
+
+waithidden "{parameter "PowershellExe"}" -ExecutionPolicy Bypass -File Createrules.ps1 -outputDir "{parameter "Storage"}"
+</ActionScript>
+			<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+		</DefaultAction>
+	</Fixlet>
+</BES>
