@@ -118,6 +118,7 @@ $Rules > "$Indir\Effective.xml"
 
 _end_
 
+delete mergerules.ps1
 move __createfile mergerules.ps1
 
 waithidden "{parameter "PowershellExe"}" -ExecutionPolicy Bypass -File mergerules.ps1 -inDir "{parameter "Storage"}"
