@@ -30,74 +30,104 @@
 			</Description>
 			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action uses wow64 redirection {not x64 of operating system}
 
-parameter "Storage"="{pathname of folder "__Global" of data folder of client}\Bitlocker"
+//
+// Configure Storage and Instance Paths
+//
 
+parameter "Storage"="{pathname of folder "__Global" of data folder of client}\Bitlocker"
+parameter "Instance"="{(now - "01 Jan 1970 00:00:00" as local time) / (1 * second)}"
+parameter "InstanceStorage"="{parameter "Storage"}\{parameter "Instance"}"
+
+folder create "{parameter "Storage"}"
+folder create "{parameter "Storage"}\{parameter "Instance"}"
+
+//
+// Configure Upload Manager
+//
+
+setting "_BESClient_ArchiveManager_MaxArchiveSize"="2097152" on "{parameter "action issue date" of action}" for client 
+setting "_BESClient_ArchiveManager_OperatingMode"="2" on "{parameter "action issue date" of action}" for client 
+setting "_BESClient_ArchiveManager_FileSet-BITLOCKER{parameter "Instance"}"="{parameter "InstanceStorage"}\*.*" on "{parameter "action issue date" of action}" for client 
+
+//
+// Cleanup before writing scripts
+//
 delete __createfile
 delete enable.bat
 delete terminate.bat
 delete addrecoverykey.bat
 delete status.bat
 
+//
+// Write Scripts
+//
+
 createfile until _end_
-manage-bde -status {name of drive of system folder} > "{client folder of current site}\Status.log"
+manage-bde -status {name of drive of system folder} > "{parameter "InstanceStorage"}\Status.log"
 _end_
 
 move __createfile status.bat
 
 createfile until _end_
-manage-bde -on {name of drive of system folder} > "{client folder of current site}\Enable.log"
+manage-bde -on {name of drive of system folder} > "{parameter "InstanceStorage"}\Enable.log"
 _end_
 
 move __createfile enable.bat
 
 createfile until _end_
-manage-bde -off {name of drive of system folder} > "{client folder of current site}\Terminate.log
-manage-bde -protectors {name of drive of system folder} -delete -type -recoverypassword >> "{client folder of current site}\Terminate.log
+manage-bde -off {name of drive of system folder} > "{parameter "InstanceStorage"}\Terminate.log
+manage-bde -protectors {name of drive of system folder} -delete -type -recoverypassword >> "{parameter "InstanceStorage"}\Terminate.log
 _end_
 
 move __createfile terminate.bat
 
 createfile until _end_
-manage-bde -protectors -add {name of drive of system folder} -recoverypassword > "{client folder of current site}\AddRecoveryKey.log
+manage-bde -protectors -add {name of drive of system folder} -recoverypassword > "{parameter "InstanceStorage"}\AddRecoveryKey.log
 _end_
 
 move __createfile addrecoverykey.bat
 
+//
+// Get BitLocker Status
+//
+
 wait status.bat
 
-delete "{parameter "Storage"}\Enable.log"
-copy "{client folder of current site}\Enable.log" "{parameter "Storage"}\Enable.log"
-
-// If the action dies here 
-
-if {not exists lines containing "Encryption in Progress" of file "Status.log" of client folder of current site }
+if {not exists lines containing "Encryption in Progress" of file "Status.log" of folder (parameter "InstanceStorage") }
+	
+	// DO NOT CONTINUE IF THERE IS AN EXISTING UPLOAD IN PROGRESS
+	continue if {not exists setting "_BESClient_UploadManager_Progress" of client}
 
 	wait enable.bat
-	
+
+	// No existing recovery key -- add one
+	if { not exists lines containing "Numerical Password" of file "Status.log" of folder (parameter "InstanceStorage")} 
+		wait addrecoverykey.bat
+	endif 
+
 	// If the action dies here there is a bootable CD or DVD in the drive
-	if { exists lines containing "ERROR: BitLocker detected a bootable CD or DVD on the computer." of file "Enable.log" of client folder of current site} 
-		// BitLocker is in inconsistent state -- kill encrytpion
+	if { exists lines containing "ERROR: BitLocker detected a bootable CD or DVD on the computer." of file "Enable.log" of folder (parameter "InstanceStorage")} 
+		// BitLocker is in inconsistent state -- kill encryption
 		wait terminate.bat
+		archive now
 		continue if false
 	endif
 	
 	// If the action dies here there was another error
-	if { exists lines containing "ERROR" of file "Enable.log"} 
-		// BitLocker is in inconsistent state -- kill encrytpion
+	if { exists lines containing "ERROR" of file "Enable.log" of folder (parameter "InstanceStorage")} 
+		// BitLocker is in inconsistent state -- kill encryption
 		wait terminate.bat
+		archive now
 		continue if false
 	endif
 	
-	if { not exists lines containing "Numerical Password" of file "Status.log"} 
-	
-		wait addrecoverykey.bat
-	
-	endif 
-	
+	archive now
+
 	action requires restart
 
 else
 
+	archive now
 	action requires restart
 
 endif]]></ActionScript>
