@@ -49,8 +49,6 @@ createfile until _end_
 </AppLockerPolicy>
 _end_
 
-move __createfile Applocker.xml
-
 folder create "{parameter "Storage"}"
 
 delete "{parameter "Storage"}\{parameter "RuleName"}.xml"
