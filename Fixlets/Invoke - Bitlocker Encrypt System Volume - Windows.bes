@@ -30,6 +30,8 @@
 			</Description>
 			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action uses wow64 redirection {not x64 of operating system}
 
+parameter "Storage"="{pathname of folder "__Global" of data folder of client}\Bitlocker"
+
 delete __createfile
 delete enable.bat
 delete terminate.bat
@@ -62,6 +64,9 @@ _end_
 move __createfile addrecoverykey.bat
 
 wait status.bat
+
+delete "{parameter "Storage"}\Enable.log"
+copy "{client folder of current site}\Enable.log" "{parameter "Storage"}\Enable.log"
 
 // If the action dies here 
 
