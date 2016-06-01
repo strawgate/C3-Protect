@@ -50,7 +50,7 @@ A string you wish to escape
   )
 
   $invalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
-  $re = "[{{0}]" -f [RegEx]::Escape($invalidChars)
+  $re = "[{{0}%]" -f [RegEx]::Escape($invalidChars)
   return ($Name -replace $re)
 }
 
@@ -227,7 +227,17 @@ move __createfile GenerateRules.ps1
 
 folder create "{parameter "Storage"}"
 
+//
+// Configure Upload Manager
+//
+
+setting "_BESClient_ArchiveManager_MaxArchiveSize"="2097152" on "{parameter "action issue date" of action}" for client 
+setting "_BESClient_ArchiveManager_OperatingMode"="2" on "{parameter "action issue date" of action}" for client 
+setting "_BESClient_ArchiveManager_FileSet-APPLOCKER"="{parameter "Storage"}\*.*" on "{parameter "action issue date" of action}" for client 
+
 waithidden "{parameter "PowershellExe"}" -ExecutionPolicy Bypass -File GenerateRules.ps1 -OutDir "{parameter "Storage"}"
+
+archive now
 </ActionScript>
 			<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
 		</DefaultAction>
