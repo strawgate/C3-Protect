@@ -6,32 +6,32 @@
 		<Description><![CDATA[<P>This policy sets the default application mitigations for various Microsoft applications within EMET.</P>
 <P>Specifically it configures EMET to detect exploits for the following applications:</P>
 <UL>
-<LI>7-Zip</LI>
-<LI>Adobe Acrobat</LI>
-<LI>Adobe Reader</LI>
-<LI>Adobe Photoshop</LI>
-<LI>Apple Safari</LI>
-<LI>Apple Quicktime</LI>
-<LI>Apple iTunes</LI>
-<LI>FoxIT Reader</LI>
-<LI>Google Chrome</LI>
-<LI>Google Talk</LI>
-<LI>Java</LI>
-<LI>mIRC</LI>
-<LI>Mozilla Firefox</LI>
-<LI>Mozilla Thunderbird</LI>
-<LI>Opera Browser</LI>
-<LI>Pidgin</LI>
-<LI>Real Player</LI>
-<LI>VLC</LI>
-<LI>Winamp</LI>
-<LI>WinRAR</LI>
+<LI>7-Zip 
+<LI>Adobe Acrobat 
+<LI>Adobe Reader 
+<LI>Adobe Photoshop 
+<LI>Apple Safari 
+<LI>Apple Quicktime 
+<LI>Apple iTunes 
+<LI>FoxIT Reader 
+<LI>Google Chrome 
+<LI>Google Talk 
+<LI>Java 
+<LI>mIRC 
+<LI>Mozilla Firefox 
+<LI>Mozilla Thunderbird 
+<LI>Opera Browser 
+<LI>Pidgin 
+<LI>Real Player 
+<LI>VLC 
+<LI>Winamp 
+<LI>WinRAR 
 <LI>WinZIP</LI></UL>
 <P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
 		<Relevance>windows of operating system</Relevance>
 		<Relevance>exists file "emet_conf.exe" of folder whose (name of it starts with "EMET") of program files x32 folder</Relevance>
 		<Relevance><![CDATA[(version of file "emet_conf.exe" of folder whose (name of it starts with "EMET") of program files x32 folder) > "5.5.0.0" as version]]></Relevance>
-		<Relevance>(size of (set of ("*\Adobe\*\Reader\AcroRd32.exe";"*\Adobe\Acrobat*\Acrobat\Acrobat.exe";"*\Java\jre*\bin\java.exe";"*\Java\jre*\bin\javaw.exe";"*\Java\jre*\bin\javaws.exe";"*\Windows Media Player\wmplayer.exe";"*\Skype\Phone\Skype.exe";"*\Microsoft Lync\communicator.exe";"*\Windows Live\Photo Gallery\WLXPhotoGallery.exe";"*\Windows Live\Mail\wlmail.exe";"*\Windows Live\Writer\WindowsLiveWriter.exe";"*\SkyDrive\SkyDrive.exe";"*\Google\Chrome\Application\chrome.exe";"*\Google\Google Talk\googletalk.exe";"*\Mozilla Firefox\firefox.exe";"*\Mozilla Firefox\plugin-container.exe";"*\Mozilla Thunderbird\thunderbird.exe";"*\Mozilla Thunderbird\plugin-container.exe";"*\Adobe\Adobe Photoshop CS*\Photoshop.exe";"*\Winamp\winamp.exe";"*\Opera\opera.exe";"*\Opera\*\opera.exe";"*\WinRAR\winrar.exe";"*\WinRAR\rar.exe";"*\WinRAR\unrar.exe";"*\WinZip\winzip32.exe";"*\WinZip\winzip64.exe";"*\VideoLAN\VLC\vlc.exe";"*\Real\RealPlayer\realconverter.exe";"*\Real\RealPlayer\realplay.exe";"*\mIRC\mirc.exe";"*\7-Zip\7z.exe";"*\7-Zip\7zG.exe";"*\7-Zip\7zFM.exe";"*\Safari\Safari.exe";"*\QuickTime\QuickTimePlayer.exe";"*\iTunes\iTunes.exe";"*\Pidgin\pidgin.exe";"*\Foxit Reader\Foxit Reader.exe") - set of names of values of key "HKEY_LOCAL_MACHINE\Software\Microsoft\EMET\AppSettings" of native registry) != 0) | true</Relevance>
+		<Relevance>(size of (set of ("*\Adobe\*\Reader\AcroRd32.exe";"*\Adobe\Acrobat*\Acrobat\Acrobat.exe";"*\Java\jre*\bin\java.exe";"*\Java\jre*\bin\javaw.exe";"*\Java\jre*\bin\javaws.exe";"*\Google\Chrome\Application\chrome.exe";"*\Google\Google Talk\googletalk.exe";"*\Mozilla Firefox\firefox.exe";"*\Mozilla Firefox\plugin-container.exe";"*\Mozilla Thunderbird\thunderbird.exe";"*\Mozilla Thunderbird\plugin-container.exe";"*\Adobe\Adobe Photoshop CS*\Photoshop.exe";"*\Winamp\winamp.exe";"*\Opera\opera.exe";"*\Opera\*\opera.exe";"*\WinRAR\winrar.exe";"*\WinRAR\rar.exe";"*\WinRAR\unrar.exe";"*\WinZip\winzip32.exe";"*\WinZip\winzip64.exe";"*\VideoLAN\VLC\vlc.exe";"*\Real\RealPlayer\realconverter.exe";"*\Real\RealPlayer\realplay.exe";"*\mIRC\mirc.exe";"*\7-Zip\7z.exe";"*\7-Zip\7zG.exe";"*\7-Zip\7zFM.exe";"*\Safari\Safari.exe";"*\QuickTime\QuickTimePlayer.exe";"*\iTunes\iTunes.exe";"*\Pidgin\pidgin.exe";"*\Foxit Reader\Foxit Reader.exe") - set of names of values of key "HKEY_LOCAL_MACHINE\Software\Microsoft\EMET\AppSettings" of native registry) != 0) | true</Relevance>
 		<Category></Category>
 		<Source>Internal</Source>
 		<SourceID></SourceID>
