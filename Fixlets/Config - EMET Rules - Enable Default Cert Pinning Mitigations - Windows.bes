@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Config - EMET Rules - Enable Default Cert Pinning Mitigations - Windows</Title>
+		<Description><![CDATA[<P>This policy sets the default Certificate Pinning Mitigations within EMET. Specifically it configures certificate pinning for the following sites:</P>
+<P>login.live.com<BR>login.microsoftonline.com<BR>login.skype.com<BR>login.yahoo.com<BR>secure.skype.com<BR>twitter.com<BR>facebook.com</P>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+		<Relevance>windows of operating system</Relevance>
+		<Relevance>exists file "emet_conf.exe" of folder whose (name of it starts with "EMET") of program files x32 folder</Relevance>
+		<Relevance><![CDATA[(version of file "emet_conf.exe" of folder whose (name of it starts with "EMET") of program files x32 folder) > "5.5.0.0" as version]]></Relevance>
+		<Relevance>(set of names of values of key "HKEY_LOCAL_MACHINE\Software\Microsoft\EMET\CertPinning\Rules" of native registry) != set of ("FacebookCA";"MicrosoftAccountCA";"TwitterCA";"YahooCA")</Relevance>
+		<Category></Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-06-06</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Enter your action script here
+
+parameter "emetconfexe"="{pathname of file "emet_conf.exe" of folder whose (name of it starts with "EMET") of program files x32 folder}"
+
+delete __createfile
+delete defaults.xml
+
+createfile until _end_
+<?xml version="1.0"?>
+<EMET Version="5.5.5871.31890">
+  <Pinning>
+    <PinRules>
+      <PinRule>
+        <ID>{{d9766177-1512-4c48-84e5-e95e44663eed}</ID>
+        <Name>TwitterCA</Name>
+        <ReferencedCertificates>
+          <UniqueCertificateIdentifier>
+            <Issuer>CN=GeoTrust Global CA, O=GeoTrust Inc., C=US</Issuer>
+            <SerialNumber>023456</SerialNumber>
+            <PublicKeyHash>00F92AC34191B6C9C2B83E55F2C0971113A00720</PublicKeyHash>
+            <Thumbprint>DE28F4A4FFE5B92FA3C503D1A349A7F9962A8212</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>Certificate not in current root store</Issuer>
+            <SerialNumber>Thumbprint A9E9780814375888F20519B06D2B0D2B6016907D</SerialNumber>
+            <PublicKeyHash>Certificate not in current root store</PublicKeyHash>
+            <Thumbprint>A9E9780814375888F20519B06D2B0D2B6016907D</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>CN=GeoTrust Primary Certification Authority, O=GeoTrust Inc., C=US</Issuer>
+            <SerialNumber>18ACB56AFD69B6153A636CAFDAFAC4A1</SerialNumber>
+            <PublicKeyHash>2CD5504197158BF08F36615B4AFB6BD999C93392</PublicKeyHash>
+            <Thumbprint>323C118E1BF7B8B65254E2E2100DD6029037F096</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>CN=GeoTrust Primary Certification Authority - G3, OU=(c) 2008 GeoTrust Inc. - For authorized use only, O=GeoTrust Inc., C=US</Issuer>
+            <SerialNumber>15AC6E9419B2794B41F627A9C3180F1F</SerialNumber>
+            <PublicKeyHash>C479CA8EA14E031D1CDC6BDB315B943E3F307F2D</PublicKeyHash>
+            <Thumbprint>039EEDB80BE7A03C6953893B20D2D9323A4C2AFD</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>Certificate not in current root store</Issuer>
+            <SerialNumber>Thumbprint E621F3354379059A4B68309D8A2F74221587EC79</SerialNumber>
+            <PublicKeyHash>Certificate not in current root store</PublicKeyHash>
+            <Thumbprint>E621F3354379059A4B68309D8A2F74221587EC79</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>Certificate not in current root store</Issuer>
+            <SerialNumber>Thumbprint 379A197B418545350CA60369F33C2EAF474F2079</SerialNumber>
+            <PublicKeyHash>Certificate not in current root store</PublicKeyHash>
+            <Thumbprint>379A197B418545350CA60369F33C2EAF474F2079</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>Certificate not in current root store</Issuer>
+            <SerialNumber>Thumbprint 204285DCF7EB764195578E136BD4B7D1E98E46A5</SerialNumber>
+            <PublicKeyHash>Certificate not in current root store</PublicKeyHash>
+            <Thumbprint>204285DCF7EB764195578E136BD4B7D1E98E46A5</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>Certificate not in current root store</Issuer>
+            <SerialNumber>Thumbprint 61EF43D77FCAD46151BC98E0C35912AF9FEB6311</SerialNumber>
+            <PublicKeyHash>Certificate not in current root store</PublicKeyHash>
+            <Thumbprint>61EF43D77FCAD46151BC98E0C35912AF9FEB6311</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>Certificate not in current root store</Issuer>
+            <SerialNumber>Thumbprint 85371CA6E550143DCE2803471BDE3A09E8F8770F</SerialNumber>
+            <PublicKeyHash>Certificate not in current root store</PublicKeyHash>
+            <Thumbprint>85371CA6E550143DCE2803471BDE3A09E8F8770F</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>CN=VeriSign Class 3 Public Primary Certification Authority - G3, OU="(c) 1999 VeriSign, Inc. - For authorized use only", OU=VeriSign Trust Network, O="VeriSign, Inc.", C=US</Issuer>
+            <SerialNumber>009B7E0649A33E62B9D5EE90487129EF57</SerialNumber>
+            <PublicKeyHash>F0115C20ABF0D0FE3D0842EF9571E372C11C1256</PublicKeyHash>
+            <Thumbprint>132D0D45534B6997CDB2D5C339E25576609B5CC6</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>CN=VeriSign Class 3 Public Primary Certification Authority - G5, OU="(c) 2006 VeriSign, Inc. - For authorized use only", OU=VeriSign Trust Network, O="VeriSign, Inc.", C=US</Issuer>
+            <SerialNumber>18DAD19E267DE8BB4A2158CDCC6B3B4A</SerialNumber>
+            <PublicKeyHash>7FD365A7C2DDECBBF03009F34339FA02AF333133</PublicKeyHash>
+            <Thumbprint>4EB6D578499B1CCF5F581EAD56BE3D9B6744A5E5</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>CN=VeriSign Universal Root Certification Authority, OU="(c) 2008 VeriSign, Inc. - For authorized use only", OU=VeriSign Trust Network, O="VeriSign, Inc.", C=US</Issuer>
+            <SerialNumber>401AC46421B31321030EBBE4121AC51D</SerialNumber>
+            <PublicKeyHash>B677FA6948479F5312D5C2EA07327607D1970719</PublicKeyHash>
+            <Thumbprint>3679CA35668772304D30A5FB873B0FA77BB70D54</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>CN=DigiCert Global Root CA, OU=www.digicert.com, O=DigiCert Inc, C=US</Issuer>
+            <SerialNumber>083BE056904246B1A1756AC95991C74A</SerialNumber>
+            <PublicKeyHash>03DE503556D14CBB66F0A3E21B1BC397B23DD155</PublicKeyHash>
+            <Thumbprint>A8985D3A65E5E5C4B2D7D66D40C6DD2FB19C5436</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>CN=DigiCert High Assurance EV Root CA, OU=www.digicert.com, O=DigiCert Inc, C=US</Issuer>
+            <SerialNumber>02AC5C266A0B409B8F0B79F2AE462577</SerialNumber>
+            <PublicKeyHash>B13EC36903F8BF4701D498261A0802EF63642BC3</PublicKeyHash>
+            <Thumbprint>5FB7EE0633E259DBAD0C4C9AE6D38F1A61C7DC25</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>CN=DigiCert Assured ID Root CA, OU=www.digicert.com, O=DigiCert Inc, C=US</Issuer>
+            <SerialNumber>0CE7E0E517D846FE8FE560FC1BF03039</SerialNumber>
+            <PublicKeyHash>45EBA2AFF492CB82312D518BA7A7219DF36DC80F</PublicKeyHash>
+            <Thumbprint>0563B8630D62D75ABBC8AB1E4BDFB5A899B24D43</Thumbprint>
+          </UniqueCertificateIdentifier>
+        </ReferencedCertificates>
+        <Expiration>09/01/2017 00:00:00</Expiration>
+      </PinRule>
+      <PinRule>
+        <ID>{{7c7b8b00-ea88-423c-9635-d4f92159aae7}</ID>
+        <Name>MicrosoftAccountCA</Name>
+        <ReferencedCertificates>
+          <UniqueCertificateIdentifier>
+            <Issuer>CN=Baltimore CyberTrust Root, OU=CyberTrust, O=Baltimore, C=IE</Issuer>
+            <SerialNumber>020000B9</SerialNumber>
+            <PublicKeyHash>E59D5930824758CCACFA085436867B3AB5044DF0</PublicKeyHash>
+            <Thumbprint>D4DE20D05E66FC53FE1A50882C78DB2852CAE474</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>CN=VeriSign Class 3 Public Primary Certification Authority - G5, OU="(c) 2006 VeriSign, Inc. - For authorized use only", OU=VeriSign Trust Network, O="VeriSign, Inc.", C=US</Issuer>
+            <SerialNumber>18DAD19E267DE8BB4A2158CDCC6B3B4A</SerialNumber>
+            <PublicKeyHash>7FD365A7C2DDECBBF03009F34339FA02AF333133</PublicKeyHash>
+            <Thumbprint>4EB6D578499B1CCF5F581EAD56BE3D9B6744A5E5</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>CN=GlobalSign Root CA, OU=Root CA, O=GlobalSign nv-sa, C=BE</Issuer>
+            <SerialNumber>040000000001154B5AC394</SerialNumber>
+            <PublicKeyHash>607B661A450D97CA89502F7D04CD34A8FFFCFD4B</PublicKeyHash>
+            <Thumbprint>B1BC968BD4F49D622AA89A81F2150152A41D829C</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>CN=GTE CyberTrust Global Root, OU="GTE CyberTrust Solutions, Inc.", O=GTE Corporation, C=US</Issuer>
+            <SerialNumber>01A5</SerialNumber>
+            <PublicKeyHash>A60C1D9F61FF0717B5BF3846DB4330D58EB05206</PublicKeyHash>
+            <Thumbprint>97817950D81C9670CC34D809CF794431367EF474</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>Certificate not in current root store</Issuer>
+            <SerialNumber>Thumbprint 912198EEF23DCAC40939312FEE97DD560BAE49B1</SerialNumber>
+            <PublicKeyHash>Certificate not in current root store</PublicKeyHash>
+            <Thumbprint>912198EEF23DCAC40939312FEE97DD560BAE49B1</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>Certificate not in current root store</Issuer>
+            <SerialNumber>Thumbprint 5F43E5B1BFF8788CAC1CC7CA4A9AC6222BCC34C6</SerialNumber>
+            <PublicKeyHash>Certificate not in current root store</PublicKeyHash>
+            <Thumbprint>5F43E5B1BFF8788CAC1CC7CA4A9AC6222BCC34C6</Thumbprint>
+          </UniqueCertificateIdentifier>
+        </ReferencedCertificates>
+        <Expiration>09/01/2017 00:00:00</Expiration>
+      </PinRule>
+      <PinRule>
+        <ID>{{cb1e584f-4ad0-4c6f-9239-317d4a07d24c}</ID>
+        <Name>FacebookCA</Name>
+        <ReferencedCertificates>
+          <UniqueCertificateIdentifier>
+            <Issuer>CN=DigiCert High Assurance EV Root CA, OU=www.digicert.com, O=DigiCert Inc, C=US</Issuer>
+            <SerialNumber>02AC5C266A0B409B8F0B79F2AE462577</SerialNumber>
+            <PublicKeyHash>B13EC36903F8BF4701D498261A0802EF63642BC3</PublicKeyHash>
+            <Thumbprint>5FB7EE0633E259DBAD0C4C9AE6D38F1A61C7DC25</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>OU=Equifax Secure Certificate Authority, O=Equifax, C=US</Issuer>
+            <SerialNumber>35DEF4CF</SerialNumber>
+            <PublicKeyHash>0F348320A1DA3FD1CB84DC48CBA4D5E19E66841E</PublicKeyHash>
+            <Thumbprint>D23209AD23D314232174E40D7F9D62139786633A</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>Certificate not in current root store</Issuer>
+            <SerialNumber>Thumbprint 7E784A101C8265CC2DE1F16D47B440CAD90A1945</SerialNumber>
+            <PublicKeyHash>Certificate not in current root store</PublicKeyHash>
+            <Thumbprint>7E784A101C8265CC2DE1F16D47B440CAD90A1945</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>CN=GeoTrust Global CA, O=GeoTrust Inc., C=US</Issuer>
+            <SerialNumber>023456</SerialNumber>
+            <PublicKeyHash>00F92AC34191B6C9C2B83E55F2C0971113A00720</PublicKeyHash>
+            <Thumbprint>DE28F4A4FFE5B92FA3C503D1A349A7F9962A8212</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>Certificate not in current root store</Issuer>
+            <SerialNumber>Thumbprint A9E9780814375888F20519B06D2B0D2B6016907D</SerialNumber>
+            <PublicKeyHash>Certificate not in current root store</PublicKeyHash>
+            <Thumbprint>A9E9780814375888F20519B06D2B0D2B6016907D</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>CN=GeoTrust Primary Certification Authority, O=GeoTrust Inc., C=US</Issuer>
+            <SerialNumber>18ACB56AFD69B6153A636CAFDAFAC4A1</SerialNumber>
+            <PublicKeyHash>2CD5504197158BF08F36615B4AFB6BD999C93392</PublicKeyHash>
+            <Thumbprint>323C118E1BF7B8B65254E2E2100DD6029037F096</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>CN=GeoTrust Primary Certification Authority - G3, OU=(c) 2008 GeoTrust Inc. - For authorized use only, O=GeoTrust Inc., C=US</Issuer>
+            <SerialNumber>15AC6E9419B2794B41F627A9C3180F1F</SerialNumber>
+            <PublicKeyHash>C479CA8EA14E031D1CDC6BDB315B943E3F307F2D</PublicKeyHash>
+            <Thumbprint>039EEDB80BE7A03C6953893B20D2D9323A4C2AFD</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>Certificate not in current root store</Issuer>
+            <SerialNumber>Thumbprint E621F3354379059A4B68309D8A2F74221587EC79</SerialNumber>
+            <PublicKeyHash>Certificate not in current root store</PublicKeyHash>
+            <Thumbprint>E621F3354379059A4B68309D8A2F74221587EC79</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>CN=thawte Primary Root CA, OU="(c) 2006 thawte, Inc. - For authorized use only", OU=Certification Services Division, O="thawte, Inc.", C=US</Issuer>
+            <SerialNumber>344ED55720D5EDEC49F42FCE37DB2B6D</SerialNumber>
+            <PublicKeyHash>7B5B45CFAFCECB7AFD31921A6AB6F346EB574850</PublicKeyHash>
+            <Thumbprint>91C6D6EE3E8AC86384E548C299295C756C817B81</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>CN=thawte Primary Root CA - G3, OU="(c) 2008 thawte, Inc. - For authorized use only", OU=Certification Services Division, O="thawte, Inc.", C=US</Issuer>
+            <SerialNumber>600197B746A7EAB4B49AD64B2FF790FB</SerialNumber>
+            <PublicKeyHash>AD6CAA94609CEDE4FFFA3E0A742B6303F7B659BF</PublicKeyHash>
+            <Thumbprint>F18B538D1BE903B6A6F056435B171589CAF36BF2</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>Certificate not in current root store</Issuer>
+            <SerialNumber>Thumbprint 85371CA6E550143DCE2803471BDE3A09E8F8770F</SerialNumber>
+            <PublicKeyHash>Certificate not in current root store</PublicKeyHash>
+            <Thumbprint>85371CA6E550143DCE2803471BDE3A09E8F8770F</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>CN=VeriSign Class 3 Public Primary Certification Authority - G3, OU="(c) 1999 VeriSign, Inc. - For authorized use only", OU=VeriSign Trust Network, O="VeriSign, Inc.", C=US</Issuer>
+            <SerialNumber>009B7E0649A33E62B9D5EE90487129EF57</SerialNumber>
+            <PublicKeyHash>F0115C20ABF0D0FE3D0842EF9571E372C11C1256</PublicKeyHash>
+            <Thumbprint>132D0D45534B6997CDB2D5C339E25576609B5CC6</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>CN=VeriSign Class 3 Public Primary Certification Authority - G5, OU="(c) 2006 VeriSign, Inc. - For authorized use only", OU=VeriSign Trust Network, O="VeriSign, Inc.", C=US</Issuer>
+            <SerialNumber>18DAD19E267DE8BB4A2158CDCC6B3B4A</SerialNumber>
+            <PublicKeyHash>7FD365A7C2DDECBBF03009F34339FA02AF333133</PublicKeyHash>
+            <Thumbprint>4EB6D578499B1CCF5F581EAD56BE3D9B6744A5E5</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>CN=VeriSign Universal Root Certification Authority, OU="(c) 2008 VeriSign, Inc. - For authorized use only", OU=VeriSign Trust Network, O="VeriSign, Inc.", C=US</Issuer>
+            <SerialNumber>401AC46421B31321030EBBE4121AC51D</SerialNumber>
+            <PublicKeyHash>B677FA6948479F5312D5C2EA07327607D1970719</PublicKeyHash>
+            <Thumbprint>3679CA35668772304D30A5FB873B0FA77BB70D54</Thumbprint>
+          </UniqueCertificateIdentifier>
+        </ReferencedCertificates>
+        <Expiration>09/01/2017 00:00:00</Expiration>
+      </PinRule>
+      <PinRule>
+        <ID>{{1d1e83d9-f876-49ab-bbd6-14c3c7dd6338}</ID>
+        <Name>YahooCA</Name>
+        <ReferencedCertificates>
+          <UniqueCertificateIdentifier>
+            <Issuer>CN=GTE CyberTrust Global Root, OU="GTE CyberTrust Solutions, Inc.", O=GTE Corporation, C=US</Issuer>
+            <SerialNumber>01A5</SerialNumber>
+            <PublicKeyHash>A60C1D9F61FF0717B5BF3846DB4330D58EB05206</PublicKeyHash>
+            <Thumbprint>97817950D81C9670CC34D809CF794431367EF474</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>CN=DigiCert High Assurance EV Root CA, OU=www.digicert.com, O=DigiCert Inc, C=US</Issuer>
+            <SerialNumber>02AC5C266A0B409B8F0B79F2AE462577</SerialNumber>
+            <PublicKeyHash>B13EC36903F8BF4701D498261A0802EF63642BC3</PublicKeyHash>
+            <Thumbprint>5FB7EE0633E259DBAD0C4C9AE6D38F1A61C7DC25</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>CN=GeoTrust Global CA, O=GeoTrust Inc., C=US</Issuer>
+            <SerialNumber>023456</SerialNumber>
+            <PublicKeyHash>00F92AC34191B6C9C2B83E55F2C0971113A00720</PublicKeyHash>
+            <Thumbprint>DE28F4A4FFE5B92FA3C503D1A349A7F9962A8212</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>Certificate not in current root store</Issuer>
+            <SerialNumber>Thumbprint A9E9780814375888F20519B06D2B0D2B6016907D</SerialNumber>
+            <PublicKeyHash>Certificate not in current root store</PublicKeyHash>
+            <Thumbprint>A9E9780814375888F20519B06D2B0D2B6016907D</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>CN=GeoTrust Primary Certification Authority, O=GeoTrust Inc., C=US</Issuer>
+            <SerialNumber>18ACB56AFD69B6153A636CAFDAFAC4A1</SerialNumber>
+            <PublicKeyHash>2CD5504197158BF08F36615B4AFB6BD999C93392</PublicKeyHash>
+            <Thumbprint>323C118E1BF7B8B65254E2E2100DD6029037F096</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>CN=GeoTrust Primary Certification Authority - G3, OU=(c) 2008 GeoTrust Inc. - For authorized use only, O=GeoTrust Inc., C=US</Issuer>
+            <SerialNumber>15AC6E9419B2794B41F627A9C3180F1F</SerialNumber>
+            <PublicKeyHash>C479CA8EA14E031D1CDC6BDB315B943E3F307F2D</PublicKeyHash>
+            <Thumbprint>039EEDB80BE7A03C6953893B20D2D9323A4C2AFD</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>Certificate not in current root store</Issuer>
+            <SerialNumber>Thumbprint E621F3354379059A4B68309D8A2F74221587EC79</SerialNumber>
+            <PublicKeyHash>Certificate not in current root store</PublicKeyHash>
+            <Thumbprint>E621F3354379059A4B68309D8A2F74221587EC79</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>Certificate not in current root store</Issuer>
+            <SerialNumber>Thumbprint 204285DCF7EB764195578E136BD4B7D1E98E46A5</SerialNumber>
+            <PublicKeyHash>Certificate not in current root store</PublicKeyHash>
+            <Thumbprint>204285DCF7EB764195578E136BD4B7D1E98E46A5</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>Certificate not in current root store</Issuer>
+            <SerialNumber>Thumbprint 61EF43D77FCAD46151BC98E0C35912AF9FEB6311</SerialNumber>
+            <PublicKeyHash>Certificate not in current root store</PublicKeyHash>
+            <Thumbprint>61EF43D77FCAD46151BC98E0C35912AF9FEB6311</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>Certificate not in current root store</Issuer>
+            <SerialNumber>Thumbprint 85371CA6E550143DCE2803471BDE3A09E8F8770F</SerialNumber>
+            <PublicKeyHash>Certificate not in current root store</PublicKeyHash>
+            <Thumbprint>85371CA6E550143DCE2803471BDE3A09E8F8770F</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>CN=VeriSign Class 3 Public Primary Certification Authority - G3, OU="(c) 1999 VeriSign, Inc. - For authorized use only", OU=VeriSign Trust Network, O="VeriSign, Inc.", C=US</Issuer>
+            <SerialNumber>009B7E0649A33E62B9D5EE90487129EF57</SerialNumber>
+            <PublicKeyHash>F0115C20ABF0D0FE3D0842EF9571E372C11C1256</PublicKeyHash>
+            <Thumbprint>132D0D45534B6997CDB2D5C339E25576609B5CC6</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>CN=VeriSign Class 3 Public Primary Certification Authority - G5, OU="(c) 2006 VeriSign, Inc. - For authorized use only", OU=VeriSign Trust Network, O="VeriSign, Inc.", C=US</Issuer>
+            <SerialNumber>18DAD19E267DE8BB4A2158CDCC6B3B4A</SerialNumber>
+            <PublicKeyHash>7FD365A7C2DDECBBF03009F34339FA02AF333133</PublicKeyHash>
+            <Thumbprint>4EB6D578499B1CCF5F581EAD56BE3D9B6744A5E5</Thumbprint>
+          </UniqueCertificateIdentifier>
+          <UniqueCertificateIdentifier>
+            <Issuer>CN=VeriSign Universal Root Certification Authority, OU="(c) 2008 VeriSign, Inc. - For authorized use only", OU=VeriSign Trust Network, O="VeriSign, Inc.", C=US</Issuer>
+            <SerialNumber>401AC46421B31321030EBBE4121AC51D</SerialNumber>
+            <PublicKeyHash>B677FA6948479F5312D5C2EA07327607D1970719</PublicKeyHash>
+            <Thumbprint>3679CA35668772304D30A5FB873B0FA77BB70D54</Thumbprint>
+          </UniqueCertificateIdentifier>
+        </ReferencedCertificates>
+        <Expiration>09/01/2017 00:00:00</Expiration>
+      </PinRule>
+    </PinRules>
+    <PinnedSites>
+      <PinnedSite>
+        <Domain>login.microsoftonline.com</Domain>
+        <PinRuleMember>{{7c7b8b00-ea88-423c-9635-d4f92159aae7}</PinRuleMember>
+        <Active>True</Active>
+      </PinnedSite>
+      <PinnedSite>
+        <Domain>secure.skype.com</Domain>
+        <PinRuleMember>{{7c7b8b00-ea88-423c-9635-d4f92159aae7}</PinRuleMember>
+        <Active>True</Active>
+      </PinnedSite>
+      <PinnedSite>
+        <Domain>www.facebook.com</Domain>
+        <PinRuleMember>{{cb1e584f-4ad0-4c6f-9239-317d4a07d24c}</PinRuleMember>
+        <Active>True</Active>
+      </PinnedSite>
+      <PinnedSite>
+        <Domain>login.yahoo.com</Domain>
+        <PinRuleMember>{{1d1e83d9-f876-49ab-bbd6-14c3c7dd6338}</PinRuleMember>
+        <Active>True</Active>
+      </PinnedSite>
+      <PinnedSite>
+        <Domain>login.live.com</Domain>
+        <PinRuleMember>{{7c7b8b00-ea88-423c-9635-d4f92159aae7}</PinRuleMember>
+        <Active>True</Active>
+      </PinnedSite>
+      <PinnedSite>
+        <Domain>login.skype.com</Domain>
+        <PinRuleMember>{{7c7b8b00-ea88-423c-9635-d4f92159aae7}</PinRuleMember>
+        <Active>True</Active>
+      </PinnedSite>
+      <PinnedSite>
+        <Domain>twitter.com</Domain>
+        <PinRuleMember>{{d9766177-1512-4c48-84e5-e95e44663eed}</PinRuleMember>
+        <Active>True</Active>
+      </PinnedSite>
+    </PinnedSites>
+  </Pinning>
+</EMET>
+_end_
+
+move __createfile defaults.xml
+
+waithidden "{parameter "emetconfexe"}" --import defaults.xml]]></ActionScript>
+		</DefaultAction>
+	</Fixlet>
+</BES>

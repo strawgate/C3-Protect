@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Config - EMET Rules - Enable Default Mitigation Actions - Windows</Title>
+		<Description><![CDATA[<P>This policy sets the default mitigations and actions within EMET. Specifically it configures EMET to do the following:</P>
+<P><STRONG>Exploit Action:<BR></STRONG>Kill program on exploit detection</P>
+<P><STRONG>Advanced Settings:<BR></STRONG>Enable DeepHook, AntiDetours, and BannedFunction settings</P>
+<P><STRONG>Reporting:<BR></STRONG>Report Telemetry<BR>Show Tray Icon<BR>Log to Event log</P>
+<P><STRONG>Mitigations</STRONG>:<BR>Application Opt In to DEP<BR>Application Opt In to SEHOP<BR>Application Opt In to ASLR<BR>Enable Certificate Pinning<BR>Audit Untrusted Font Detection</P>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+		<Relevance>windows of operating system</Relevance>
+		<Relevance>exists file "emet_conf.exe" of folder whose (name of it starts with "EMET") of program files x32 folder</Relevance>
+		<Relevance><![CDATA[(version of file "emet_conf.exe" of folder whose (name of it starts with "EMET") of program files x32 folder) > "5.5.0.0" as version]]></Relevance>
+		<Relevance>((value "AntiDetours" of it != 1 or value "BannedFunctions" of it != 1 or value "DeepHooks" of it != 1 or value "ExploitAction" of it != 1 or value "ReportingSettings" of it != 7) of key "HKEY_LOCAL_MACHINE\Software\Microsoft\EMET" of native registry) | true</Relevance>
+		<Category></Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-06-06</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Enter your action script here
+
+parameter "emetconfexe"="{pathname of file "emet_conf.exe" of folder whose (name of it starts with "EMET") of program files x32 folder}"
+
+delete __createfile
+delete defaults.xml
+
+createfile until _end_
+<?xml version="1.0"?>
+<EMET Version="5.5.5871.31890">
+  <Settings>
+    <ExploitAction Value="StopProgram" />
+    <AdvancedSettings DeepHooks="True" AntiDetours="True" BannedFunctions="True" />
+    <Reporting Telemetry="True" TrayIcon="True" EventLog="True" />
+    <SystemSettings DEP="Application Opt In" SEHOP="Application Opt In" ASLR="Application Opt In" Pinning="Enabled" Fonts="Audit" />
+  </Settings>
+</EMET>
+_end_
+
+move __createfile defaults.xml
+
+waithidden "{parameter "emetconfexe"}" --import defaults.xml]]></ActionScript>
+		</DefaultAction>
+	</Fixlet>
+</BES>
