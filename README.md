@@ -14,6 +14,7 @@ Content in this site includes:
 * Applocker Application Whitelisting Fixlets and Analyses - [Setup Guide](https://github.com/strawgate/C3-Protect/wiki/Applocker)
 * Avast Antivirus Fixlets and Analyses
 * Bitlocker Fixlets and Analyses - [Setup Guide](https://github.com/strawgate/C3-Protect/wiki/Bitlocker)
+* Enhanced Mitigation Experience Toolkit - [Setup Guide](https://github.com/strawgate/C3-Protect/wiki/EMET)
 * FileVault 2 Fixlets and Analyses - [Setup Guide](https://github.com/strawgate/C3-Protect/wiki/FileVault-2)
 * Firewall Fixlets and Analyses
 * Trusted Platform Module Fixlets and Analyses
