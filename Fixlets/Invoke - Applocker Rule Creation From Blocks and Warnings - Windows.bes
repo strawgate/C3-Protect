@@ -191,7 +191,7 @@ param (
 
 import-module "$PSScriptRoot\Applocker.psm1" -force
 
-$Policy = Get-AppLockerFileInformation -EventLog -LogPath "Microsoft-Windows-AppLocker/EXE and DLL" -EventType Denied, Audited  | New-AppLockerPolicy -RuleType Publisher, Hash, Path -User Everyone 
+$Policy = Get-AppLockerFileInformation -EventLog -LogPath "Microsoft-Windows-AppLocker/EXE and DLL" -EventType Denied, Audited  | New-AppLockerPolicy -RuleType Publisher, Hash, Path -User Everyone -Optimize
 
 foreach ($CollectionType in $Policy.RuleCollectionTypes){{
     foreach($Rule in $Policy.GetRuleCollection($CollectionType)) {{
@@ -206,7 +206,7 @@ foreach ($CollectionType in $Policy.RuleCollectionTypes){{
     }
 }
 
-$Policy = Get-AppLockerFileInformation -EventLog -LogPath "Microsoft-Windows-AppLocker/Msi and Script" -EventType Denied, Audited  | New-AppLockerPolicy -RuleType Publisher, Hash, Path -User Everyone 
+$Policy = Get-AppLockerFileInformation -EventLog -LogPath "Microsoft-Windows-AppLocker/Msi and Script" -EventType Denied, Audited  | New-AppLockerPolicy -RuleType Publisher, Hash, Path -User Everyone -Optimize
 
 foreach ($CollectionType in $Policy.RuleCollectionTypes){{
     foreach($Rule in $Policy.GetRuleCollection($CollectionType)) {{
