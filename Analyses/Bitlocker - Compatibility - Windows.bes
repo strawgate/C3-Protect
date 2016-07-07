@@ -6,7 +6,7 @@
 		<Description><![CDATA[<P>Provides information on whether or not the OS is compatible with Bitlocker and whether the WMI node required for Bitlocker exists on the system. </P>
 <P>Information on using this content is available here: <A href="https://github.com/strawgate/C3-Protect/wiki/Bitlocker">https://github.com/strawgate/C3-Protect/wiki/Bitlocker</A></P>
 <P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
-		<Relevance>true</Relevance>
+		<Relevance>windows of operating system</Relevance>
 		<Source>Internal</Source>
 		<SourceReleaseDate>2016-04-30</SourceReleaseDate>
 		<Domain>BESC</Domain>
