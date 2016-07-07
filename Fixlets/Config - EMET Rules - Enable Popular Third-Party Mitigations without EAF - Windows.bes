@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Config - EMET Rules - Enable Popular Third-Party Mitigations without EAF - Windows</Title>
+		<Description><![CDATA[<P>This policy sets the default application mitigations for various Microsoft applications within EMET.</P>
+<P>Specifically it configures EMET to detect exploits for the following applications:</P>
+<UL>
+<LI>7-Zip 
+<LI>Adobe Acrobat 
+<LI>Adobe Reader 
+<LI>Adobe Photoshop 
+<LI>Apple Safari 
+<LI>Apple Quicktime 
+<LI>Apple iTunes 
+<LI>FoxIT Reader 
+<LI>Google Chrome 
+<LI>Google Talk 
+<LI>Java 
+<LI>mIRC 
+<LI>Mozilla Firefox 
+<LI>Mozilla Thunderbird 
+<LI>Opera Browser 
+<LI>Pidgin 
+<LI>Real Player 
+<LI>VLC 
+<LI>Winamp 
+<LI>WinRAR 
+<LI>WinZIP</LI></UL>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+		<Relevance>windows of operating system</Relevance>
+		<Relevance>exists file "emet_conf.exe" of folder whose (name of it starts with "EMET") of program files x32 folder</Relevance>
+		<Relevance><![CDATA[(version of file "emet_conf.exe" of folder whose (name of it starts with "EMET") of program files x32 folder) > "5.5.0.0" as version]]></Relevance>
+		<Relevance>(size of (set of ("*\Adobe\*\Reader\AcroRd32.exe";"*\Adobe\Acrobat*\Acrobat\Acrobat.exe";"*\Java\jre*\bin\java.exe";"*\Java\jre*\bin\javaw.exe";"*\Java\jre*\bin\javaws.exe";"*\Google\Chrome\Application\chrome.exe";"*\Google\Google Talk\googletalk.exe";"*\Mozilla Firefox\firefox.exe";"*\Mozilla Firefox\plugin-container.exe";"*\Mozilla Thunderbird\thunderbird.exe";"*\Mozilla Thunderbird\plugin-container.exe";"*\Adobe\Adobe Photoshop CS*\Photoshop.exe";"*\Winamp\winamp.exe";"*\Opera\opera.exe";"*\Opera\*\opera.exe";"*\WinRAR\winrar.exe";"*\WinRAR\rar.exe";"*\WinRAR\unrar.exe";"*\WinZip\winzip32.exe";"*\WinZip\winzip64.exe";"*\VideoLAN\VLC\vlc.exe";"*\Real\RealPlayer\realconverter.exe";"*\Real\RealPlayer\realplay.exe";"*\mIRC\mirc.exe";"*\7-Zip\7z.exe";"*\7-Zip\7zG.exe";"*\7-Zip\7zFM.exe";"*\Safari\Safari.exe";"*\QuickTime\QuickTimePlayer.exe";"*\iTunes\iTunes.exe";"*\Pidgin\pidgin.exe";"*\Foxit Reader\Foxit Reader.exe") - set of names of values of key "HKEY_LOCAL_MACHINE\Software\Microsoft\EMET\AppSettings" of native registry) != 0) | true</Relevance>
+		<Category></Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-06-06</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Enter your action script here
+
+parameter "emetconfexe"="{pathname of file "emet_conf.exe" of folder whose (name of it starts with "EMET") of program files x32 folder}"
+
+delete __createfile
+delete defaults.xml
+
+createfile until _end_
+<?xml version="1.0"?>
+<!--
+EMET Popular Software protections config. 
+Enables protections for common software such as Internet Explorer, Microsof Office, Windows Media Player, Adobe Acrobat Reader, Java, WinZip, VLC, RealPlayer, QuickTime, Opera, etc.
+
+All applications will have the default mitigations applied to them unless specific mitigations are specified per application.
+Environment variable supported:
+- %ProgramFiles(x86)% - This maps to %ProgramFiles(x86)%. If it's not defined on the system, it will map to %ProgramFiles%.
+- %ProgramFiles% - This maps to %ProgramFiles%. If the Product's Arch property is x64, it will map to the 64 bit program files directory.
+- %Windir% - Windows directory
+- %LOCALAPPDATA% - User local data path
+- %APPDATA% - User roaming data path
+- All other environment variables
+- MinOS - when a mitigation is enabled (=true), it will be applied by default only if minimum OS version is equal or greater of the one specified
+
+Please refer to EMET User's Guide for detailed information on how to use wildcards "*" 
+-->
+
+<EMET_Standard_Rules>
+
+  <!-- Default mitigations will be applied by default to configured programs unless each program explicity enables or disables certain mitigations -->
+  <DefaultConfig>
+    <Mitigations>
+      <Mitigation Name="DEP"            Enabled="true" />
+      <Mitigation Name="SEHOP"          Enabled="true" />
+      <Mitigation Name="NullPage"       Enabled="true" />
+      <Mitigation Name="HeapSpray"      Enabled="true" />
+      <Mitigation Name="EAF"            Enabled="false" />
+      <Mitigation Name="EAF+"           Enabled="false" />
+      <Mitigation Name="MandatoryASLR"  Enabled="true" />
+      <Mitigation Name="BottomUpASLR"   Enabled="true" />
+      <Mitigation Name="LoadLib"        Enabled="true" />
+      <Mitigation Name="MemProt"        Enabled="true" />
+      <Mitigation Name="Caller"         Enabled="true" />
+      <Mitigation Name="SimExecFlow"    Enabled="true" />
+      <Mitigation Name="StackPivot"     Enabled="true" />
+      <Mitigation Name="ASR"            Enabled="false" />
+    </Mitigations>
+  </DefaultConfig>
+
+  <Settings>
+    <ExploitAction Value="StopProgram" />
+    <AdvancedSettings DeepHooks="True" AntiDetours="True" BannedFunctions="True" />
+  </Settings>
+
+  <!-- 
+  ******************************************************************************************************************
+  Suites and programs definitions
+  ******************************************************************************************************************
+  -->
+  <!-- ****************************************************************************************************************** -->
+  <Vendor Name="Google">
+    <Product Name="Chrome">
+      <Version Arch="x86" Path="*\Google\Chrome\Application\chrome.exe">
+        <Mitigation Name="SEHOP" Enabled="true" MinOS="6.1"/>
+        <Mitigation Name="EAF+" Enabled="false">
+          <eaf_modules>chrome_child.dll</eaf_modules>
+        </Mitigation>
+	
+      </Version>
+    </Product>
+
+    <Product Name="Google Talk">
+      <Version Arch="x86" Path="*\Google\Google Talk\googletalk.exe">
+        <Mitigation Name="DEP" Enabled="false" />
+        <Mitigation Name="SEHOP" Enabled="true" MinOS="6.1"/>
+      </Version>
+    </Product>
+  </Vendor>
+
+  <!-- ****************************************************************************************************************** -->
+  <Vendor Name="Mozilla">
+    <Suite Name="FireFox" Arch="x86">
+      <App Name="Browser" Path="*\Mozilla Firefox\firefox.exe">
+        <Mitigation Name="EAF+" Enabled="false">
+          <eaf_modules>mozjs.dll;xul.dll</eaf_modules>
+        </Mitigation>
+      </App>
+      <App Name="Plugin container" Path="*\Mozilla Firefox\plugin-container.exe"/>
+    </Suite>
+
+    <Suite Name="Thunderbird" Arch="x86">
+      <App Name="Mail client" Path="*\Mozilla Thunderbird\thunderbird.exe"/>
+      <App Name="Plugin container" Path="*\Mozilla Thunderbird\plugin-container.exe"/>
+    </Suite>
+  </Vendor>
+
+  <!-- ****************************************************************************************************************** -->
+  <Vendor Name="Adobe">
+
+    <!-- Adobe Photoshop CS ALL-->
+    <Product Name="Photoshop">
+      <Version Name="Photoshop" Path="*\Adobe\Adobe Photoshop CS*\Photoshop.exe"/>
+    </Product>
+
+    <!-- Adobe Acrobat and Acrobat Reader 8,9,10,11 -->
+    <Product Name="Acrobat Reader">
+      <Version Name="Acrobat Reader" Path="*\Adobe\*\Reader\AcroRd32.exe">
+        <Mitigation Name="EAF+" Enabled="false">
+          <eaf_modules>AcroRd32.dll;Acrofx32.dll;AcroForm.api</eaf_modules>
+        </Mitigation>
+      </Version>
+    </Product>
+    <Product Name="Acrobat">
+      <Version Name="Acrobat" Path="*\Adobe\Acrobat*\Acrobat\Acrobat.exe">
+        <Mitigation Name="EAF+" Enabled="false">
+          <eaf_modules>AcroRd32.dll;Acrofx32.dll;AcroForm.api</eaf_modules>
+        </Mitigation>
+      </Version>
+    </Product>
+    
+  </Vendor>
+
+  <!-- ****************************************************************************************************************** -->
+  <Vendor Name="Nullsoft">
+    <Product Name="Winamp">
+      <Version Arch="x86" Path="*\Winamp\winamp.exe"/>
+    </Product>
+  </Vendor>
+
+  <!-- ****************************************************************************************************************** -->
+  <Vendor Name="Opera Software ASA">
+    <Product Name="Opera Browser">
+      <Version Arch="x86" Path="*\Opera\opera.exe"/>
+    </Product>
+  </Vendor>
+  <Vendor Name="Opera Software ASA">
+    <Product Name="Opera Browser">
+      <Version Arch="x86" Path="*\Opera\*\opera.exe"/>
+    </Product>
+  </Vendor>  
+
+  <!-- ****************************************************************************************************************** -->
+  <Vendor Name="RAR Labs">
+    <Suite Name="WinRAR">
+      <App Name="GUI" Path="*\WinRAR\winrar.exe"/>
+      <App Name="Console" Path="*\WinRAR\rar.exe"/>
+      <App Name="Unrar" Path="*\WinRAR\unrar.exe"/>
+    </Suite>
+  </Vendor>
+
+  <!-- ****************************************************************************************************************** -->
+  <Vendor Name="WinZip Computing">
+    <Product Name="WinZip (x86)">
+      <Version Arch="x86" Path="*\WinZip\winzip32.exe"/>
+    </Product>
+
+    <Product Name="WinZip (x64)">
+      <Version Arch="x64" Path="*\WinZip\winzip64.exe"/>
+    </Product>
+  </Vendor>
+
+  <!-- ****************************************************************************************************************** -->
+  <Vendor Name="VideoLAN">
+    <Product Name="VLC">
+      <Version Arch="x86" Path="*\VideoLAN\VLC\vlc.exe"/>
+    </Product>
+  </Vendor>
+
+  <!-- ****************************************************************************************************************** -->
+  <Vendor Name="Real Networks">
+    <Suite Name="RealPlayer" Arch="x86">
+      <App Name="Converter" Path="*\Real\RealPlayer\realconverter.exe"/>
+      <App Name="Player" Path="*\Real\RealPlayer\realplay.exe"/>
+    </Suite>
+  </Vendor>
+
+  <!-- ****************************************************************************************************************** -->
+  <Vendor Name="mIRC Co">
+    <Product Name="mIRC">
+      <Version Arch="x86" Path="*\mIRC\mirc.exe"/>
+    </Product>
+  </Vendor>
+
+  <!-- ****************************************************************************************************************** -->
+  <Vendor Name="7-Zip">
+    <Suite Name="7-Zip">
+      <App Name="Console command line" Path="*\7-Zip\7z.exe">
+        <Mitigation Name="EAF" Enabled="false" />
+      </App>
+      <App Name="GUI command line" Path="*\7-Zip\7zG.exe">
+        <Mitigation Name="EAF" Enabled="false" />
+      </App>
+      <App Name="File manager" Path="*\7-Zip\7zFM.exe">
+        <Mitigation Name="EAF" Enabled="false" />
+      </App>
+    </Suite>
+  </Vendor>
+
+  <!-- ****************************************************************************************************************** -->
+  <Vendor Name="Apple">
+    <Product Name="Safari">
+      <Version Arch="x86" Path="*\Safari\Safari.exe"/>
+    </Product>
+
+    <Product Name="QuickTime">
+      <Version Arch="x86" Path="*\QuickTime\QuickTimePlayer.exe"/>
+    </Product>
+
+    <Product Name="iTunes">
+      <Version Path="*\iTunes\iTunes.exe"/>
+    </Product>
+
+  </Vendor>
+
+  <!-- ****************************************************************************************************************** -->
+  <Vendor Name="Pidgin">
+    <Product Name="Pidgin">
+      <Version Arch="x86" Path="*\Pidgin\pidgin.exe"/>
+    </Product>
+  </Vendor>
+
+  <!-- ****************************************************************************************************************** -->
+  <Vendor Name="Oracle">
+      <Suite Name="Java">
+          <App Name="Console" Path="*\Java\jre*\bin\java.exe">
+              <Mitigation Name="HeapSpray" Enabled="false" />
+          </App>
+          <App Name="GUI" Path="*\Java\jre*\bin\javaw.exe">
+              <Mitigation Name="HeapSpray" Enabled="false" />
+          </App>
+          <App Name="Web Start" Path="*\Java\jre*\bin\javaws.exe">
+              <Mitigation Name="HeapSpray" Enabled="false" />
+          </App>
+      </Suite>
+  </Vendor>
+
+  <!-- ****************************************************************************************************************** -->
+  <Vendor Name="Foxit">
+    <Product Name="Foxit Reader">
+      <Version Arch="x86" Path="*\Foxit Reader\Foxit Reader.exe"/>
+    </Product>
+  </Vendor>
+
+</EMET_Standard_Rules>
+_end_
+
+move __createfile defaults.xml
+
+waithidden "{parameter "emetconfexe"}" --import defaults.xml]]></ActionScript>
+		</DefaultAction>
+	</Fixlet>
+</BES>

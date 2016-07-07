@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Config - EMET Rules - Enable Microsoft Application Mitigations without EAF - Windows</Title>
+		<Description><![CDATA[<P>This policy sets the default application mitigations for various Microsoft applications within EMET.</P>
+<P>Specifically it configures EMET to detect exploits for the following applications:</P>
+<UL>
+<LI>Access 
+<LI>Excel 
+<LI>InfoPath 
+<LI>Internet Explorer 
+<LI>Lync 
+<LI>Outlook 
+<LI>PowerPoint 
+<LI>Publisher 
+<LI>Visio 
+<LI>Word 
+<LI>WordPad</LI></UL>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+		<Relevance>windows of operating system</Relevance>
+		<Relevance>exists file "emet_conf.exe" of folder whose (name of it starts with "EMET") of program files x32 folder</Relevance>
+		<Relevance><![CDATA[(version of file "emet_conf.exe" of folder whose (name of it starts with "EMET") of program files x32 folder) > "5.5.0.0" as version]]></Relevance>
+		<Relevance>(size of ((set of ("*\Internet Explorer\iexplore.exe";"*\Windows NT\Accessories\wordpad.exe";"*\OFFICE1*\OUTLOOK.EXE";"*\OFFICE1*\WINWORD.EXE";"*\OFFICE1*\EXCEL.EXE";"*\OFFICE1*\POWERPNT.EXE";"*\OFFICE1*\MSACCESS.EXE";"*\OFFICE1*\MSPUB.EXE";"*\OFFICE1*\INFOPATH.EXE";"*\OFFICE1*\VISIO.EXE";"*\OFFICE1*\VPREVIEW.EXE";"*\OFFICE1*\LYNC.EXE";"*\OFFICE1*\PPTVIEW.EXE";"*\OFFICE1*\OIS.EXE") - set of names of values of key "HKEY_LOCAL_MACHINE\Software\Microsoft\EMET\AppSettings" of native registry) - set of names of values of key "HKEY_LOCAL_MACHINE\Software\Microsoft\EMET\AppSettings" of native registry) != 0) | true</Relevance>
+		<Category></Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-06-06</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Enter your action script here
+
+parameter "emetconfexe"="{pathname of file "emet_conf.exe" of folder whose (name of it starts with "EMET") of program files x32 folder}"
+
+delete __createfile
+delete defaults.xml
+
+createfile until _end_
+<?xml version="1.0"?>
+<EMET Version="5.5.5871.31890">
+  <EMET_Apps>
+    <AppConfig Path="*\Internet Explorer" Executable="iexplore.exe">
+      <Mitigation Name="DEP" Enabled="true" />
+      <Mitigation Name="SEHOP" Enabled="true" />
+      <Mitigation Name="NullPage" Enabled="true" />
+      <Mitigation Name="HeapSpray" Enabled="true" />
+      <Mitigation Name="EAF" Enabled="false" />
+      <Mitigation Name="EAF+" Enabled="false">
+        <eaf_modules>mshtml.dll;flash*.ocx;jscript*.dll;vbscript.dll;vgx.dll</eaf_modules>
+      </Mitigation>
+      <Mitigation Name="MandatoryASLR" Enabled="true" />
+      <Mitigation Name="BottomUpASLR" Enabled="true" />
+      <Mitigation Name="LoadLib" Enabled="true" />
+      <Mitigation Name="MemProt" Enabled="true" />
+      <Mitigation Name="Caller" Enabled="true" />
+      <Mitigation Name="SimExecFlow" Enabled="true" />
+      <Mitigation Name="StackPivot" Enabled="true" />
+      <Mitigation Name="ASR" Enabled="true">
+        <asr_modules>npjpi*.dll;jp2iexp.dll;vgx.dll;msxml4*.dll;wshom.ocx;scrrun.dll;vbscript.dll</asr_modules>
+        <asr_zones>1;2</asr_zones>
+      </Mitigation>
+      <Mitigation Name="Fonts" Enabled="false" />
+    </AppConfig>
+    <AppConfig Path="*\Windows NT\Accessories" Executable="wordpad.exe">
+      <Mitigation Name="DEP" Enabled="true" />
+      <Mitigation Name="SEHOP" Enabled="true" />
+      <Mitigation Name="NullPage" Enabled="true" />
+      <Mitigation Name="HeapSpray" Enabled="true" />
+      <Mitigation Name="EAF" Enabled="false" />
+      <Mitigation Name="EAF+" Enabled="false" />
+      <Mitigation Name="MandatoryASLR" Enabled="true" />
+      <Mitigation Name="BottomUpASLR" Enabled="true" />
+      <Mitigation Name="LoadLib" Enabled="true" />
+      <Mitigation Name="MemProt" Enabled="true" />
+      <Mitigation Name="Caller" Enabled="true" />
+      <Mitigation Name="SimExecFlow" Enabled="true" />
+      <Mitigation Name="StackPivot" Enabled="true" />
+      <Mitigation Name="ASR" Enabled="false" />
+      <Mitigation Name="Fonts" Enabled="false" />
+    </AppConfig>
+    <AppConfig Path="*\OFFICE1*" Executable="OUTLOOK.EXE">
+      <Mitigation Name="DEP" Enabled="true" />
+      <Mitigation Name="SEHOP" Enabled="true" />
+      <Mitigation Name="NullPage" Enabled="true" />
+      <Mitigation Name="HeapSpray" Enabled="true" />
+      <Mitigation Name="EAF" Enabled="false" />
+      <Mitigation Name="EAF+" Enabled="false" />
+      <Mitigation Name="MandatoryASLR" Enabled="true" />
+      <Mitigation Name="BottomUpASLR" Enabled="true" />
+      <Mitigation Name="LoadLib" Enabled="true" />
+      <Mitigation Name="MemProt" Enabled="true" />
+      <Mitigation Name="Caller" Enabled="true" />
+      <Mitigation Name="SimExecFlow" Enabled="true" />
+      <Mitigation Name="StackPivot" Enabled="true" />
+      <Mitigation Name="ASR" Enabled="false" />
+      <Mitigation Name="Fonts" Enabled="false" />
+    </AppConfig>
+    <AppConfig Path="*\OFFICE1*" Executable="WINWORD.EXE">
+      <Mitigation Name="DEP" Enabled="true" />
+      <Mitigation Name="SEHOP" Enabled="true" />
+      <Mitigation Name="NullPage" Enabled="true" />
+      <Mitigation Name="HeapSpray" Enabled="true" />
+      <Mitigation Name="EAF" Enabled="false" />
+      <Mitigation Name="EAF+" Enabled="false" />
+      <Mitigation Name="MandatoryASLR" Enabled="true" />
+      <Mitigation Name="BottomUpASLR" Enabled="true" />
+      <Mitigation Name="LoadLib" Enabled="true" />
+      <Mitigation Name="MemProt" Enabled="true" />
+      <Mitigation Name="Caller" Enabled="true" />
+      <Mitigation Name="SimExecFlow" Enabled="true" />
+      <Mitigation Name="StackPivot" Enabled="true" />
+      <Mitigation Name="ASR" Enabled="true">
+        <asr_modules>flash*.ocx</asr_modules>
+      </Mitigation>
+      <Mitigation Name="Fonts" Enabled="false" />
+    </AppConfig>
+    <AppConfig Path="*\OFFICE1*" Executable="EXCEL.EXE">
+      <Mitigation Name="DEP" Enabled="true" />
+      <Mitigation Name="SEHOP" Enabled="true" />
+      <Mitigation Name="NullPage" Enabled="true" />
+      <Mitigation Name="HeapSpray" Enabled="true" />
+      <Mitigation Name="EAF" Enabled="false" />
+      <Mitigation Name="EAF+" Enabled="false" />
+      <Mitigation Name="MandatoryASLR" Enabled="true" />
+      <Mitigation Name="BottomUpASLR" Enabled="true" />
+      <Mitigation Name="LoadLib" Enabled="true" />
+      <Mitigation Name="MemProt" Enabled="true" />
+      <Mitigation Name="Caller" Enabled="true" />
+      <Mitigation Name="SimExecFlow" Enabled="true" />
+      <Mitigation Name="StackPivot" Enabled="true" />
+      <Mitigation Name="ASR" Enabled="true">
+        <asr_modules>flash*.ocx</asr_modules>
+      </Mitigation>
+      <Mitigation Name="Fonts" Enabled="false" />
+    </AppConfig>
+    <AppConfig Path="*\OFFICE1*" Executable="POWERPNT.EXE">
+      <Mitigation Name="DEP" Enabled="true" />
+      <Mitigation Name="SEHOP" Enabled="true" />
+      <Mitigation Name="NullPage" Enabled="true" />
+      <Mitigation Name="HeapSpray" Enabled="true" />
+      <Mitigation Name="EAF" Enabled="false" />
+      <Mitigation Name="EAF+" Enabled="false" />
+      <Mitigation Name="MandatoryASLR" Enabled="true" />
+      <Mitigation Name="BottomUpASLR" Enabled="true" />
+      <Mitigation Name="LoadLib" Enabled="true" />
+      <Mitigation Name="MemProt" Enabled="true" />
+      <Mitigation Name="Caller" Enabled="true" />
+      <Mitigation Name="SimExecFlow" Enabled="true" />
+      <Mitigation Name="StackPivot" Enabled="true" />
+      <Mitigation Name="ASR" Enabled="true">
+        <asr_modules>flash*.ocx</asr_modules>
+      </Mitigation>
+      <Mitigation Name="Fonts" Enabled="false" />
+    </AppConfig>
+    <AppConfig Path="*\OFFICE1*" Executable="MSACCESS.EXE">
+      <Mitigation Name="DEP" Enabled="true" />
+      <Mitigation Name="SEHOP" Enabled="true" />
+      <Mitigation Name="NullPage" Enabled="true" />
+      <Mitigation Name="HeapSpray" Enabled="true" />
+      <Mitigation Name="EAF" Enabled="false" />
+      <Mitigation Name="EAF+" Enabled="false" />
+      <Mitigation Name="MandatoryASLR" Enabled="true" />
+      <Mitigation Name="BottomUpASLR" Enabled="true" />
+      <Mitigation Name="LoadLib" Enabled="true" />
+      <Mitigation Name="MemProt" Enabled="true" />
+      <Mitigation Name="Caller" Enabled="true" />
+      <Mitigation Name="SimExecFlow" Enabled="true" />
+      <Mitigation Name="StackPivot" Enabled="true" />
+      <Mitigation Name="ASR" Enabled="false" />
+      <Mitigation Name="Fonts" Enabled="false" />
+    </AppConfig>
+    <AppConfig Path="*\OFFICE1*" Executable="MSPUB.EXE">
+      <Mitigation Name="DEP" Enabled="true" />
+      <Mitigation Name="SEHOP" Enabled="true" />
+      <Mitigation Name="NullPage" Enabled="true" />
+      <Mitigation Name="HeapSpray" Enabled="true" />
+      <Mitigation Name="EAF" Enabled="false" />
+      <Mitigation Name="EAF+" Enabled="false" />
+      <Mitigation Name="MandatoryASLR" Enabled="true" />
+      <Mitigation Name="BottomUpASLR" Enabled="true" />
+      <Mitigation Name="LoadLib" Enabled="true" />
+      <Mitigation Name="MemProt" Enabled="true" />
+      <Mitigation Name="Caller" Enabled="true" />
+      <Mitigation Name="SimExecFlow" Enabled="true" />
+      <Mitigation Name="StackPivot" Enabled="true" />
+      <Mitigation Name="ASR" Enabled="false" />
+      <Mitigation Name="Fonts" Enabled="false" />
+    </AppConfig>
+    <AppConfig Path="*\OFFICE1*" Executable="INFOPATH.EXE">
+      <Mitigation Name="DEP" Enabled="true" />
+      <Mitigation Name="SEHOP" Enabled="true" />
+      <Mitigation Name="NullPage" Enabled="true" />
+      <Mitigation Name="HeapSpray" Enabled="true" />
+      <Mitigation Name="EAF" Enabled="false" />
+      <Mitigation Name="EAF+" Enabled="false" />
+      <Mitigation Name="MandatoryASLR" Enabled="true" />
+      <Mitigation Name="BottomUpASLR" Enabled="true" />
+      <Mitigation Name="LoadLib" Enabled="true" />
+      <Mitigation Name="MemProt" Enabled="true" />
+      <Mitigation Name="Caller" Enabled="true" />
+      <Mitigation Name="SimExecFlow" Enabled="true" />
+      <Mitigation Name="StackPivot" Enabled="true" />
+      <Mitigation Name="ASR" Enabled="false" />
+      <Mitigation Name="Fonts" Enabled="false" />
+    </AppConfig>
+    <AppConfig Path="*\OFFICE1*" Executable="VISIO.EXE">
+      <Mitigation Name="DEP" Enabled="true" />
+      <Mitigation Name="SEHOP" Enabled="true" />
+      <Mitigation Name="NullPage" Enabled="true" />
+      <Mitigation Name="HeapSpray" Enabled="true" />
+      <Mitigation Name="EAF" Enabled="false" />
+      <Mitigation Name="EAF+" Enabled="false" />
+      <Mitigation Name="MandatoryASLR" Enabled="true" />
+      <Mitigation Name="BottomUpASLR" Enabled="true" />
+      <Mitigation Name="LoadLib" Enabled="true" />
+      <Mitigation Name="MemProt" Enabled="true" />
+      <Mitigation Name="Caller" Enabled="true" />
+      <Mitigation Name="SimExecFlow" Enabled="true" />
+      <Mitigation Name="StackPivot" Enabled="true" />
+      <Mitigation Name="ASR" Enabled="false" />
+      <Mitigation Name="Fonts" Enabled="false" />
+    </AppConfig>
+    <AppConfig Path="*\OFFICE1*" Executable="VPREVIEW.EXE">
+      <Mitigation Name="DEP" Enabled="true" />
+      <Mitigation Name="SEHOP" Enabled="true" />
+      <Mitigation Name="NullPage" Enabled="true" />
+      <Mitigation Name="HeapSpray" Enabled="true" />
+      <Mitigation Name="EAF" Enabled="false" />
+      <Mitigation Name="EAF+" Enabled="false" />
+      <Mitigation Name="MandatoryASLR" Enabled="true" />
+      <Mitigation Name="BottomUpASLR" Enabled="true" />
+      <Mitigation Name="LoadLib" Enabled="true" />
+      <Mitigation Name="MemProt" Enabled="true" />
+      <Mitigation Name="Caller" Enabled="true" />
+      <Mitigation Name="SimExecFlow" Enabled="true" />
+      <Mitigation Name="StackPivot" Enabled="true" />
+      <Mitigation Name="ASR" Enabled="false" />
+      <Mitigation Name="Fonts" Enabled="false" />
+    </AppConfig>
+    <AppConfig Path="*\OFFICE1*" Executable="LYNC.EXE">
+      <Mitigation Name="DEP" Enabled="true" />
+      <Mitigation Name="SEHOP" Enabled="true" />
+      <Mitigation Name="NullPage" Enabled="true" />
+      <Mitigation Name="HeapSpray" Enabled="true" />
+      <Mitigation Name="EAF" Enabled="false" />
+      <Mitigation Name="EAF+" Enabled="false" />
+      <Mitigation Name="MandatoryASLR" Enabled="true" />
+      <Mitigation Name="BottomUpASLR" Enabled="true" />
+      <Mitigation Name="LoadLib" Enabled="true" />
+      <Mitigation Name="MemProt" Enabled="true" />
+      <Mitigation Name="Caller" Enabled="true" />
+      <Mitigation Name="SimExecFlow" Enabled="true" />
+      <Mitigation Name="StackPivot" Enabled="true" />
+      <Mitigation Name="ASR" Enabled="false" />
+      <Mitigation Name="Fonts" Enabled="false" />
+    </AppConfig>
+    <AppConfig Path="*\OFFICE1*" Executable="PPTVIEW.EXE">
+      <Mitigation Name="DEP" Enabled="true" />
+      <Mitigation Name="SEHOP" Enabled="true" />
+      <Mitigation Name="NullPage" Enabled="true" />
+      <Mitigation Name="HeapSpray" Enabled="true" />
+      <Mitigation Name="EAF" Enabled="false" />
+      <Mitigation Name="EAF+" Enabled="false" />
+      <Mitigation Name="MandatoryASLR" Enabled="true" />
+      <Mitigation Name="BottomUpASLR" Enabled="true" />
+      <Mitigation Name="LoadLib" Enabled="true" />
+      <Mitigation Name="MemProt" Enabled="true" />
+      <Mitigation Name="Caller" Enabled="true" />
+      <Mitigation Name="SimExecFlow" Enabled="true" />
+      <Mitigation Name="StackPivot" Enabled="true" />
+      <Mitigation Name="ASR" Enabled="false" />
+      <Mitigation Name="Fonts" Enabled="false" />
+    </AppConfig>
+    <AppConfig Path="*\OFFICE1*" Executable="OIS.EXE">
+      <Mitigation Name="DEP" Enabled="true" />
+      <Mitigation Name="SEHOP" Enabled="true" />
+      <Mitigation Name="NullPage" Enabled="true" />
+      <Mitigation Name="HeapSpray" Enabled="true" />
+      <Mitigation Name="EAF" Enabled="false" />
+      <Mitigation Name="EAF+" Enabled="false" />
+      <Mitigation Name="MandatoryASLR" Enabled="true" />
+      <Mitigation Name="BottomUpASLR" Enabled="true" />
+      <Mitigation Name="LoadLib" Enabled="true" />
+      <Mitigation Name="MemProt" Enabled="true" />
+      <Mitigation Name="Caller" Enabled="true" />
+      <Mitigation Name="SimExecFlow" Enabled="true" />
+      <Mitigation Name="StackPivot" Enabled="true" />
+      <Mitigation Name="ASR" Enabled="false" />
+      <Mitigation Name="Fonts" Enabled="false" />
+    </AppConfig>
+</EMET_Apps>
+</EMET>
+_end_
+
+move __createfile defaults.xml
+
+waithidden "{parameter "emetconfexe"}" --import defaults.xml]]></ActionScript>
+		</DefaultAction>
+	</Fixlet>
+</BES>
