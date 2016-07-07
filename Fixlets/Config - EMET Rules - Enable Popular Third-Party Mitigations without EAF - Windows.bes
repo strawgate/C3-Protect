@@ -27,6 +27,7 @@
 <LI>Winamp 
 <LI>WinRAR 
 <LI>WinZIP</LI></UL>
+<P>This Fixlet in particular excludes ALL EAF configurations.</P>
 <P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
 		<Relevance>windows of operating system</Relevance>
 		<Relevance>exists file "emet_conf.exe" of folder whose (name of it starts with "EMET") of program files x32 folder</Relevance>
