@@ -4,6 +4,7 @@
 	<Analysis>
 		<Title>EMET - Configuration - Windows</Title>
 		<Description><![CDATA[<P>This analysis covers various details of the currently deployed EMET configuration.</P>
+<P>Information on using this content is available here: <A href="https://github.com/strawgate/C3-Protect/wiki/EMET">https://github.com/strawgate/C3-Protect/wiki/EMET</A></P>
 <P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A>&nbsp;</P>]]></Description>
 		<Relevance>windows of operating system</Relevance>
 		<Relevance>exists key "HKEY_LOCAL_MACHINE\Software\Microsoft\EMET\AppSettings" of native registry</Relevance>
