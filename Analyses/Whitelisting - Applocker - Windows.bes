@@ -11,6 +11,6 @@
 		<Source>Internal</Source>
 		<SourceReleaseDate>2016-04-19</SourceReleaseDate>
 		<Domain>BESC</Domain>
-		<Property Name="Applocker - Enabled - Windows" ID="1">exists key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2" of native registry</Property>
+		<Property Name="Applocker - Enabled - Windows" ID="1" EvaluationPeriod="P1D">exists key "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2" of native registry</Property>
 	</Analysis>
 </BES>

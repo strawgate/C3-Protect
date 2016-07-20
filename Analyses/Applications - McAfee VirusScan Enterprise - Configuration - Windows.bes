@@ -11,10 +11,10 @@
 		<Source>Internal</Source>
 		<SourceReleaseDate>2016-03-30</SourceReleaseDate>
 		<Domain>BESC</Domain>
-		<Property Name="McAfee VirusScan Enterprise - Engine Version - Windows" ID="3">value "EngineVersionMajor" of key "HKLM\SOFTWARE\McAfee\AVEngine" of registry as string | "None"</Property>
-		<Property Name="McAfee VirusScan Enterprise - Definitions Version - Windows" ID="4">value "AVDatVersion" of key "HKLM\SOFTWARE\McAfee\AVEngine" of registry as string | "None"</Property>
-		<Property Name="McAfee VirusScan Enterprise - Definitions Date (Raw) - Windows" ID="5">value "AVDatDate" of key "HKLM\SOFTWARE\McAfee\AVEngine" of registry as string | "None"</Property>
-		<Property Name="McAfee VirusScan Enterprise - Client Status - Windows" ID="6">if ((not exists running application "vshwin32.exe") AND (not exists running application "mcshield.exe")) then "Not Running" else "Running"</Property>
-		<Property Name="McAfee VirusScan Enterprise - Definitions Date (As Date) - Windows" ID="7"><![CDATA[(it as date) of (last 2 of it & " " & (substring (4,2) of it as integer as month as three letters) & " " & first 4 of it) of concatenations "" of substrings separated by "/" of (value "AVDatDate" of key "HKLM\SOFTWARE\McAfee\AVEngine" of registry as string | "None")]]></Property>
+		<Property Name="McAfee VirusScan Enterprise - Engine Version - Windows" ID="3" EvaluationPeriod="P1D">value "EngineVersionMajor" of key "HKLM\SOFTWARE\McAfee\AVEngine" of registry as string | "None"</Property>
+		<Property Name="McAfee VirusScan Enterprise - Definitions Version - Windows" ID="4" EvaluationPeriod="P1D">value "AVDatVersion" of key "HKLM\SOFTWARE\McAfee\AVEngine" of registry as string | "None"</Property>
+		<Property Name="McAfee VirusScan Enterprise - Definitions Date (Raw) - Windows" ID="5" EvaluationPeriod="P1D">value "AVDatDate" of key "HKLM\SOFTWARE\McAfee\AVEngine" of registry as string | "None"</Property>
+		<Property Name="McAfee VirusScan Enterprise - Client Status - Windows" ID="6" EvaluationPeriod="P1D">if ((not exists running application "vshwin32.exe") AND (not exists running application "mcshield.exe")) then "Not Running" else "Running"</Property>
+		<Property Name="McAfee VirusScan Enterprise - Definitions Date (As Date) - Windows" ID="7" EvaluationPeriod="P1D"><![CDATA[(it as date) of (last 2 of it & " " & (substring (4,2) of it as integer as month as three letters) & " " & first 4 of it) of concatenations "" of substrings separated by "/" of (value "AVDatDate" of key "HKLM\SOFTWARE\McAfee\AVEngine" of registry as string | "None")]]></Property>
 	</Analysis>
 </BES>

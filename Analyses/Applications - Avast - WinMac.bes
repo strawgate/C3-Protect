@@ -10,7 +10,7 @@
 		<Source>Internal</Source>
 		<SourceReleaseDate>2016-04-18</SourceReleaseDate>
 		<Domain>BESC</Domain>
-		<Property Name="Avast - Suite Name - Win\Mac" ID="1">if (if (mac of operating system) then (exists "/Applications/Avast.app" and exists folder "/Library/Application Support/Avast/config/bcc") else (exists (keys of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registry) whose (value "DisplayName" of it as string starts with "Avast Business Security"))) then ("Avast! for Business (Cloud)") else ("None")</Property>
-		<Property Name="Avast - Avast for Business (Cloud) - Installed - Win\Mac" ID="2">if (mac of operating system) then (exists "/Applications/Avast.app" and exists folder "/Library/Application Support/Avast/config/bcc") else (exists (keys of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registry) whose (value "DisplayName" of it as string starts with "Avast Business Security"))</Property>
+		<Property Name="Avast - Suite Name - Win\Mac" ID="1" EvaluationPeriod="P1D">if (if (mac of operating system) then (exists "/Applications/Avast.app" and exists folder "/Library/Application Support/Avast/config/bcc") else (exists (keys of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registry) whose (value "DisplayName" of it as string starts with "Avast Business Security"))) then ("Avast! for Business (Cloud)") else ("None")</Property>
+		<Property Name="Avast - Avast for Business (Cloud) - Installed - Win\Mac" ID="2" EvaluationPeriod="PT1H">if (mac of operating system) then (exists "/Applications/Avast.app" and exists folder "/Library/Application Support/Avast/config/bcc") else (exists (keys of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registry) whose (value "DisplayName" of it as string starts with "Avast Business Security"))</Property>
 	</Analysis>
 </BES>

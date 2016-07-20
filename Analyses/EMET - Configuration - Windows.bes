@@ -12,14 +12,14 @@
 		<Source>Internal</Source>
 		<SourceReleaseDate>2016-06-07</SourceReleaseDate>
 		<Domain>BESC</Domain>
-		<Property Name="EMET - Mitigated Applications - Windows" ID="1">(name of it, it) of values of key "HKEY_LOCAL_MACHINE\Software\Microsoft\EMET\AppSettings" of native registry</Property>
-		<Property Name="EMET - Service State - Windows" ID="2">state of service "EMET_Service"</Property>
-		<Property Name="EMET - Version - Windows" ID="3">version of service "EMET_Service"</Property>
-		<Property Name="EMET - Sites with Certificate Pinning - Windows" ID="4">(name of it, it) of values of key "HKEY_LOCAL_MACHINE\Software\Microsoft\EMET\CertPinning\Sites" of native registry</Property>
-		<Property Name="EMET - Anti-Detours Mitigation - Windows" ID="5">(if (value "AntiDetours" of key "HKEY_LOCAL_MACHINE\Software\Microsoft\EMET" of native registry = 1) then "Enabled" else "Disabled") | "Disabled"</Property>
-		<Property Name="EMET - Banned Functions Mitigation - Windows" ID="6">(if (value "BannedFunctions" of key "HKEY_LOCAL_MACHINE\Software\Microsoft\EMET" of native registry = 1) then "Enabled" else "Disabled") | "Disabled"</Property>
-		<Property Name="EMET - Deep Hooks Mitigation - Windows" ID="7">(if (value "DeepHooks" of key "HKEY_LOCAL_MACHINE\Software\Microsoft\EMET" of native registry = 1) then "Enabled" else "Disabled") | "Disabled"</Property>
-		<Property Name="EMET - Unsafe Settings Available - Windows" ID="8">(if (value "EnableUnsafeSettings" of key "HKEY_LOCAL_MACHINE\Software\Microsoft\EMET" of native registry = 1) then "Enabled" else "Disabled") | "Disabled"</Property>
-		<Property Name="EMET - Exploit Action - Windows" ID="9">(if (value "ExploitAction" of key "HKEY_LOCAL_MACHINE\Software\Microsoft\EMET" of native registry = 1) then "Kill Process" else "Audit") | "audit"</Property>
+		<Property Name="EMET - Mitigated Applications - Windows" ID="1" EvaluationPeriod="PT6H">(name of it, it) of values of key "HKEY_LOCAL_MACHINE\Software\Microsoft\EMET\AppSettings" of native registry</Property>
+		<Property Name="EMET - Service State - Windows" ID="2" EvaluationPeriod="P1D">state of service "EMET_Service"</Property>
+		<Property Name="EMET - Version - Windows" ID="3" EvaluationPeriod="P1D">version of service "EMET_Service"</Property>
+		<Property Name="EMET - Sites with Certificate Pinning - Windows" ID="4" EvaluationPeriod="P1D">(name of it, it) of values of key "HKEY_LOCAL_MACHINE\Software\Microsoft\EMET\CertPinning\Sites" of native registry</Property>
+		<Property Name="EMET - Anti-Detours Mitigation - Windows" ID="5" EvaluationPeriod="P1D">(if (value "AntiDetours" of key "HKEY_LOCAL_MACHINE\Software\Microsoft\EMET" of native registry = 1) then "Enabled" else "Disabled") | "Disabled"</Property>
+		<Property Name="EMET - Banned Functions Mitigation - Windows" ID="6" EvaluationPeriod="P1D">(if (value "BannedFunctions" of key "HKEY_LOCAL_MACHINE\Software\Microsoft\EMET" of native registry = 1) then "Enabled" else "Disabled") | "Disabled"</Property>
+		<Property Name="EMET - Deep Hooks Mitigation - Windows" ID="7" EvaluationPeriod="P1D">(if (value "DeepHooks" of key "HKEY_LOCAL_MACHINE\Software\Microsoft\EMET" of native registry = 1) then "Enabled" else "Disabled") | "Disabled"</Property>
+		<Property Name="EMET - Unsafe Settings Available - Windows" ID="8" EvaluationPeriod="P1D">(if (value "EnableUnsafeSettings" of key "HKEY_LOCAL_MACHINE\Software\Microsoft\EMET" of native registry = 1) then "Enabled" else "Disabled") | "Disabled"</Property>
+		<Property Name="EMET - Exploit Action - Windows" ID="9" EvaluationPeriod="P1D">(if (value "ExploitAction" of key "HKEY_LOCAL_MACHINE\Software\Microsoft\EMET" of native registry = 1) then "Kill Process" else "Audit") | "audit"</Property>
 	</Analysis>
 </BES>

@@ -13,7 +13,7 @@
 		<Source>Internal</Source>
 		<SourceReleaseDate>2016-05-11</SourceReleaseDate>
 		<Domain>BESC</Domain>
-		<Property Name="Applocker - Executable and DLL Logs - Windows" ID="11" EvaluationPeriod="PT6H">(time generated of it, preceding text of last " was " of description of it, (if (event id of it = 8003) then ("Warned") else ("Blocked")) of it) of records whose (event id of it = 8003 or event id of it = 8004) of event log "Microsoft-Windows-AppLocker/EXE and DLL"</Property>
-		<Property Name="Applocker - MSI and Script Logs - Windows" ID="12" EvaluationPeriod="PT6H">(time generated of it, preceding text of last " was " of description of it, (if (event id of it = 8006) then ("Warned") else ("Blocked")) of it) of records whose (event id of it = 8006 or event id of it = 8007) of event log "Microsoft-Windows-AppLocker/MSI and Script"</Property>
+		<Property Name="Applocker - Executable and DLL Logs - Windows" ID="11" EvaluationPeriod="P1D">(time generated of it, preceding text of last " was " of description of it, (if (event id of it = 8003) then ("Warned") else ("Blocked")) of it) of records whose (event id of it = 8003 or event id of it = 8004) of event log "Microsoft-Windows-AppLocker/EXE and DLL"</Property>
+		<Property Name="Applocker - MSI and Script Logs - Windows" ID="12" EvaluationPeriod="P1D">(time generated of it, preceding text of last " was " of description of it, (if (event id of it = 8006) then ("Warned") else ("Blocked")) of it) of records whose (event id of it = 8006 or event id of it = 8007) of event log "Microsoft-Windows-AppLocker/MSI and Script"</Property>
 	</Analysis>
 </BES>
