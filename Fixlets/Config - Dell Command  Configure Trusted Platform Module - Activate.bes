@@ -26,6 +26,7 @@
 			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
 
 delete __createfile
+delete run.bat
 
 createfile until _end_
 
