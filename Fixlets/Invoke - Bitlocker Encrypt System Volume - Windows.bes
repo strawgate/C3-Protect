@@ -96,7 +96,7 @@ move __createfile addrecoverykey.bat
 
 wait status.bat
 
-if {not exists lines containing "Encryption in Progress" of file "Status.log" of folder (parameter "InstanceStorage") }
+if {((not exists lines containing "Encryption in Progress" of it) and (not exists lines containing "NOTE: Encryption will begin after the hardware test succeeds." of it)) of file "Status.log" of folder (parameter "InstanceStorage") }
 	
 	// DO NOT CONTINUE IF THERE IS AN EXISTING UPLOAD IN PROGRESS
 	continue if {not exists setting "_BESClient_UploadManager_Progress" of client}
@@ -131,6 +131,7 @@ if {not exists lines containing "Encryption in Progress" of file "Status.log" of
 else
 
 	archive now
+
 	action requires restart
 
 endif]]></ActionScript>
