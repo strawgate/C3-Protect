@@ -16,7 +16,7 @@
 		<Source>Internal</Source>
 		<SourceReleaseDate>2016-04-30</SourceReleaseDate>
 		<Domain>BESC</Domain>
-		<Property Name="Bitlocker - Encryption Event Log - Windows" ID="1" EvaluationPeriod="P2D">descriptions of records whose ((source of it as lowercase = "Microsoft-Windows-BitLocker-Driver" as lowercase)) of system event log</Property>
+		<Property Name="Bitlocker - Encryption Event Log - Windows" ID="1" EvaluationPeriod="P2D"><![CDATA[descriptions of records whose (time generated of it > now - day * 7 and (source of it as lowercase = "Microsoft-Windows-BitLocker-Driver" as lowercase)) of system event log]]></Property>
 		<Property Name="Bitlocker - Encryptable Volume # - Windows" ID="3" EvaluationPeriod="P1D">number of select objects ("* from win32_EncryptableVolume") of WMIs "root\CIMv2\Security\MicrosoftVolumeEncryption"</Property>
 		<Property Name="Bitlocker - Encryptable Volumes - Windows" ID="4" EvaluationPeriod="P1D">string values of selects ("DriveLetter from win32_EncryptableVolume") of WMIs "root\CIMv2\Security\MicrosoftVolumeEncryption"</Property>
 		<Property Name="Bitlocker - Protection Status - Windows" ID="5" EvaluationPeriod="P1D">tuple string items (integer values of selects ("ProtectionStatus from win32_EncryptableVolume") of WMIs "root\CIMv2\Security\MicrosoftVolumeEncryption") of "Protection Off, Protection On, Protection Unknown"</Property>
