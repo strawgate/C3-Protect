@@ -6,10 +6,11 @@
 		<Description><![CDATA[<P>This analysis provides information on EMET Mitigations Fired</P>
 <P>Information on using this content is available here: <A href="https://github.com/strawgate/C3-Protect/wiki/EMET">https://github.com/strawgate/C3-Protect/wiki/EMET</A></P>
 <P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
-		<Relevance>true</Relevance>
+		<Relevance>windows of operating system</Relevance>
+		<Relevance>exists service "EMET_SERVICE"</Relevance>
 		<Source>Internal</Source>
 		<SourceReleaseDate>2016-07-12</SourceReleaseDate>
 		<Domain>BESC</Domain>
-		<Property Name="EMET - Mitigated Events - Windows" ID="1" EvaluationPeriod="P1D">descriptions of (records of application event log) whose ((source of it = "EMET") and (event id of it = 2 or event id of it = 1))</Property>
+		<Property Name="EMET - Mitigated Events - Windows" ID="1" EvaluationPeriod="P1D"><![CDATA[descriptions of (records of application event log) whose (time generated of it > now - day * 5 and (source of it = "EMET") and (event id of it = 2 or event id of it = 1))]]></Property>
 	</Analysis>
 </BES>
