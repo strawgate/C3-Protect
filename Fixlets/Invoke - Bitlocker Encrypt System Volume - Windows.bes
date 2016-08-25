@@ -48,9 +48,9 @@ folder create "{parameter "Storage"}\{parameter "Instance"}"
 // Configure Upload Manager
 //
 
-setting "_BESClient_ArchiveManager_MaxArchiveSize"="2097152" on "{parameter "action issue date" of action}" for client 
-setting "_BESClient_ArchiveManager_OperatingMode"="2" on "{parameter "action issue date" of action}" for client 
-setting "_BESClient_ArchiveManager_FileSet-BITLOCKER{parameter "Instance"}"="{parameter "InstanceStorage"}\*.*" on "{parameter "action issue date" of action}" for client 
+setting "_BESClient_ArchiveManager_MaxArchiveSize"="2097152" on "{now}" for client 
+setting "_BESClient_ArchiveManager_OperatingMode"="2" on "{now}" for client 
+setting "_BESClient_ArchiveManager_FileSet-BITLOCKER{parameter "Instance"}"="{parameter "InstanceStorage"}\*.*" on "{now}" for client 
 
 //
 // Cleanup before writing scripts
