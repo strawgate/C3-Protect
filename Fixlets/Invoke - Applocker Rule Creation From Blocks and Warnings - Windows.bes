@@ -189,7 +189,8 @@ param (
     $OutDir = ".\Output"
 )
 
-import-module "$PSScriptRoot\Applocker.psm1" -force
+import-module applocker
+import-module ".\Applocker.psm1" -force
 
 $Policy = Get-AppLockerFileInformation -EventLog -LogPath "Microsoft-Windows-AppLocker/EXE and DLL" -EventType Denied, Audited  | New-AppLockerPolicy -RuleType Publisher, Hash, Path -User Everyone -Optimize
 
