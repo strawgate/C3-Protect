@@ -8,14 +8,16 @@
 <UL>
 <LI>McAfee VirusScan Enterprise 
 <LI>McAfee Endpoint Security 
-<LI>McAfee ePolicy Orchestrator</LI></UL>
+<LI>McAfee ePolicy Orchestrator
+<LI>McAfee Endpoint Protection</LI></UL>
+<P>The Suite Name property will return a string of, "None" if there is nothing installed so that it will show up properly when graphed in Web Reports.</P>
 <P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
 		<Relevance>windows of operating system or mac of operating system</Relevance>
 		<Relevance>not in proxy agent context</Relevance>
 		<Source>Internal</Source>
 		<SourceReleaseDate>2016-04-18</SourceReleaseDate>
 		<Domain>BESC</Domain>
-		<Property Name="McAfee - Suite Name - Win\Mac" ID="1" EvaluationPeriod="P1D"><![CDATA[if (windows of operating system) then (if (exists folder (pathname of program files folder & "\McAfee\Endpoint Security")) then ("Endpoint Security") else (if (exists folder (pathname of program files folder & "\McAfee\VirusScan Enterprise")) then ("VirusScan Enterprise") else (nothing))) else (if (exists regapp "VirusScan.app" or exists regapp "McAfee Security.app") then "VirusScan Enterprise" else (if (exists regapp "McAfee Endpoint Security for Mac.app") then ("Endpoint Security") else (if (exists regapp "McAfee Endpoint Protection for Mac.app") then ("Endpoint Protection") else (nothing))))]]></Property>
+		<Property Name="McAfee - Suite Name - Win\Mac" ID="1" EvaluationPeriod="P1D"><![CDATA[if (windows of operating system) then (if (exists folder (pathname of program files folder & "\McAfee\Endpoint Security")) then ("Endpoint Security") else (if (exists folder (pathname of program files folder & "\McAfee\VirusScan Enterprise")) then ("VirusScan Enterprise") else ("None"))) else (if (exists regapp "VirusScan.app" or exists regapp "McAfee Security.app") then "VirusScan Enterprise" else (if (exists regapp "McAfee Endpoint Security for Mac.app") then ("Endpoint Security") else (if (exists regapp "McAfee Endpoint Protection for Mac.app") then ("Endpoint Protection") else ("None"))))]]></Property>
 		<Property Name="McAfee Endpoint Security - Installed - Win\Mac" ID="2" EvaluationPeriod="P1D"><![CDATA[if (windows of operating system) then (exists folder (pathname of program files folder & "\McAfee\Endpoint Security")) else (exists regapp "McAfee Endpoint Security for Mac.app")]]></Property>
 		<Property Name="McAfee VirusScan Enterprise - Installed - Win\Mac" ID="3" EvaluationPeriod="P1D"><![CDATA[if (windows of operating system) then (exists folder (pathname of program files folder & "\McAfee\VirusScan Enterprise")) else (exists regapp "VirusScan.app")]]></Property>
 		<Property Name="McAfee ePolicy Orchestrator - Installed - Win\Mac" ID="4" EvaluationPeriod="P1D">if (windows of operating system) then (exists keys whose (value "DisplayName" of it as string is "McAfee Agent") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\" of (x32 registries; x64 registries)) else(exists file "config.xml" of folder whose (name of it starts with "EPOAGENT") of folders "/private/etc/cma.d")</Property>
