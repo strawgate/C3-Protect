@@ -11,6 +11,6 @@
 		<Source>Internal</Source>
 		<SourceReleaseDate>2016-07-12</SourceReleaseDate>
 		<Domain>BESC</Domain>
-		<Property Name="EMET - Mitigated Events - Windows" ID="1" EvaluationPeriod="P1D"><![CDATA[descriptions of (records of application event log) whose (time generated of it > now - day * 5 and (source of it = "EMET") and (event id of it = 2 or event id of it = 1))]]></Property>
+		<Property Name="EMET - Mitigated Events - Windows" ID="1" EvaluationPeriod="P1D"><![CDATA[(time generated of it, description of it) of (records of application event log) whose (time generated of it > now - day * 5 and (source of it = "EMET") and (event id of it = 2 or event id of it = 1))]]></Property>
 	</Analysis>
 </BES>
