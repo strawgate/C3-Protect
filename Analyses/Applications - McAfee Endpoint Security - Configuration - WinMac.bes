@@ -2,12 +2,12 @@
 
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
 	<Analysis>
-		<Title>Applications - McAfee Endpoint Security - Configuration - Windows</Title>
-		<Description><![CDATA[<P>Provides configuration information for McAfee Endpoint Security Windows clients. </P>
+		<Title>Applications - McAfee Endpoint Security - Configuration - Win\Mac</Title>
+		<Description><![CDATA[<P>Provides configuration information for McAfee Endpoint Security Windows and Mac&nbsp;clients. </P>
 <P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
-		<Relevance>windows of operating system</Relevance>
+		<Relevance>windows of operating system or mac of operating system</Relevance>
 		<Relevance>NOT in proxy agent context</Relevance>
-		<Relevance><![CDATA[exists folder (pathname of program files folder & "\McAfee\Endpoint Security")]]></Relevance>
+		<Relevance><![CDATA[if (windows of operating system) then (exists folder (pathname of program files folder & "\McAfee\Endpoint Security")) else (exists folder "/Applications/McAfee Endpoint Security for Mac.app")]]></Relevance>
 		<Domain>BESC</Domain>
 		<Property Name="McAfee Endpoint Security - Client Status - Win\Mac" ID="1" EvaluationPeriod="PT1H">if (windows of operating system) then (if ((not exists running application "vshwin32.exe") AND (not exists running application "mcshield.exe")) then "Not Running" else "Running") else (exists processes whose (name of it = "VShieldScanner"))</Property>
 		<Property Name="McAfee Endpoint Security - Firewall State - Win\Mac" ID="2" EvaluationPeriod="PT1H">if (windows of operating system) then (if ((value "RequestedSetting" of key "HKLM\Software\McAfee\Endpoint\Firewall" of native registry as integer | 0) = 1) then "Enabled" else "Disabled") else (if (exists booleans "IsFirewallEnabled" whose (it = true) of dictionaries of files "/Library/Preferences/com.mcafee.ssm.StatefulFirewall.plist") then "Enabled" else "Disabled")</Property>
