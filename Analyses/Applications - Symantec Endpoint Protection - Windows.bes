@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Analysis>
+		<Title>Applications - Symantec Endpoint Protection - Windows</Title>
+		<Description><![CDATA[<P>This Analysis provides information on the currently installed Symantec Endpoint Protection installation.</P>
+<P>Properties cover a wide range of categories:</P>
+<P>Program Information:</P>
+<UL>
+<LI>Installed Version 
+<LI>Current Definitions 
+<LI>Modules Installed 
+<LI>Installation Date</LI></UL>
+<P>Protection Status:</P>
+<UL>
+<LI>Network Threat Protection 
+<LI>Realtime File Protection 
+<LI>Internet Mail Protection 
+<LI>Configured File/Folder/DNS/Application Exceptions 
+<LI>Presence of GUI Password 
+<LI>Presence of Uninstall Password</LI></UL>
+<P>Scan Information:</P>
+<UL>
+<LI>Available Scan Results 
+<LI>Last Completed Scan</LI></UL>
+<P>Management Information:</P>
+<UL>
+<LI>Last Attempted Communication 
+<LI>Last Successful Communication 
+<LI>Last Log Entry (Last 1 Entry) 
+<LI>Recent Log Entries (Last 5 Entries) 
+<LI>Current Group 
+<LI>Current Location 
+<LI>Current Management Server 
+<LI>Configured Management Server</LI></UL>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+		<Relevance>windows of operating system</Relevance>
+		<Relevance>exists regapp "smc.exe" or exists keys "HKEY_LOCAL_MACHINE\Software\Symantec\Symantec Endpoint Protection\AV" of (x32 registries; x64 registries)</Relevance>
+		<Source>Internal</Source>
+		<SourceReleaseDate>2016-09-26</SourceReleaseDate>
+		<Domain>BESC</Domain>
+		<Property Name="Symantec - Version - Windows" ID="1" EvaluationPeriod="P1D">if (windows of operating system) then (value "ProductVersion" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Symantec\Symantec Endpoint Protection\SMC" of x32 registry as string) else (string "CFBundleShortVersionString" of dictionary of file "/Applications/Symantec Solutions/Symantec Endpoint Protection.app/Contents/Info.plist")</Property>
+		<Property Name="Symantec - Definitions - Windows" ID="2" EvaluationPeriod="PT1H">key "CurDefs" of section "DefDates" of file "definfo.dat" of Folder (unique values of (it as string) of (values "VirusDefs" of keys "Symantec Endpoint Protection\CurrentVersion\Content" of keys "HKEY_LOCAL_MACHINE\Software\Symantec" of (x32 registries; x64 registries)))</Property>
+		<Property Name="Symantec - Installed Modules - Windows" ID="3" EvaluationPeriod="P1D">unique values of names of values of keys "InstalledApps" of keys "HKEY_LOCAL_MACHINE\Software\Symantec" of (x32 registries; x64 registries)</Property>
+		<Property Name="Symantec - Install Date - Windows" ID="4" EvaluationPeriod="P1D">((unique value of (it as string) of (values "DeployTimestamp" of keys "Symantec Endpoint Protection\CurrentVersion\public-opstate" of keys "HKEY_LOCAL_MACHINE\Software\Symantec" of (x32 registries; x64 registries)) as integer / 1000) * second) + "01 Jan 1970 00:00:00" as universal time</Property>
+		<Property Name="Symantec - Network Threat Protection Status - Windows" ID="5" EvaluationPeriod="PT1H">if (exists values "smc_engine_status" whose (it = 1) of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Symantec\Symantec Endpoint Protection\SMC" of (x32 registries; x64 registries)) then "Enabled" else "Disabled"</Property>
+		<Property Name="Symantec - File System Auto-Protect Status - Windows" ID="6" EvaluationPeriod="PT1H">if (exists values "OnOff" whose (it=1)of key "AV\Storages\Filesystem\RealTimeScan" of keys "HKEY_LOCAL_MACHINE\Software\Symantec\Symantec Endpoint Protection" of (x32 registries; x64 registries)) then "Enabled" else "Disabled"</Property>
+		<Property Name="Symantec - Internet Mail Auto-Protect Status - Windows" ID="7" EvaluationPeriod="PT1H">if (exists values "OnOff" whose (it=1)of key "AV\Storages\InternetMail\RealTimeScan" of keys "HKEY_LOCAL_MACHINE\Software\Symantec\Symantec Endpoint Protection" of (x32 registries; x64 registries)) then "Enabled" else "Disabled"</Property>
+		<Property Name="Symantec - Current Group - Windows" ID="8" EvaluationPeriod="PT1H">values "CurrentGroup" of keys "Symantec Endpoint Protection\SMC\SYLINK\SyLink" of keys "HKEY_LOCAL_MACHINE\Software\Symantec" of (x32 registries; x64 registries)</Property>
+		<Property Name="Symantec - Current Location - Windows" ID="9" EvaluationPeriod="PT1H">values whose (name of it is "CurLocation") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Symantec\Symantec Endpoint Protection\SMC" of (x32 registries; x64 registries)</Property>
+		<Property Name="Symantec - Last Attempted Communication - Windows" ID="10" EvaluationPeriod="PT15M">(((tuple string item 3 of (concatenations ", " of substrings separated by ":" of it) of (it as string) of (values "CommunicationStatus" of keys "Symantec Endpoint Protection\SMC\SYLINK\SyLink" of keys "HKEY_LOCAL_MACHINE\Software\Symantec" of (x32 registries; x64 registries))) as integer) * second) + "01 Jan 1970 00:00:00" as universal time</Property>
+		<Property Name="Symantec - Last Communication Status - Windows" ID="11" EvaluationPeriod="PT15M">(if (it != "") then it else "Success") of following text of last ":" of (it as string) of (values "CommunicationStatus" of keys "Symantec Endpoint Protection\SMC\SYLINK\SyLink" of keys "HKEY_LOCAL_MACHINE\Software\Symantec" of (x32 registries; x64 registries))</Property>
+		<Property Name="Symantec - Last Successful Communication - Windows" ID="12" EvaluationPeriod="PT15M">(((tuple string item 0 of (concatenations ", " of substrings separated by ":" of it) of (it as string) of (values "CommunicationStatus" of keys "Symantec Endpoint Protection\SMC\SYLINK\SyLink" of keys "HKEY_LOCAL_MACHINE\Software\Symantec" of (x32 registries; x64 registries))) as integer) * second) + "01 Jan 1970 00:00:00" as universal time</Property>
+		<Property Name="Symantec - Last Log Entry - Windows" ID="13" EvaluationPeriod="PT1H">(time generated of it, following text of first "%0d%0a%0d%0a" of description of it | description of it) of record (record count of it) of event log "Symantec Endpoint Protection Client"</Property>
+		<Property Name="Symantec - Most Recent Log Entries - Windows" ID="14" EvaluationPeriod="P1D">(time generated of it, following text of first "%0d%0a%0d%0a" of description of it | description of it) of (records (record count of it) of it;records (record count of it-1) of it;records (record count of it-2) of it;records (record count of it-3) of it;records (record count of it-4) of it;records (record count of it-5) of it) of event log "Symantec Endpoint Protection Client"</Property>
+		<Property Name="Symantec - Last Completed Scan - Windows" ID="15" EvaluationPeriod="PT6H">maximum of times generated of records whose (set of (1090453506;2) contains event id of it) of event log "Symantec Endpoint Protection Client"</Property>
+		<Property Name="Symantec - Scan Results - Windows" ID="16" EvaluationPeriod="PT6H">(time generated of it, following text of first "%0d%0a%0d%0a" of description of it | description of it) of records whose (set of (1090453506;2) contains event id of it) of event log "Symantec Endpoint Protection Client"</Property>
+		<Property Name="Symantec - DNS or Host File Exceptions - Windows" ID="17" EvaluationPeriod="P1D"><![CDATA[(value "ThreatName" of it as string & (if (exists value "ExcludeSubDirs" whose (it = 1) of it) then ("*") else (""))) of keys of keys of keys of keys "Symantec Endpoint Protection\AV\Exclusions\DNSHostFileChange" of keys "HKEY_LOCAL_MACHINE\Software\Symantec" of (x32 registries; x64 registries)]]></Property>
+		<Property Name="Symantec - Heuristic Exceptions - Windows" ID="18" EvaluationPeriod="P1D"><![CDATA[(value "ThreatName" of it as string & (if (exists value "ExcludeSubDirs" whose (it = 1) of it) then ("*") else (""))) of keys of keys of keys of keys "Symantec Endpoint Protection\AV\Exclusions\HeuristicScanning" of keys "HKEY_LOCAL_MACHINE\Software\Symantec" of (x32 registries; x64 registries)]]></Property>
+		<Property Name="Symantec - Scanning Exceptions - Windows" ID="19" EvaluationPeriod="P1D"><![CDATA[(value "ThreatName" of it as string & (if (exists value "ExcludeSubDirs" whose (it = 1) of it) then ("*") else (""))) of keys of keys of keys of keys "Symantec Endpoint Protection\AV\Exclusions\ScanningEngines" of keys "HKEY_LOCAL_MACHINE\Software\Symantec" of (x32 registries; x64 registries)]]></Property>
+		<Property Name="Symantec - GUI Password Present - Windows" ID="20" EvaluationPeriod="P1D">exists values "SmcGuiHasPassword" whose (it = 1) of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Symantec\Symantec Endpoint Protection\SMC" of (x32 registries; x64 registries)</Property>
+		<Property Name="Symantec - Uninstall Password Present - Windows" ID="21" EvaluationPeriod="P1D">exists values "SmcInstData" whose (it = 1) of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Symantec\Symantec Endpoint Protection\SMC" of (x32 registries; x64 registries)</Property>
+		<Property Name="Symantec - Current Management Server - Windows" ID="22" EvaluationPeriod="P1D"><![CDATA[((tuple string item 1 of it & ":" & tuple string item 2 of it) of (concatenations ", " of substrings separated by ":" of it) of (it as string) of (values "CommunicationStatus" of keys "Symantec Endpoint Protection\SMC\SYLINK\SyLink" of keys "HKEY_LOCAL_MACHINE\Software\Symantec" of (x32 registries; x64 registries)))]]></Property>
+		<Property Name="Symantec - Configured Management Server - Windows" ID="23" EvaluationPeriod="P1D"><![CDATA[((tuple string item 4 of it & ":" & tuple string item 5 of it) of (concatenations ", " of substrings separated by ":" of it) of (it as string) of (values "CommunicationStatus" of keys "Symantec Endpoint Protection\SMC\SYLINK\SyLink" of keys "HKEY_LOCAL_MACHINE\Software\Symantec" of (x32 registries; x64 registries)))]]></Property>
+	</Analysis>
+</BES>

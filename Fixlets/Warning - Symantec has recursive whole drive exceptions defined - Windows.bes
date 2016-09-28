@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Warning - Symantec has recursive whole drive exceptions defined - Windows</Title>
+		<Description><![CDATA[<P>This Fixlet is relevant if the client has a&nbsp;Real Time Scanning or Heuristic&nbsp;recursive drive exception defined.</P>
+<P>An example of this would be a C:\* exclusion. This Fixlet only looks at exclusions targeted towards drives that exist on the system.</P>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+		<Relevance>windows of operating system</Relevance>
+		<Relevance>exists regapp "smc.exe"</Relevance>
+		<Relevance><![CDATA[/* Check Heuristic Exceptions */
+exists elements of intersection of ((set of (value "ThreatName" of it as string & (if (exists value "ExcludeSubDirs" whose (it = 1) of it) then ("*") else (""))) of keys of keys of keys of keys "Symantec Endpoint Protection\AV\Exclusions\HeuristicScanning" of keys "HKEY_LOCAL_MACHINE\Software\Symantec" of (x32 registries; x64 registries));(set of ((name of it & "\*") of drives)))
+
+or
+/* Check Real-Time Scanning Exceptions */
+exists elements of intersection of ((set of (value "ThreatName" of it as string & (if (exists value "ExcludeSubDirs" whose (it = 1) of it) then ("*") else (""))) of keys of keys of keys of keys "Symantec Endpoint Protection\AV\Exclusions\ScanningEngines" of keys "HKEY_LOCAL_MACHINE\Software\Symantec" of (x32 registries; x64 registries));(set of ((name of it & "\*") of drives)))]]></Relevance>
+		<Category></Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-09-27</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<Domain>BESC</Domain>
+	</Fixlet>
+</BES>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Warning - Symantec Endpoint Protection has not communicated in 30 Days - Windows</Title>
+		<Description><![CDATA[<P>This Fixlet is relevant if the Symantec Client has not had a successful client communication in 30 days.</P>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+		<Relevance>windows of operating system</Relevance>
+		<Relevance>exists regapp "smc.exe"</Relevance>
+		<Relevance><![CDATA[(((tuple string item 0 of (concatenations ", " of substrings separated by ":" of it) of (it as string) of (values "CommunicationStatus" of keys "Symantec Endpoint Protection\SMC\SYLINK\SyLink" of keys "HKEY_LOCAL_MACHINE\Software\Symantec" of (x32 registries; x64 registries))) as integer) * second) + "01 Jan 1970 00:00:00" as universal time < now - 5 * day]]></Relevance>
+		<Category></Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-09-27</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<Domain>BESC</Domain>
+	</Fixlet>
+</BES>
