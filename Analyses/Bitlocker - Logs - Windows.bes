@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Analysis>
+		<Title>Bitlocker - Logs - Windows</Title>
+		<Description><![CDATA[<P>Provides logs from the system event log related to Bitlocker</P>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+		<Relevance>Windows of Operating System</Relevance>
+		<Relevance>if (exists WMI "root\CIMv2\Security\MicrosoftVolumeEncryption") then true else false</Relevance>
+		<Relevance>exists (tuple string items (integer values of selects ("ProtectionStatus from win32_EncryptableVolume") of WMIs "root\CIMv2\Security\MicrosoftVolumeEncryption") of "Protection Off, Protection On, Protection Unknown") whose (it = "Protection On")</Relevance>
+		<Source>Internal</Source>
+		<SourceReleaseDate>2016-09-28</SourceReleaseDate>
+		<Domain>BESC</Domain>
+		<Property Name="Bitlocker - Encryption Event Log - Windows" ID="1" EvaluationPeriod="PT12H"><![CDATA[(time generated of it, description of it) of records whose (time generated of it > now - day * 14 and (source of it as lowercase = "Microsoft-Windows-BitLocker-Driver" as lowercase)) of system event log]]></Property>
+	</Analysis>
+</BES>
