@@ -11,6 +11,6 @@
 		<Source>Internal</Source>
 		<SourceReleaseDate>2016-09-28</SourceReleaseDate>
 		<Domain>BESC</Domain>
-		<Property Name="Bitlocker - Encryption Event Log - Windows" ID="1" EvaluationPeriod="PT12H"><![CDATA[(time generated of it, description of it) of records whose (time generated of it > now - day * 14 and (source of it as lowercase = "Microsoft-Windows-BitLocker-Driver" as lowercase)) of system event log]]></Property>
+		<Property Name="Bitlocker - Encryption Event Log - Windows" ID="1" EvaluationPeriod="PT6H">(time generated of it, description of it) of records ((integers in(item 0 of it + item 1 of it - 1,maximum of (item 0 of it + item 1 of it - 1000;item 1 of it))) of (record count of it, oldest record number of it)) whose (source of it as lowercase = "Microsoft-Windows-BitLocker-Driver" as lowercase) of system event log</Property>
 	</Analysis>
 </BES>
