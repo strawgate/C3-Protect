@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Analysis>
+		<Title>Applications - Cisco AMP for Endpoints - Win\Mac</Title>
+		<Description><![CDATA[<P>Provides configuration information for Cisco AMP for Endpoints Windows and Mac Clients.</P>
+<P>Currently detects:</P>
+<UL>
+<LI>AMP Connector Version 
+<LI>AMP Connector Group Name
+<LI>AMP Connector UUID
+<LI>AMP Connector Status
+<LI>AMP for Endpoints Exclusions</LI></UL>
+<P>This analysis was written by Alex Davis (kudos, compliments, and credit to him)</P>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+		<Relevance>windows of operating system or mac of operating system</Relevance>
+		<Relevance><![CDATA[if (windows of operating system) then (exists folder (pathname of program files x64 folder & "\Sourcefire\fireAMP")) else (exists folder "/Applications/FireAMP/FireAMP Mac.app")]]></Relevance>
+		<Source>Internal</Source>
+		<SourceReleaseDate>2016-09-29</SourceReleaseDate>
+		<Domain>BESC</Domain>
+		<Property Name="Cisco AMP - Version - Win\Mac" ID="1" EvaluationPeriod="P1D"><![CDATA[if (windows of operating system) then (version of file "iptray.exe" of (folders of folder (pathname of program files x64 folder & "\Sourcefire\FireAMP")) whose (name of it as version > "0" as version)) else (version of folder "/Applications/FireAMP/FireAMP Mac.app")]]></Property>
+		<Property Name="Cisco AMP - Group Name - Win\Mac" ID="2" EvaluationPeriod="PT1H"><![CDATA[if (windows of operating system) then ((it as text) of selects "/Signature/Object/config/janus/policy/name" of xml documents of file (pathname of program files x64 folder & "\Sourcefire\FireAMP\policy.xml")) else (following text of first "<name>" of preceding text of first "</name>" of lines containing "<name>" of files "/Library/Application Support/Sourcefire/FireAMP Mac/policy.xml")]]></Property>
+		<Property Name="Cisco AMP - Connector UUID - Win\Mac" ID="3" EvaluationPeriod="P30D"><![CDATA[if (windows of operating system) then ((it as text) of selects "/config/agent/uuid" of xml documents of file (pathname of program files x64 folder & "\Sourcefire\FireAMP\local.xml")) else (following text of first "<uuid>" of preceding text of first "</uuid>" of lines containing "<uuid>" of files "/Library/Application Support/Sourcefire/FireAMP Mac/local.xml")]]></Property>
+		<Property Name="Cisco AMP - Client Status - Win\Mac" ID="4" EvaluationPeriod="PT1H">if (exists process whose (set of ("iptray.exe";"FireAMP Mac") contains name of it)) then "Running" else "Not Running"</Property>
+		<Property Name="Cisco AMP - Exclusions - Win\Mac" ID="5" EvaluationPeriod="P1D"><![CDATA[if (windows of operating system) then ((it as text) of selects "/Signature/Object/config/exclusions/info/item" of xml documents of file (pathname of program files x64 folder & "\Sourcefire\FireAMP\policy.xml")) else (following texts of firsts "<item>" of preceding texts of firsts "</item>" of lines containing "<item>" of files "/Library/Application Support/Sourcefire/FireAMP Mac/policy.xml")]]></Property>
+	</Analysis>
+</BES>
