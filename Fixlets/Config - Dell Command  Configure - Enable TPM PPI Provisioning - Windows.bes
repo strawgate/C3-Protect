@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Config - Dell Command | Configure - Enable TPM PPI Provisioning - Windows</Title>
+		<Description><![CDATA[<P>This enables TPM PPI Provisioning without Physical Presence using Dell Command | Configure.</P>
+<P><STRONG>NOTE: THIS REQUIRES PHYSICAL PRESENCE. ON NEXT REBOOT THE END USER WILL BE PROMPTED TO PRESS A FUNCTION KEY BEFORE BEING ALLOWED TO PROCEED WITH BOOT.</STRONG></P>
+<P><FONT color=#ff0000>NOTE: <FONT color=#000000>If you use Action 2&nbsp;and provide a BIOS Password, the password will be visible in plain text on endpoints and relays.</FONT></FONT></P>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+		<Relevance>windows of operating system</Relevance>
+		<Relevance>(exists ((keys of keys "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall" of ( x32 registry; (if exists x64 registry then x64 registry else nothing) )) whose (value "DisplayName" of it as string contains "Dell Command | Configure")))</Relevance>
+		<Relevance>(key "tpmppipo" of section "cctk" of file "report.ini" of folder (value "Path" of key "HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure" of x32 registry as string) = "disable")</Relevance>
+		<Category>BIOS Settings</Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-04-29</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to enable TPM PPI Provisioning on machines without a BIOS Password</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+
+delete __createfile
+delete run.bat
+
+createfile until _end_
+
+cd "{pathname of folder (if (x64 of operating system) then ("X86_64") else ("X86")) of folder (value "Path" of key "HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure" of x32 registry as string)}"
+
+cctk.exe --setuppwd=BIOSPWD
+cctk.exe --tpmppipo=enable --valsetuppwd=BIOSPWD
+cctk.exe --setuppwd= --valsetuppwd=BIOSPWD
+
+_end_
+
+move __createfile run.bat
+
+wait run.bat
+
+// Create a new report
+delete "{pathname of folder (value "Path" of key "HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure" of x32 registry as string)}\report.ini"
+
+wait "{pathname of file "CCTK.exe" of folder (if (x64 of operating system) then ("X86_64") else ("X86")) of folder (value "Path" of key "HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure" of x32 registry as string)}" -o "{pathname of folder (value "Path" of key "HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure" of x32 registry as string)}\report.ini"
+
+action requires restart</ActionScript>
+		</DefaultAction>
+		<Action ID="Action2">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to enable TPM PPI Provisioning on machines with a BIOS Password.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+
+action parameter query "BIOSPwd" with description "Please enter the BIOS Password for the targeted machines"
+
+delete __createfile
+delete run.bat
+
+createfile until _end_
+
+cd "{pathname of folder (if (x64 of operating system) then ("X86_64") else ("X86")) of folder (value "Path" of key "HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure" of x32 registry as string)}"
+
+cctk.exe --tpmppipo=enable --valsetuppwd={parameter "BIOSPwd" of action}
+
+_end_
+
+move __createfile run.bat
+
+wait run.bat
+
+// Create a new report
+delete "{pathname of folder (value "Path" of key "HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure" of x32 registry as string)}\report.ini"
+
+wait "{pathname of file "CCTK.exe" of folder (if (x64 of operating system) then ("X86_64") else ("X86")) of folder (value "Path" of key "HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure" of x32 registry as string)}" -o "{pathname of folder (value "Path" of key "HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure" of x32 registry as string)}\report.ini"
+
+action requires restart</ActionScript>
+		</Action>
+	</Fixlet>
+</BES>
