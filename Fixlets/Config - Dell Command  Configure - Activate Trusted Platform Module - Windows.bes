@@ -7,7 +7,7 @@
 <P>This action will temporarily set and then clear a bios password. This action will fail if a bios password has already been set on the device.</P>
 <P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
 		<Relevance>windows of operating system</Relevance>
-		<Relevance>(exists ((keys of keys "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall" of ( x32 registry; (if exists x64 registry then x64 registry else nothing) )) whose (value "DisplayName" of it as string contains "Dell Command | Configure")))</Relevance>
+		<Relevance>exists keys whose (value "DisplayName" of it as string contains "Dell Command | Configure") of keys "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall" of (x64 registries; x32 registries)</Relevance>
 		<Relevance>(not exists selects "* from Win32_Tpm" of wmis "root\CIMv2\Security\MicrosoftTpm") | true</Relevance>
 		<Category>Disk Encryption</Category>
 		<Source>Internal</Source>
