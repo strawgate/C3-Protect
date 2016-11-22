@@ -18,5 +18,14 @@
 		<CVENames></CVENames>
 		<SANSID></SANSID>
 		<Domain>BESC</Domain>
+		<Action ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">wait sc config AppIDSvc start= auto
+wait net start AppIDSvc</ActionScript>
+		</Action>
 	</Fixlet>
 </BES>
