@@ -8,6 +8,7 @@
 <P>The following Exit Codes can be returned:</P>
 <P>10 - Encryption was Terminated for some reason</P>
 <P>20 - Encryption was Terminated due to a bootable CD/DVD in the system</P>
+<P>30 - Encryption was Terminated due to a lack of a numerical password on the system</P>
 <P>Information on using this content is available here: <A href="https://github.com/strawgate/C3-Protect/wiki/Bitlocker">https://github.com/strawgate/C3-Protect/wiki/Bitlocker</A></P>]]></Description>
 		<Relevance>windows of operating system</Relevance>
 		<Relevance><![CDATA[(windows of operating system) AND (version of operating system >= "6.0") AND (( exists product info string whose(it ends with "Enterprise" OR it starts with "Enterprise" OR it ends with "Ultimate" OR it ends with "Server Datacenter") of operating system ) OR ( (version of operating system >= "6.2") AND (exists product info string whose(it ends with "Business") of operating system) )) /* Correct version of Windows */]]></Relevance>
@@ -16,7 +17,6 @@
 		<Relevance><![CDATA[(not boolean value of selects ("IsVolumeInitializedForProtection from win32_EncryptableVolume where DriveLetter='" & name of drive of system folder & "'")of WMI "root\CIMv2\Security\MicrosoftVolumeEncryption") /* Drive is not initialized for encryption */ | true /* Error reading initialization state -- drive has not been initialized */]]></Relevance>
 		<Relevance><![CDATA[exists selects ("* from win32_EncryptableVolume where DriveLetter='" & name of drive of system folder & "'")of WMI "root\CIMv2\Security\MicrosoftVolumeEncryption" /* The drive is an encryptable volume */ ]]></Relevance>
 		<Relevance><![CDATA[integer value of selects ("ProtectionStatus from win32_EncryptableVolume where DriveLetter='" & name of drive of system folder & "'") of WMI "root\CIMv2\Security\MicrosoftVolumeEncryption" = 0 ]]></Relevance>
-		<Relevance><![CDATA[uptime of operating system > 10*minute /* Bitlocker status doesn't change immediately after first reboot */]]></Relevance>
 		<Category>Disk Encryption</Category>
 		<Source>Internal</Source>
 		<SourceID></SourceID>
@@ -39,10 +39,8 @@
 
 parameter "Storage"="{pathname of folder "__Global" of data folder of client}\Bitlocker"
 parameter "Instance"="{(now - "01 Jan 1970 00:00:00" as local time) / (1 * second)}"
-parameter "InstanceStorage"="{parameter "Storage"}\{parameter "Instance"}"
 
 folder create "{parameter "Storage"}"
-folder create "{parameter "Storage"}\{parameter "Instance"}"
 
 //
 // Configure Upload Manager
@@ -50,45 +48,51 @@ folder create "{parameter "Storage"}\{parameter "Instance"}"
 
 setting "_BESClient_ArchiveManager_MaxArchiveSize"="2097152" on "{now}" for client 
 setting "_BESClient_ArchiveManager_OperatingMode"="2" on "{now}" for client 
-setting "_BESClient_ArchiveManager_FileSet-BITLOCKER{parameter "Instance"}"="{parameter "InstanceStorage"}\*.*" on "{now}" for client 
+setting "_BESClient_ArchiveManager_FileSet-RECOVER"="{parameter "Storage"}\*.*" on "{now}" for client 
 
 //
-// Cleanup before writing scripts
+// Write Status
 //
-delete __createfile
-delete enable.bat
-delete terminate.bat
-delete addrecoverykey.bat
+
 delete status.bat
 
-//
-// Write Scripts
-//
-
 createfile until _end_
-manage-bde -status {name of drive of system folder} > "{parameter "InstanceStorage"}\Status.log"
+
+manage-bde -status {name of drive of system folder} > "{parameter "Storage"}\Status.log"
+
 _end_
 
 move __createfile status.bat
 
-createfile until _end_
-manage-bde -on {name of drive of system folder} > "{parameter "InstanceStorage"}\Enable.log"
-_end_
+//
+// Write Termination Script
+//
+delete terminate.bat
 
-move __createfile enable.bat
-
 createfile until _end_
-manage-bde -off {name of drive of system folder} > "{parameter "InstanceStorage"}\Terminate.log
-manage-bde -protectors {name of drive of system folder} -delete -type -recoverypassword >> "{parameter "InstanceStorage"}\Terminate.log
+
+manage-bde -off {name of drive of system folder} > "{parameter "Storage"}\Terminate.log
+manage-bde -protectors {name of drive of system folder} -delete -type recoverypassword >> "{parameter "Storage"}\Terminate.log
+
 _end_
 
 move __createfile terminate.bat
 
+
+//
+// Write Enable Script
+//
+
+delete enable.bat
+
 createfile until _end_
-manage-bde -protectors -add {name of drive of system folder} -recoverypassword > "{parameter "InstanceStorage"}\AddRecoveryKey.log
+
+manage-bde -protectors {name of drive of system folder} -delete -type recoverypassword
+manage-bde -on {name of drive of system folder} -recoverypassword > "{parameter "Storage"}\Enable.log"
+
 _end_
 
-move __createfile addrecoverykey.bat
+move __createfile enable.bat
 
 //
 // Get BitLocker Status
@@ -96,35 +100,37 @@ move __createfile addrecoverykey.bat
 
 wait status.bat
 
-if {((not exists lines containing "Encryption in Progress" of it) and (not exists lines containing "NOTE: Encryption will begin after the hardware test succeeds." of it)) of file "Status.log" of folder (parameter "InstanceStorage") }
+if {((not exists lines containing "Encryption in Progress" of it) and (not exists lines containing "NOTE: Encryption will begin after the hardware test succeeds." of it)) of file "Status.log" of folder (parameter "Storage") }
 	
 	// DO NOT CONTINUE IF THERE IS AN EXISTING UPLOAD IN PROGRESS
 	continue if {not exists setting "_BESClient_UploadManager_Progress" of client}
 
 	wait enable.bat
 
-	// No existing recovery key -- add one
-	if { not exists lines containing "Numerical Password" of file "Status.log" of folder (parameter "InstanceStorage")} 
-		wait addrecoverykey.bat
-	endif 
+	// If the action dies here there was a failure adding the Numerical Password
+	if { not exists lines containing "Numerical Password" of file "Enable.log" of folder (parameter "Storage")} 
+		wait terminate.bat
+		archive now
+		exit 30
+	endif
 
 	// If the action dies here there is a bootable CD or DVD in the drive
-	if { exists lines containing "ERROR: BitLocker detected a bootable CD or DVD on the computer." of file "Enable.log" of folder (parameter "InstanceStorage")} 
-		// BitLocker is in inconsistent state -- kill encryption
+	if { exists lines containing "ERROR: BitLocker detected a bootable CD or DVD on the computer." of file "Enable.log" of folder (parameter "Storage")} 
 		wait terminate.bat
 		archive now
 		exit 20
 	endif
 	
 	// If the action dies here there was another error
-	if { exists lines containing "ERROR" of file "Enable.log" of folder (parameter "InstanceStorage")} 
-		// BitLocker is in inconsistent state -- kill encryption
+	if { exists lines containing "ERROR" of file "Enable.log" of folder (parameter "Storage")} 
 		wait terminate.bat
 		archive now
 		exit 10
 	endif
-	
+
 	archive now
+	
+	notify client ForceRefresh
 
 	action requires restart
 
@@ -133,107 +139,9 @@ else
 	archive now
 
 	action requires restart
-
+	
 endif]]></ActionScript>
-		</Action>
-		<Action ID="Action2">
-			<Description>
-				<PreLink>Click </PreLink>
-				<Link>here</Link>
-				<PostLink> to encrypt the system drive using just the TPM.</PostLink>
-			</Description>
-			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action uses wow64 redirection {not x64 of operating system}
-
-//
-// Configure Storage and Instance Paths
-//
-
-parameter "Storage"="{pathname of folder "__Global" of data folder of client}\Bitlocker"
-parameter "Instance"="{(now - "01 Jan 1970 00:00:00" as local time) / (1 * second)}"
-parameter "InstanceStorage"="{parameter "Storage"}\{parameter "Instance"}"
-
-folder create "{parameter "Storage"}"
-folder create "{parameter "Storage"}\{parameter "Instance"}"
-
-//
-// Configure Upload Manager
-//
-
-setting "_BESClient_ArchiveManager_MaxArchiveSize"="2097152" on "{parameter "action issue date" of action}" for client 
-setting "_BESClient_ArchiveManager_OperatingMode"="2" on "{parameter "action issue date" of action}" for client 
-setting "_BESClient_ArchiveManager_FileSet-BITLOCKER{parameter "Instance"}"="{parameter "InstanceStorage"}\*.*" on "{parameter "action issue date" of action}" for client 
-
-//
-// Cleanup before writing scripts
-//
-delete __createfile
-delete enable.bat
-delete terminate.bat
-delete status.bat
-
-//
-// Write Scripts
-//
-
-createfile until _end_
-manage-bde -status {name of drive of system folder} > "{parameter "InstanceStorage"}\Status.log"
-_end_
-
-move __createfile status.bat
-
-createfile until _end_
-manage-bde -on {name of drive of system folder} > "{parameter "InstanceStorage"}\Enable.log"
-_end_
-
-move __createfile enable.bat
-
-createfile until _end_
-manage-bde -off {name of drive of system folder} > "{parameter "InstanceStorage"}\Terminate.log
-manage-bde -protectors {name of drive of system folder} -delete -type -recoverypassword >> "{parameter "InstanceStorage"}\Terminate.log
-_end_
-
-move __createfile terminate.bat
-
-//
-// Get BitLocker Status
-//
-
-wait status.bat
-
-if {((not exists lines containing "Encryption in Progress") and (not exists lines containing "NOTE: Encryption will begin after the hardware test succeeds.")) of file "Status.log" of folder (parameter "InstanceStorage") }
-	
-	// DO NOT CONTINUE IF THERE IS AN EXISTING UPLOAD IN PROGRESS
-	continue if {not exists setting "_BESClient_UploadManager_Progress" of client}
-
-	wait enable.bat
-
-	// If the action dies here there is a bootable CD or DVD in the drive
-	if { exists lines containing "ERROR: BitLocker detected a bootable CD or DVD on the computer." of file "Enable.log" of folder (parameter "InstanceStorage")} 
-		// BitLocker is in inconsistent state -- kill encryption
-		wait terminate.bat
-		archive now
-		exit 20
-	endif
-	
-	// If the action dies here there was another error
-	if { exists lines containing "ERROR" of file "Enable.log" of folder (parameter "InstanceStorage")} 
-		// BitLocker is in inconsistent state -- kill encryption
-		wait terminate.bat
-		archive now
-		exit 10
-	endif
-	
-	archive now
-
-	action requires restart
-
-else
-
-	archive now
-
-	action requires restart
-
-endif]]></ActionScript>
+			<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
 		</Action>
 	</Fixlet>
 </BES>
