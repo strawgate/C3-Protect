@@ -3,10 +3,12 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
 	<Fixlet>
 		<Title>Invoke - Provision Trusted Platform Module - Windows</Title>
-		<Description><![CDATA[<P>Provisions the trusted platform module on the device. </P>]]></Description>
+		<Description><![CDATA[<P>Provisions the trusted platform module on the device. The device must have an activated TPM in the BIOS before this fixlet will be relevant.</P>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
 		<Relevance>windows of operating system</Relevance>
-		<Relevance>exists selects "* from Win32_Tpm" of wmis "root\CIMv2\Security\MicrosoftTpm"</Relevance>
-		<Relevance>(not boolean value of selects "IsActivated_InitialValue from Win32_Tpm" of wmis "root\CIMv2\Security\MicrosoftTpm") or (not boolean value of selects "IsEnabled_InitialValue from Win32_Tpm" of wmis "root\CIMv2\Security\MicrosoftTpm") or (not boolean value of selects "IsOwned_InitialValue from Win32_Tpm" of wmis "root\CIMv2\Security\MicrosoftTpm")</Relevance>
+		<Relevance>exists selects "* from Win32_Tpm" of wmis "root\CIMv2\Security\MicrosoftTpm" /* Require the TPM Exists on the System */</Relevance>
+		<Relevance>/* Verify the TPM isn't fully provisioned */
+(not boolean value of selects "IsActivated_InitialValue from Win32_Tpm" of wmis "root\CIMv2\Security\MicrosoftTpm") or (not boolean value of selects "IsEnabled_InitialValue from Win32_Tpm" of wmis "root\CIMv2\Security\MicrosoftTpm") or (not boolean value of selects "IsOwned_InitialValue from Win32_Tpm" of wmis "root\CIMv2\Security\MicrosoftTpm")</Relevance>
 		<Category>Disk Encryption</Category>
 		<Source>Internal</Source>
 		<SourceID></SourceID>
@@ -44,8 +46,18 @@ $guid = [guid]::NewGuid().Guid
 
 # If we are running on a version newer than Windows 7  use the new TPM cmdlets
 if ([Environment]::OSVersion.Version -gt (new-object 'Version' 6,2)) {{
-	Enable-TpmAutoProvisioning
-	Set-TpmOwnerAuth -NewOwnerAuthorization "$GUID"
+	#Physical Presence Allowed
+	#$TPMResult = Initialize-Tpm -ForceClearAllowed -PhysicalPresenceAllowed
+	
+	#No Physical Presence Allowed
+	$TPMResult = Initialize-Tpm -allowclear
+
+	#Set TPM Owner Key
+	Set-TpmOwnerAuth -NewOwnerAuthorization (ConvertTo-TpmOwnerAuth -PassPhrase $guid)
+	
+	#Backup Owner Key to Registry
+	Import-TpmOwnerAuth -OwnershipAuthorization (ConvertTo-TpmOwnerAuth -PassPhrase $guid)
+
 } else {{ # If we are running on Windows 7 use the old manage-bde method
 	manage-bde -tpm -turnon
 	manage-bde -tpm -takeownership "$GUID"
@@ -68,12 +80,16 @@ action requires restart]]></ActionScript>
 				<PostLink><![CDATA[ to provision the trusted platform module and&nbsp;set a password on TPM ownership.]]></PostLink>
 			</Description>
 			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+action uses wow64 redirection {not x64 of operating system}
 
 parameter "PowerShellExe"="{ pathname of file ((it as string) of value "Path" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell" of native registry) }"
 
 parameter "Storage"="{pathname of folder "__Global" of data folder of client}\Bitlocker"
 
 folder create "{parameter "Storage"}"
+
+delete __createfile
+delete powershell.ps1
 
 createfile until _end_
 param (
@@ -86,8 +102,18 @@ $guid = [guid]::NewGuid().Guid
 
 # If we are running on a version newer than Windows 7  use the new TPM cmdlets
 if ([Environment]::OSVersion.Version -gt (new-object 'Version' 6,2)) {{
-	Enable-TpmAutoProvisioning
-	Set-TpmOwnerAuth -NewOwnerAuthorization "$GUID"
+	#Physical Presence Allowed
+	#$TPMResult = Initialize-Tpm -ForceClearAllowed -PhysicalPresenceAllowed
+	
+	#No Physical Presence Allowed
+	$TPMResult = Initialize-Tpm -allowclear
+
+	#Set TPM Owner Key
+	Set-TpmOwnerAuth -NewOwnerAuthorization (ConvertTo-TpmOwnerAuth -PassPhrase $guid)
+	
+	#Backup Owner Key to Registry
+	Import-TpmOwnerAuth -OwnershipAuthorization (ConvertTo-TpmOwnerAuth -PassPhrase $guid)
+
 } else {{ # If we are running on Windows 7 use the old manage-bde method
 	manage-bde -tpm -turnon
 	manage-bde -tpm -takeownership "$GUID"
@@ -108,16 +134,33 @@ action requires restart</ActionScript>
 				<PostLink> to provision the trusted platform module</PostLink>
 			</Description>
 			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+action uses wow64 redirection {not x64 of operating system}
+
+parameter "PowerShellExe"="{ pathname of file ((it as string) of value "Path" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell" of native registry) }"
+
+parameter "Storage"="{pathname of folder "__Global" of data folder of client}\Bitlocker"
+
+folder create "{parameter "Storage"}"
+
+delete __createfile
+delete powershell.ps1
 
 createfile until _end_
+param (
+    $OutFolder = "."
+)
 
 import-module Bitlocker
 
-$guid = [guid]::NewGuid().Guid
 
 # If we are running on a version newer than Windows 7  use the new TPM cmdlets
 if ([Environment]::OSVersion.Version -gt (new-object 'Version' 6,2)) {{
-	Enable-TpmAutoProvisioning
+	#Physical Presence Allowed
+	#$TPMResult = Initialize-Tpm -ForceClearAllowed -PhysicalPresenceAllowed
+	
+	#No Physical Presence Allowed
+	$TPMResult = Initialize-Tpm -allowclear
+
 } else {{ # If we are running on Windows 7 use the old manage-bde method
 	manage-bde -tpm -turnon
 }
@@ -126,9 +169,65 @@ _end_
 
 move __createfile powershell.ps1
 
-waithidden { pathname of file ((it as string) of value "Path" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell" of native registry) } -ExecutionPolicy Bypass -File powershell.ps1
+waithidden "{parameter "PowershellExe"}" -ExecutionPolicy Bypass -File powershell.ps1 -OutFolder "{parameter "Storage"}"
 
 action requires restart</ActionScript>
+		</Action>
+		<Action ID="Action4">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to provision the trusted platform module allowing a physical presence requirement, set a random password on TPM ownership, and backup the password to the _BESData folder.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Enter your action script here
+action uses wow64 redirection {not x64 of operating system}
+
+parameter "PowerShellExe"="{ pathname of file ((it as string) of value "Path" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell" of native registry) }"
+
+parameter "Storage"="{pathname of folder "__Global" of data folder of client}\Bitlocker"
+
+folder create "{parameter "Storage"}"
+
+delete __createfile
+delete powershell.ps1
+
+createfile until _end_
+param (
+    $OutFolder = "."
+)
+
+import-module Bitlocker
+
+$guid = [guid]::NewGuid().Guid
+
+# If we are running on a version newer than Windows 7  use the new TPM cmdlets
+if ([Environment]::OSVersion.Version -gt (new-object 'Version' 6,2)) {{
+	#Physical Presence Allowed
+	$TPMResult = Initialize-Tpm -ForceClearAllowed -PhysicalPresenceAllowed
+	
+	#No Physical Presence Allowed
+	#$TPMResult = Initialize-Tpm -allowclear
+
+	#Set TPM Owner Key
+	Set-TpmOwnerAuth -NewOwnerAuthorization (ConvertTo-TpmOwnerAuth -PassPhrase $guid)
+	
+	#Backup Owner Key to Registry
+	Import-TpmOwnerAuth -OwnershipAuthorization (ConvertTo-TpmOwnerAuth -PassPhrase $guid)
+
+} else {{ # If we are running on Windows 7 use the old manage-bde method
+	manage-bde -tpm -turnon
+	manage-bde -tpm -takeownership "$GUID"
+}
+
+$GUID >> "$OutFolder\TPMOwnerAuthorization.txt"
+
+_end_
+
+move __createfile powershell.ps1
+
+waithidden "{parameter "PowershellExe"}" -ExecutionPolicy Bypass -File powershell.ps1 -OutFolder "{parameter "Storage"}"
+
+action requires restart]]></ActionScript>
 		</Action>
 	</Fixlet>
 </BES>
