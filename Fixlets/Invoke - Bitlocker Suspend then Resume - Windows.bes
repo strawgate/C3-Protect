@@ -32,8 +32,8 @@ delete powershell.ps1
 
 createfile until _end_
 
-Suspend-BitLocker -MountPoint "{name of drive of system folder}" -RebootCount 1
-Resume-BitLocker -MountPoint "{name of drive of system folder}"
+manage-bde -protectors -disable "{name of drive of system folder}" -RebootCount 1
+manage-bde -protectors -enable "{name of drive of system folder}"
 
 _end_
 
