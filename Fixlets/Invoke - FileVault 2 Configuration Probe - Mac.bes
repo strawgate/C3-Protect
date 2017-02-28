@@ -26,7 +26,9 @@
 			</Description>
 			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Enter your action script here
 
-parameter "storage"="{folder "FileVault" of folder "__Global" of data folder of client}"
+parameter "storage"="{pathname of folder "__Global" of data folder of client}/FileVault"
+
+folder create "{parameter "Storage"}"
 
 delete __createfile
 delete run.sh
