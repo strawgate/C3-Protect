@@ -19,5 +19,6 @@
 		<Property Name="VBS - Configured - Windows" ID="8" EvaluationPeriod="P1D"> (it contains 1 or it contains 2) of set of (integer values of property "VirtualizationBasedSecurityStatus" of select objects "* from Win32_DeviceGuard" of wmi "root\Microsoft\Windows\DeviceGuard")</Property>
 		<Property Name="VBS - Running - Windows" ID="9" EvaluationPeriod="P1D">(it contains 2) of set of (integer values of property "VirtualizationBasedSecurityStatus" of select objects "* from Win32_DeviceGuard" of wmi "root\Microsoft\Windows\DeviceGuard")</Property>
 		<Property Name="VBS - Error Logs - Windows" ID="10" EvaluationPeriod="P1D">descriptions of records ((integers in(item 0 of it + item 1 of it - 1,maximum of (item 0 of it + item 1 of it - 1000;item 1 of it))) of (record count of it, oldest record number of it)) whose (source of it = "Microsoft-Windows-Wininit" and (event id of it = 15 or event id of it = 16 or event id of it = 17)) of system event log</Property>
+		<Property Name="VBS - Remote Credential Guard - Windows" ID="11" EvaluationPeriod="P1D">exists values "DisableRestrictedAdmin" whose (it = 0) of keys "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa" of native registry</Property>
 	</Analysis>
 </BES>
