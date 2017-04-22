@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Invoke - Bitlocker Suspend System Drive Encryption - Windows</Title>
+		<Description><![CDATA[<P>This Fixlet will suspend BitLocker protection on the system volume.</P>
+<P>Information on using this content is available here: <A href="https://github.com/strawgate/C3-Protect/wiki/Bitlocker">https://github.com/strawgate/C3-Protect/wiki/Bitlocker</A></P>]]></Description>
+		<Relevance>windows of operating system</Relevance>
+		<Relevance><![CDATA[if(exists WMI "root\CIMv2\Security\MicrosoftVolumeEncryption") then (number of select objects ("* from win32_EncryptableVolume")of WMI "root\CIMv2\Security\MicrosoftVolumeEncryption" >= 1) else (false)]]></Relevance>
+		<Relevance><![CDATA[(boolean value of selects ("ProtectionStatus from win32_EncryptableVolume where DriveLetter='" & name of drive of system folder & "'") of WMI "root\CIMv2\Security\MicrosoftVolumeEncryption")]]></Relevance>
+		<Category>Disk Encryption</Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-09-28</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">action uses wow64 redirection {not x64 of operating system}
+
+parameter "PowerShellExe"="{ pathname of file ((it as string) of value "Path" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell" of native registry) }"
+
+delete __createfile
+delete powershell.ps1
+
+createfile until _end_
+
+manage-bde -protectors -disable "{name of drive of system folder}"
+
+_end_
+
+move __createfile powershell.ps1
+
+waithidden "{parameter "PowershellExe"}" -ExecutionPolicy Bypass -File powershell.ps1
+</ActionScript>
+		</DefaultAction>
+	</Fixlet>
+</BES>
