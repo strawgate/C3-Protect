@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Invoke - Clear TPM using provided Owner Authorization - Windows</Title>
+		<Description><![CDATA[&lt;enter a description of the problem and the corrective action here&gt; ]]></Description>
+		<Relevance>windows of operating system</Relevance>
+		<Relevance>exists selects "* from Win32_Tpm" of wmis "root\CIMv2\Security\MicrosoftTpm" /* Require the TPM Exists on the System */</Relevance>
+		<Relevance>(boolean value of selects "IsActivated_InitialValue from Win32_Tpm" of wmis "root\CIMv2\Security\MicrosoftTpm") and (boolean value of selects "IsEnabled_InitialValue from Win32_Tpm" of wmis "root\CIMv2\Security\MicrosoftTpm") and (boolean value of selects "IsOwned_InitialValue from Win32_Tpm" of wmis "root\CIMv2\Security\MicrosoftTpm")</Relevance>
+		<Category></Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-12-17</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+action parameter query "OwnerAuth" with description "Provide an Ownership Authorization String"
+
+parameter "Storage"="{pathname of folder "__Global" of data folder of client}\Bitlocker"
+
+parameter "OwnerAuth"="{line 0 of file "TPMOwnerAuthorization.txt" of Folder "Bitlocker" of folder "__Global" of data folder of client}"
+
+createfile until _end_
+param (
+	$OwnerAuthorization
+)
+
+$TPM = Get-WmiObject -Class Win32_TPM -Namespace root\CIMV2\Security\MicrosoftTpm
+
+$TPM.Clear($OwnerAuthorization)
+
+_end_
+
+move __createfile clearTPM.ps1
+
+waithidden powershell.exe -executionpolicy bypass -file clearTPM.ps1 -OwnerAuthorization "{parameter "OwnerAuth" of action}"
+
+action requires restart</ActionScript>
+		</DefaultAction>
+	</Fixlet>
+</BES>
