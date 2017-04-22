@@ -2,14 +2,14 @@
 
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
 	<Fixlet>
-		<Title>Invoke - Bitlocker Suspend then Resume - Windows</Title>
+		<Title>Invoke - Bitlocker Refresh System Drive Encryption - Windows</Title>
 		<Description><![CDATA[<P>This Fixlet will suspend and immediately resume BitLocker protection.</P>
-<P>This should be performed immediately after any TPM/recovery issues on an endpoint.</P>
+<P>This should be performed immediately after any TPM/Recovery issues on an endpoint.</P>
 <P>Information on using this content is available here: <A href="https://github.com/strawgate/C3-Protect/wiki/Bitlocker">https://github.com/strawgate/C3-Protect/wiki/Bitlocker</A></P>]]></Description>
 		<Relevance>windows of operating system</Relevance>
 		<Relevance><![CDATA[if(exists WMI "root\CIMv2\Security\MicrosoftVolumeEncryption") then (number of select objects ("* from win32_EncryptableVolume")of WMI "root\CIMv2\Security\MicrosoftVolumeEncryption" >= 1) else (false)]]></Relevance>
 		<Relevance><![CDATA[(boolean value of selects ("ProtectionStatus from win32_EncryptableVolume where DriveLetter='" & name of drive of system folder & "'")of WMI "root\CIMv2\Security\MicrosoftVolumeEncryption")]]></Relevance>
-		<Category></Category>
+		<Category>Disk Encryption</Category>
 		<Source>Internal</Source>
 		<SourceID></SourceID>
 		<SourceReleaseDate>2016-09-28</SourceReleaseDate>
@@ -23,7 +23,7 @@
 				<Link>here</Link>
 				<PostLink> to deploy this action.</PostLink>
 			</Description>
-			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">action uses wow64 redirection {not x64 of operating system}
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action uses wow64 redirection {not x64 of operating system}
 
 parameter "PowerShellExe"="{ pathname of file ((it as string) of value "Path" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell" of native registry) }"
 
@@ -32,7 +32,7 @@ delete powershell.ps1
 
 createfile until _end_
 
-manage-bde -protectors -disable "{name of drive of system folder}" -RebootCount 1
+manage-bde -protectors -disable "{name of drive of system folder}" {if (version of operating system < "6.2") then ("-RebootCount 1") else ("")}
 manage-bde -protectors -enable "{name of drive of system folder}"
 
 _end_
@@ -40,7 +40,7 @@ _end_
 move __createfile powershell.ps1
 
 waithidden "{parameter "PowershellExe"}" -ExecutionPolicy Bypass -File powershell.ps1
-</ActionScript>
+]]></ActionScript>
 			<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
 		</DefaultAction>
 	</Fixlet>
